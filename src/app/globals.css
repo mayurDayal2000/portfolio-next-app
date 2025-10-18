@@ -144,17 +144,56 @@
 
 /* Custom scrollbar for webkit browsers */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-track {
   @apply bg-dark-secondary;
+  border-radius: 10px;
+  margin: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-muted rounded-full;
+  @apply bg-gradient-to-b from-primary via-secondary to-accent;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary;
+  @apply bg-gradient-to-b from-primary-dark via-secondary to-accent;
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+}
+
+::-webkit-scrollbar-thumb:active {
+  @apply bg-gradient-to-b from-primary-dark via-secondary to-accent;
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+}
+
+/* Firefox scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(99, 102, 241) rgb(30, 41, 59);
+}
+
+/* Smooth scroll with offset for fixed headers */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Disable smooth scroll for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  .animate-bounce,
+  .float-animation,
+  .shimmer {
+    animation: none;
+  }
 }

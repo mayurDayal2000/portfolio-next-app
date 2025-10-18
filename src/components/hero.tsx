@@ -65,7 +65,10 @@ export default function Hero() {
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-mesh">
+    <section
+      className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-mesh"
+      id="hero"
+    >
       {/* Interactive area for mouse tracking */}
       <div
         aria-hidden="true"
