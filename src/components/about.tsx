@@ -11,7 +11,6 @@ import {
   MapPin,
   Rocket,
   Target,
-  Users,
   Zap,
 } from "lucide-react";
 import { type ReactNode, useRef, useState } from "react";
@@ -33,59 +32,63 @@ export default function About() {
   const timeline: TimelineItem[] = [
     {
       bullets: [
-        "Implemented micro-frontend architecture with Next.js",
-        "Reduced SaaS platform load times by 60%",
-        "Mentored 5+ junior engineers in modern FE best practices",
+        "Led frontend (React, TypeScript, Redux) for a high-performance developer dashboard.",
+        "Built SEO-optimized landing pages with Next.js and Tailwind CSS, boosting conversions by 15%.",
+        "Integrated Stripe & Razorpay payments and contributed to FastAPI back-end & CI/CD (Docker, GitHub Actions).",
       ],
-      company: "Tech Startup Inc.",
+      company: "Penify.ai",
       icon: <Rocket className="w-5 h-5" />,
-      title: "Senior Frontend Developer",
+      title: "Full-Stack Engineer",
       year: "2023-Present",
     },
     {
       bullets: [
-        "Delivered 20+ client websites with pixel-perfect UI",
-        "Optimized performance/accessibility for all projects",
-        "Collaborated directly with clients for requirements and feedback",
+        "Delivered custom WordPress themes and plugins using PHP, JS, and CSS.",
+        "Built responsive UIs and e-commerce workflows for small business clients.",
+        "Used this time to intentionally grow my back-end skills and explore modern tech like TypeScript.",
       ],
-      company: "Digital Agency Co.",
+      company: "Self-Employed",
       icon: <Briefcase className="w-5 h-5" />,
-      title: "Fullstack Developer",
+      title: "Freelance Software Engineer",
       year: "2022-2023",
     },
     {
       bullets: [
-        "Built and maintained responsive React/Node.js web apps",
-        "Worked closely with design teams for tight UX/UI delivery",
-        "Automated testing and deployment using CI/CD pipelines",
+        "Promoted from Intern to Junior Developer in 2 months after mastering React.",
+        "Developed responsive student dashboards, reducing load times by 30%.",
+        "Refactored legacy class components to modern hooks, cutting code complexity by 40%.",
       ],
-      company: "Web Solutions Ltd.",
+      company: "ZinEdu Classes",
       icon: <Code2 className="w-5 h-5" />,
-      title: "Junior Developer",
+      title: "Junior Frontend Developer",
       year: "2021-2022",
     },
   ];
 
   const values = [
     {
-      description: "Obsessed with clean code, performance optimization, and modern best practices",
+      description:
+        "I'm a problem-solver first. I learn the tool needed—whether it's frontend, backend, or DevOps—and I build.",
       icon: <Zap className="w-6 h-6" />,
-      title: "Quality First",
+      title: "Pragmatic & Versatile",
     },
     {
-      description: "Committed to building accessible and inclusive web experiences for all users",
-      icon: <Users className="w-6 h-6" />,
-      title: "User-Centric",
+      description:
+        "My work starts with the user. I love turning Figma designs into pixel-perfect, intuitive, and engaging experiences.",
+      icon: <Heart className="w-6 h-6" />,
+      title: "User-Centric UI/UX",
     },
     {
-      description: "Constantly learning and adapting to new technologies and industry trends",
+      description:
+        "My passion for AI/ML fuels my personal projects. I'm always learning new tech to build better, smarter solutions.",
       icon: <Lightbulb className="w-6 h-6" />,
       title: "Continuous Growth",
     },
     {
-      description: "Passionate about creating beautiful, intuitive interfaces that users love",
-      icon: <Heart className="w-6 h-6" />,
-      title: "Design Passion",
+      description:
+        "I believe AI is the future. I actively integrate AI/ML models and build my own AI-powered tools from scratch.",
+      icon: <Code2 className="w-6 h-6" />,
+      title: "AI Enthusiast",
     },
   ];
 
@@ -112,8 +115,8 @@ export default function About() {
             About <span className="text-gradient">Me</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            A passionate developer crafting exceptional digital experiences with a blend of
-            creativity and technical expertise
+            I'm a Full-Stack Engineer who loves building. From a pixel-perfect UI to a complex AI
+            integration, I thrive on the challenge of learning and delivering.
           </p>
         </FadeInOnce>
 
@@ -131,23 +134,26 @@ export default function About() {
               </div>
               <div className="space-y-4 text-muted leading-relaxed">
                 <p>
-                  Hi, I'm a{" "}
-                  <span className="text-light font-semibold">Fullstack Web Developer</span> with a
-                  special love for frontend development. Over the past 3 years, I've transformed
-                  ideas into pixel-perfect, performant web applications that users love to interact
-                  with.
+                  Hi, I'm Mayur. I'm a{" "}
+                  <span className="text-light font-semibold">Full-Stack Engineer</span> with 3+
+                  years of experience, but my real passion is in the{" "}
+                  <span className="text-accent font-semibold">frontend</span>. I've spent my career
+                  building everything from responsive dashboards for EdTech to AI-powered tools for
+                  developers.
                 </p>
                 <p>
-                  My journey began with curiosity about how websites work and evolved into a passion
-                  for creating seamless digital experiences. I specialize in building{" "}
-                  <span className="text-accent font-semibold">scalable</span>,{" "}
-                  <span className="text-accent font-semibold">accessible</span>, and{" "}
-                  <span className="text-accent font-semibold">beautiful</span> web applications
-                  using modern technologies.
+                  My journey wasn't typical. I was an average student until I found coding in
+                  college. That's when it clicked. Now I specialize in{" "}
+                  <span className="text-accent font-semibold">React, Next.js, and TypeScript</span>,
+                  but I'm just as comfortable setting up a{" "}
+                  <span className="text-light font-semibold">Python back-end</span> or a{" "}
+                  <span className="text-light font-semibold">CI/CD pipeline</span>. I'm the guy who
+                  learns what's needed and gets it built.
                 </p>
                 <p>
-                  When I'm not coding, you'll find me exploring the latest web technologies,
-                  contributing to open source, or mentoring aspiring developers in the community.
+                  When I'm not at my day job, I'm building my own AI projects—like a commit message
+                  generator or a 3D AI companion. I'm always looking for the next challenge and a
+                  team where I can grow.
                 </p>
               </div>
 
@@ -156,15 +162,17 @@ export default function About() {
                 <div className="flex items-center gap-3">
                   <MapPin className="w-5 h-5 text-accent" />
                   <div>
-                    <p className="text-xs text-muted">Location</p>
-                    <p className="text-sm text-light font-medium">Remote / Hybrid</p>
+                    <p className="text-xs text-muted">Seeking</p>
+                    <p className="text-sm text-light font-medium">Remote / On-site</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <GraduationCap className="w-5 h-5 text-accent" />
                   <div>
                     <p className="text-xs text-muted">Education</p>
-                    <p className="text-sm text-light font-medium">CS Degree</p>
+                    <p className="text-sm text-light font-medium">
+                      B.Tech in Information Technology
+                    </p>
                   </div>
                 </div>
               </div>
