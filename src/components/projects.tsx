@@ -10,7 +10,7 @@ interface Project {
   id: string;
   title: string;
   description: string;
-  category: "Web App" | "SaaS" | "E-commerce" | "Portfolio" | "Dashboard";
+  category: "SaaS" | "AI Tool" | "Web App" | "Dev Tool" | "Website";
   tags: string[];
   liveUrl?: string;
   githubUrl?: string;
@@ -20,70 +20,77 @@ interface Project {
 
 const projects: Project[] = [
   {
-    achievement: "Reduced delivery time by 40%.",
+    achievement: "Increased user engagement by 30%.",
     category: "SaaS",
-    description: "AI-powered platform for real-time project collaboration.",
+    description:
+      "The core AI-powered developer dashboard for Penify, serving thousands of global users.",
     featured: true,
     githubUrl: "#",
     id: "1",
     liveUrl: "#",
-    tags: ["Next.js", "TypeScript", "Prisma", "Tailwind"],
-    title: "TaskFlow AI",
+    tags: ["Next.js", "TypeScript", "Redux", "FastAPI", "Tailwind"],
+    title: "Penify.ai Developer Dashboard",
   },
   {
-    achievement: "Achieved 60% faster load times.",
-    category: "E-commerce",
-    description: "Modern e-commerce platform with seamless checkout.",
+    achievement: "Personal project to streamline my own workflow.",
+    category: "AI Tool",
+    description:
+      "An AI-powered tool that analyzes code diffs and automatically generates detailed Git commit messages.",
     featured: true,
     githubUrl: "#",
     id: "2",
     liveUrl: "#",
-    tags: ["React", "Node.js", "MongoDB", "Stripe", "AWS"],
-    title: "ShopHub Pro",
+    tags: ["Python", "Transformers", "AI/ML", "CLI"],
+    title: "AI Commit Message Generator",
   },
   {
+    achievement: "Reduced dashboard load times by 30%.",
     category: "Web App",
-    description: "Social fitness app with community features.",
+    description:
+      "A responsive learning dashboard for 9th-12th grade students at an EdTech startup.",
     featured: false,
-    githubUrl: "#",
+    githubUrl: "#", // Private repo
     id: "3",
     liveUrl: "#",
-    tags: ["Next.js", "Firebase", "Tailwind"],
-    title: "FitConnect",
+    tags: ["React", "Bootstrap", "Sass", "JWT"],
+    title: "ZinEdu Student Dashboard",
   },
   {
-    category: "Dashboard",
-    description: "Analytics dashboard for marketing teams.",
+    category: "Dev Tool",
+    description:
+      "A VS Code extension for AI-driven code reviews with a polished React/TypeScript interface.",
     featured: false,
     githubUrl: "#",
     id: "4",
     liveUrl: "#",
-    tags: ["React", "D3.js", "Node.js"],
-    title: "MetricsPro",
+    tags: ["React", "TypeScript", "VS Code API"],
+    title: "Penify.ai VS Code Extension",
   },
   {
-    category: "Portfolio",
-    description: "Interactive artist portfolio with modern UI.",
+    category: "Website",
+    description:
+      "Custom WordPress theme and plugin development for a small business client during my freelance period.",
     featured: false,
-    githubUrl: "#",
+    githubUrl: "#", // Private repo
     id: "5",
     liveUrl: "#",
-    tags: ["Next.js", "Three.js", "Tailwind"],
-    title: "ArtistryHub",
+    tags: ["PHP", "WordPress", "JavaScript", "CSS"],
+    title: "Freelance Client Website",
   },
   {
-    category: "Web App",
-    description: "Real-time chat application with video calling.",
+    category: "AI Tool",
+    description:
+      "An in-progress personal project featuring a 3D model for interactive AI-driven user experiences.",
     featured: false,
     githubUrl: "#",
     id: "6",
     liveUrl: "#",
-    tags: ["React", "WebRTC", "Socket.io"],
-    title: "ChatWave",
+    tags: ["React", "Three.js", "AI/ML"],
+    title: "3D AI Companion App",
   },
 ];
 
-const categories = ["All", "Web App", "SaaS", "E-commerce", "Portfolio", "Dashboard"] as const;
+const categories = ["All", "SaaS", "AI Tool", "Web App", "Dev Tool", "Website"] as const;
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>("All");
@@ -121,14 +128,14 @@ export default function Projects() {
         <FadeInOnce className="text-center mb-16">
           <div className="inline-flex items-center gap-2 glass-effect rounded-full px-4 py-2 text-sm font-medium text-accent mb-6">
             <Rocket className="w-4 h-4" />
-            <span>Featured Work</span>
+            <span>What I've Built</span>
           </div>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-light mb-6">
-            Recent <span className="text-gradient">Projects</span>
+            My Recent <span className="text-gradient">Projects</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            Projects that demonstrate my ability to solve real business needs with scalable,
-            performant web solutions.
+            A selection of my professional and personal projects that showcase my skills in
+            full-stack development and my passion for building AI-powered tools.
           </p>
         </FadeInOnce>
 
