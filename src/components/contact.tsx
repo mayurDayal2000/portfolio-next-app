@@ -1,4 +1,3 @@
-// contact.tsx
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,7 +13,6 @@ import {
   Phone,
   Send,
   Sparkles,
-  Twitter,
   Users,
 } from "lucide-react";
 import { useState } from "react";
@@ -122,11 +120,11 @@ export default function Contact() {
   ];
 
   const purposeOptions = [
-    { label: "New Project", value: "new-project" },
-    { label: "Contract Work", value: "contract" },
     { label: "Full-time Role", value: "full-time" },
+    { label: "Contract Work", value: "contract" },
     { label: "Collaboration", value: "collaboration" },
-    { label: "Consultation", value: "consultation" },
+    { label: "New Project (Freelance)", value: "new-project" },
+    { label: "Just saying hi!", value: "other" },
   ];
 
   const onSubmit = async (data: FormValues) => {
@@ -149,19 +147,19 @@ export default function Contact() {
 
   const contactMethods = [
     {
-      description: "hello@yourwebsite.com",
+      description: "mayur.dayal5k@gmail.com",
       icon: <Mail className="w-5 h-5" />,
       label: "Email",
-      link: "mailto:hello@yourwebsite.com",
+      link: "mailto:mayur.dayal5k@gmail.com",
     },
     {
-      description: "+1 (555) 123-4567",
+      description: "+91-92xxxxxx30",
       icon: <Phone className="w-5 h-5" />,
       label: "Phone",
-      link: "tel:+15551234567",
+      link: "tel:+91-92xxxxxx30",
     },
     {
-      description: "Remote & Available",
+      description: "Bengaluru, India",
       icon: <MapPin className="w-5 h-5" />,
       label: "Location",
       link: "#",
@@ -178,11 +176,6 @@ export default function Contact() {
       href: "https://linkedin.com/in/yourusername",
       icon: <Linkedin className="w-5 h-5" />,
       label: "LinkedIn",
-    },
-    {
-      href: "https://twitter.com/yourusername",
-      icon: <Twitter className="w-5 h-5" />,
-      label: "Twitter",
     },
   ];
 
@@ -205,8 +198,9 @@ export default function Contact() {
             Get In <span className="text-gradient">Touch</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            Have a project in mind or want to discuss opportunities? I'd love to hear from you.
-            Let's create something amazing together.
+            I'm actively seeking new full-time opportunities in a frontend-focused role. If you're a
+            recruiter, hiring manager, or just want to talk about AI-driven tech, I'd love to hear
+            from you.
           </p>
         </div>
 
@@ -255,7 +249,7 @@ export default function Contact() {
                 <h4 className="text-lg font-semibold text-light">Prefer a Quick Call?</h4>
               </div>
               <p className="text-sm text-muted mb-4">
-                Schedule a 30-minute intro call to discuss your project or opportunity directly.
+                Schedule a 30-minute intro call to discuss an opportunity or project directly.
               </p>
               <a
                 className="w-full"
@@ -489,51 +483,49 @@ export default function Contact() {
 
                   {/* Conditional Fields for Recruiters/Hiring Managers */}
                   {(audienceType === "recruiter" || audienceType === "hiring-manager") && (
-                    <>
-                      <div className="grid sm:grid-cols-2 gap-6">
-                        {/* Company Field - Required */}
-                        <FormField
-                          control={form.control}
-                          name="company"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-sm font-medium text-light">
-                                Company Name <span className="text-accent">*</span>
-                              </FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="Your Company"
-                                  {...field}
-                                  className="w-full px-4 py-3 bg-dark-secondary border border-white/10 rounded-xl text-light placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
-                                />
-                              </FormControl>
-                              <FormMessage className="text-sm text-red-500 animate-fadeIn" />
-                            </FormItem>
-                          )}
-                        />
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      {/* Company Field - Required */}
+                      <FormField
+                        control={form.control}
+                        name="company"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-sm font-medium text-light">
+                              Company Name <span className="text-accent">*</span>
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Your Company"
+                                {...field}
+                                className="w-full px-4 py-3 bg-dark-secondary border border-white/10 rounded-xl text-light placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
+                              />
+                            </FormControl>
+                            <FormMessage className="text-sm text-red-500 animate-fadeIn" />
+                          </FormItem>
+                        )}
+                      />
 
-                        {/* Role/Position Field */}
-                        <FormField
-                          control={form.control}
-                          name="roleInterest"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-sm font-medium text-light">
-                                Role/Position <span className="text-accent">*</span>
-                              </FormLabel>
-                              <FormControl>
-                                <Input
-                                  placeholder="e.g., Senior Software Engineer"
-                                  {...field}
-                                  className="w-full px-4 py-3 bg-dark-secondary border border-white/10 rounded-xl text-light placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
-                                />
-                              </FormControl>
-                              <FormMessage className="text-sm text-red-500 animate-fadeIn" />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    </>
+                      {/* Role/Position Field */}
+                      <FormField
+                        control={form.control}
+                        name="roleInterest"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-sm font-medium text-light">
+                              Role/Position <span className="text-accent">*</span>
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="e.g., Frontend Developer"
+                                {...field}
+                                className="w-full px-4 py-3 bg-dark-secondary border border-white/10 rounded-xl text-light placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
+                              />
+                            </FormControl>
+                            <FormMessage className="text-sm text-red-500 animate-fadeIn" />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
                   )}
 
                   {/* Conditional Fields for Clients */}
@@ -612,7 +604,7 @@ export default function Contact() {
                             <Textarea
                               autoComplete="off"
                               maxLength={500}
-                              placeholder="Tell me about your project, requirements, or just say hello..."
+                              placeholder="Please let me know about the role, your company, or just say hello... I'm excited to connect!"
                               rows={5}
                               {...field}
                               className="w-full px-4 py-3 bg-dark-secondary border border-white/10 rounded-xl text-light placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 resize-none"
