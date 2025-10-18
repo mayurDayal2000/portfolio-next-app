@@ -5,12 +5,11 @@ import {
   Brain,
   Code2,
   Database,
-  Figma,
   FileCode,
   GitBranch,
+  Github,
   Globe,
-  Layers,
-  Library,
+  Lightbulb,
   MessageSquare,
   Palette,
   Rocket,
@@ -19,6 +18,7 @@ import {
   Sparkles,
   Target,
   Terminal,
+  ToolCase,
   Zap,
 } from "lucide-react";
 
@@ -32,192 +32,165 @@ interface SkillCard {
 const frontendSkills: SkillCard[] = [
   {
     color: "text-primary",
-    description: "SPA, hooks, state management, component patterns",
+    description: "Hooks, state, context, and refactoring legacy class components.",
     icon: <FileCode className="w-5 h-5" />,
     name: "React",
   },
   {
     color: "text-primary",
-    description: "Fullstack SSR/ISR, app router, performant sites",
+    description: "SEO-optimized sites, App Router, and server-side rendering.",
     icon: <Rocket className="w-5 h-5" />,
     name: "Next.js",
   },
   {
     color: "text-accent",
-    description: "Type-safety, DX, scalable codebases",
+    description: "Type-safety for scalable UIs and even VS Code extensions.",
     icon: <Code2 className="w-5 h-5" />,
     name: "TypeScript",
   },
   {
     color: "text-primary",
-    description: "Utility-first styling, rapid prototyping, custom themes",
+    description: "Utility-first CSS for rapid, responsive UI development.",
     icon: <Palette className="w-5 h-5" />,
     name: "Tailwind CSS",
   },
   {
     color: "text-accent",
-    description: "ES6+, async/await, functional, DOM APIs",
+    description: "Global state management for complex developer dashboards.",
+    icon: <Blocks className="w-5 h-5" />,
+    name: "Redux",
+  },
+  {
+    color: "text-primary",
+    description: "Converting designs into pixel-perfect, responsive code.",
+    icon: <Palette className="w-5 h-5" />,
+    name: "Figma",
+  },
+  {
+    color: "text-accent",
+    description: "ES6+, async/await, and modern DOM manipulation.",
     icon: <Code2 className="w-5 h-5" />,
     name: "JavaScript",
   },
   {
     color: "text-primary",
-    description: "Semantic markup, advanced CSS, accessibility",
+    description: "Semantic markup, advanced CSS, and accessibility.",
     icon: <Globe className="w-5 h-5" />,
     name: "HTML5/CSS3",
-  },
-  {
-    color: "text-accent",
-    description: "State management, middleware, scalable apps",
-    icon: <Blocks className="w-5 h-5" />,
-    name: "Redux",
-  },
-  {
-    color: "text-accent",
-    description: "Smooth UI animations, gestures, micro-interactions",
-    icon: <Layers className="w-5 h-5" />,
-    name: "Framer Motion",
   },
 ];
 
 const backendSkills: SkillCard[] = [
   {
     color: "text-primary",
-    description: "Server-side APIs, event-driven architecture",
-    icon: <Terminal className="w-5 h-5" />,
-    name: "Node.js",
-  },
-  {
-    color: "text-accent",
-    description: "Routing, RESTful services, middleware integration",
-    icon: <Code2 className="w-5 h-5" />,
-    name: "Express.js",
-  },
-  {
-    color: "text-primary",
-    description: "Relational DBs, SQL, schema design",
-    icon: <Database className="w-5 h-5" />,
-    name: "PostgreSQL",
-  },
-  {
-    color: "text-accent",
-    description: "NoSQL, document databases, aggregation",
-    icon: <Database className="w-5 h-5" />,
-    name: "MongoDB",
-  },
-  {
-    color: "text-primary",
-    description: "Typed APIs, flexible queries, Apollo/Relay",
-    icon: <Zap className="w-5 h-5" />,
-    name: "GraphQL",
-  },
-  {
-    color: "text-accent",
-    description: "Endpoint design, auth, best practices",
-    icon: <Server className="w-5 h-5" />,
-    name: "REST APIs",
-  },
-  {
-    color: "text-primary",
-    description: "Scripting, automation, data handling",
+    description: "Core language for backend, automation, and AI/ML.",
     icon: <Code2 className="w-5 h-5" />,
     name: "Python",
   },
   {
     color: "text-accent",
-    description: "ORM for Node, schema migrations, TS support",
-    icon: <Layers className="w-5 h-5" />,
-    name: "Prisma",
+    description: "Building high-performance, async APIs (my go-to).",
+    icon: <Code2 className="w-5 h-5" />,
+    name: "FastAPI",
+  },
+  {
+    color: "text-primary",
+    description: "Designing, building, and consuming RESTful services.",
+    icon: <Server className="w-5 h-5" />,
+    name: "REST APIs",
+  },
+  {
+    color: "text-accent",
+    description: "Relational DBs, schema design, and SQL queries.",
+    icon: <Database className="w-5 h-5" />,
+    name: "PostgreSQL",
+  },
+  {
+    color: "text-primary",
+    description: "NoSQL document storage and aggregation pipelines.",
+    icon: <Database className="w-5 h-5" />,
+    name: "MongoDB",
+  },
+  {
+    color: "text-accent",
+    description: "Custom themes & plugins (from my freelance days).",
+    icon: <Code2 className="w-5 h-5" />,
+    name: "PHP",
   },
 ];
 
-const tools: SkillCard[] = [
+const aiAndMlSkills: SkillCard[] = [
   {
     color: "text-primary",
-    description: "Version control, collaborative workflows",
-    icon: <GitBranch className="w-5 h-5" />,
-    name: "Git",
+    description: "Integrating LLMs and other models into web applications.",
+    icon: <Brain className="w-5 h-5" />,
+    name: "AI/ML Integration",
   },
   {
     color: "text-accent",
-    description: "Editor customization, code navigation",
-    icon: <Terminal className="w-5 h-5" />,
-    name: "VS Code",
+    description: "Building my own tools, like AI commit generators.",
+    icon: <Sparkles className="w-5 h-5" />,
+    name: "AI-Powered Tooling",
   },
   {
     color: "text-primary",
-    description: "Wireframes, prototyping, design systems",
-    icon: <Figma className="w-5 h-5" />,
-    name: "Figma",
+    description: "Using libraries like Pandas, NumPy for data tasks.",
+    icon: <Code2 className="w-5 h-5" />,
+    name: "Python (AI/ML)",
   },
-  {
-    color: "text-accent",
-    description: "Cloud deployments, serverless functions",
-    icon: <Globe className="w-5 h-5" />,
-    name: "Vercel",
-  },
+];
+
+const devopsAndTools: SkillCard[] = [
   {
     color: "text-primary",
-    description: "Containerization, local dev, team onboarding",
+    description: "Containerization for consistent dev/prod environments.",
     icon: <Server className="w-5 h-5" />,
     name: "Docker",
   },
   {
     color: "text-accent",
-    description: "Modules, build optimization",
-    icon: <Zap className="w-5 h-5" />,
-    name: "Webpack",
+    description: "CI/CD pipelines for automated testing and deployment.",
+    icon: <Github className="w-5 h-5" />,
+    name: "GitHub Actions",
   },
   {
     color: "text-primary",
-    description: "Unit, integration, e2e testing",
-    icon: <Library className="w-5 h-5" />,
-    name: "Jest",
+    description: "Version control, branching strategies, and team collaboration.",
+    icon: <GitBranch className="w-5 h-5" />,
+    name: "Git",
   },
   {
     color: "text-accent",
-    description: "API testing, collections, environments",
-    icon: <Smartphone className="w-5 h-5" />,
-    name: "Postman",
+    description: "My primary editor; I even build extensions for it.",
+    icon: <Terminal className="w-5 h-5" />,
+    name: "VS Code",
   },
 ];
 
 const softSkills: SkillCard[] = [
   {
     color: "text-primary",
-    description: "Client-facing, technical documentation",
-    icon: <MessageSquare className="w-5 h-5" />,
-    name: "Communication",
+    description: "Agile sprints, stand-ups, and backlog grooming.",
+    icon: <ToolCase className="w-5 h-5" />,
+    name: "Agile/JIRA",
   },
   {
     color: "text-accent",
-    description: "Debugging, creative solutions, strategic thinking",
+    description: "Debugging, learning new tech to get the job done.",
     icon: <Target className="w-5 h-5" />,
     name: "Problem Solving",
   },
   {
     color: "text-primary",
-    description: "Agile practices, peer code reviews",
-    icon: <Brain className="w-5 h-5" />,
+    description: "Working in teams, code reviews, and clear documentation.",
+    icon: <MessageSquare className="w-5 h-5" />,
     name: "Team Collaboration",
   },
   {
     color: "text-accent",
-    description: "Sprints, backlog management, ceremonies",
-    icon: <Rocket className="w-5 h-5" />,
-    name: "Agile/Scrum",
-  },
-  {
-    color: "text-primary",
-    description: "Decision-making, actionable feedback",
-    icon: <Brain className="w-5 h-5" />,
-    name: "Critical Thinking",
-  },
-  {
-    color: "text-accent",
-    description: "UI/UX innovation, new solutions",
-    icon: <Sparkles className="w-5 h-5" />,
-    name: "Creativity",
+    description: "Passionate about learning and applying new technologies.",
+    icon: <Lightbulb className="w-5 h-5" />,
+    name: "Adaptability",
   },
 ];
 
@@ -254,11 +227,11 @@ export default function Skills() {
             <span>Technical Expertise</span>
           </div>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-light">
-            Skills & <span className="text-gradient">Expertise</span>
+            Skills & <span className="text-gradient">Technologies</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto mt-4">
-            A comprehensive toolkit of modern web technologies, frameworks, and workflows— refined
-            through 3+ years of hands-on development.
+            A versatile toolkit refined over 3+ years. I learn what's needed and I build—from
+            pixel-perfect UIs to scalable AI-powered backends.
           </p>
         </div>
 
@@ -282,6 +255,7 @@ export default function Skills() {
             ))}
           </div>
         </div>
+
         {/* Backend */}
         <div className="mb-10">
           <h3 className="text-xl font-semibold text-secondary mb-4">Backend</h3>
@@ -304,9 +278,9 @@ export default function Skills() {
         </div>
         {/* Tools & Soft Skills */}
         <div className="mb-10">
-          <h3 className="text-xl font-semibold text-accent mb-4">Tools & Soft Skills</h3>
+          <h3 className="text-xl font-semibold text-accent mb-4">AI & ML</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[...tools, ...softSkills].map((skill) => (
+            {aiAndMlSkills.map((skill) => (
               <div
                 className={`glass-effect rounded-2xl p-6 hover:bg-accent/10 transition-all duration-300 group`}
                 key={skill.name}
@@ -322,6 +296,27 @@ export default function Skills() {
             ))}
           </div>
         </div>
+
+        <div className="mb-10">
+          <h3 className="text-xl font-semibold text-primary mb-4">DevOps, Tools & Collaboration</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[...devopsAndTools, ...softSkills].map((skill) => (
+              <div
+                className={`glass-effect rounded-2xl p-6 hover:bg-primary/10 transition-all duration-300 group`}
+                key={skill.name}
+              >
+                <div className="flex items-start space-x-4">
+                  <div className={`${skill.color}`}>{skill.icon}</div>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-semibold mb-1 text-light">{skill.name}</h4>
+                    <p className="text-muted text-sm leading-relaxed">{skill.description}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Specializations */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-10">
           {specializations.map((spec) => (
