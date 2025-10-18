@@ -43,13 +43,13 @@ export default function Hero() {
     },
     {
       icon: <Code2 className="w-5 h-5" />,
-      label: "Projects Delivered",
-      value: "50+",
+      label: "Projects Shipped",
+      value: "10+",
     },
     {
       icon: <Zap className="w-5 h-5" />,
-      label: "Client Satisfaction",
-      value: "98%",
+      label: "Performance Boost",
+      value: "30%",
     },
   ];
 
@@ -57,11 +57,11 @@ export default function Hero() {
     "React",
     "Next.js",
     "TypeScript",
+    "Python",
+    "FastAPI",
     "Tailwind CSS",
-    "Node.js",
-    "PostgreSQL",
-    "MongoDB",
-    "AWS",
+    "Docker",
+    "GitHub Actions",
   ];
 
   return (
@@ -131,16 +131,16 @@ export default function Hero() {
             {/* Main heading */}
             <div className="space-y-4">
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
-                <span className="block text-light">Crafting Digital</span>
-                <span className="block text-gradient">Experiences</span>
-                <span className="block text-light">That Matter</span>
+                <span className="block text-light">Hi, I'm Mayur.</span>
+                <span className="block text-gradient">Full-Stack Engineer</span>
+                <span className="block text-light">Fueled by AI.</span>
               </h1>
 
               <p className="text-lg sm:text-xl text-muted max-w-xl leading-relaxed">
-                Fullstack Web Developer specializing in{" "}
-                <span className="text-accent font-semibold">frontend-focused</span> development.
-                Building scalable, performant, and visually stunning web applications with 3+ years
-                of experience.
+                I'm a versatile engineer with 3+ years of experience, specializing in{" "}
+                <span className="text-accent font-semibold">React, Next.js, and TypeScript</span>.
+                My passion is building high-performance, user-centric applications, from
+                pixel-perfect UIs to scalable back-ends and AI-powered features.
               </p>
             </div>
 
@@ -169,17 +169,17 @@ export default function Hero() {
               <div className="flex gap-3">
                 {[
                   {
-                    href: "#",
+                    href: "https://github.com/mayurDayal2000",
                     icon: <Github className="w-5 h-5" />,
                     label: "GitHub",
                   },
                   {
-                    href: "#",
+                    href: "https://www.linkedin.com/in/mayur-dayal/",
                     icon: <Linkedin className="w-5 h-5" />,
                     label: "LinkedIn",
                   },
                   {
-                    href: "#",
+                    href: "mailto:mayur.dayal5k@gmail.com",
                     icon: <Mail className="w-5 h-5" />,
                     label: "Email",
                   },
@@ -248,9 +248,9 @@ export default function Hero() {
               <div className="pt-4 border-t border-white/10">
                 <ul className="space-y-3">
                   {[
-                    "Responsive & Pixel-Perfect UI",
-                    "Performance Optimization Expert",
-                    "Clean & Maintainable Code",
+                    "Pixel-Perfect UI (from Figma)",
+                    "Frontend Performance Optimization",
+                    "Refactoring & Code Maintainability",
                   ].map((highlight) => (
                     <li
                       className="flex items-center gap-3 text-sm text-muted group hover:text-light transition-colors"
@@ -273,7 +273,7 @@ export default function Hero() {
                 </div>
                 <span className="text-light font-medium">Currently Available</span>
               </div>
-              <span className="text-sm text-muted">Remote & Hybrid</span>
+              <span className="text-sm text-muted">Remote & On-site Roles</span>
             </div>
           </div>
         </div>
