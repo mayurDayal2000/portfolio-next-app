@@ -67,7 +67,11 @@ export default function ScrollProgress() {
             type="button"
           >
             {/* SVG Circular Progress */}
-            <svg aria-label="Scroll progress indicator" className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
+            <svg
+              aria-label="Scroll progress indicator"
+              className="absolute inset-0 w-full h-full -rotate-90"
+              viewBox="0 0 100 100"
+            >
               <title>Scroll progress indicator</title>
               {/* Background circle */}
               <circle
