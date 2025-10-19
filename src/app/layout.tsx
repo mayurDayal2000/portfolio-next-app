@@ -55,25 +55,25 @@ export const metadata: Metadata = {
   ],
 
   // PWA / Manifest
-  // manifest: "/site.webmanifest", // Place in /public/site.webmanifest
+  manifest: "/site.webmanifest",
   // metadataBase: new URL(siteUrl),
 
-  // openGraph: {
-  //   description: siteDescription,
-  //   images: [
-  //     {
-  //       alt: "Mayur Dayal - Full-Stack Engineer & AI Enthusiast",
-  //       height: 630,
-  //       url: "/og-preview.png", // Place in /public/og-preview.png (1200x630)
-  //       width: 1200,
-  //     },
-  //   ],
-  //   locale: "en_US",
-  //   siteName: "Mayur Dayal's Portfolio",
-  //   title: siteTitle,
-  //   type: "website",
-  //   url: siteUrl,
-  // },
+  openGraph: {
+    description: siteDescription,
+    images: [
+      {
+        alt: "Mayur Dayal - Full-Stack Engineer & AI Enthusiast",
+        height: 630,
+        url: "/og-preview.png",
+        width: 1200,
+      },
+    ],
+    locale: "en_US",
+    siteName: "Mayur Dayal's Portfolio",
+    title: siteTitle,
+    type: "website",
+    // url: siteUrl,
+  },
 
   // Crawling directives
   robots: {
@@ -95,13 +95,13 @@ export const metadata: Metadata = {
   },
 
   // Twitter Card
-  // twitter: {
-  //   card: "summary_large_image",
-  //   creator: "@mayurdayal_dev", // Your (placeholder) Twitter handle
-  //   description: siteDescription,
-  //   images: ["/og-preview.png"], // Must be an absolute URL, metadataBase handles this
-  //   title: siteTitle,
-  // },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@_mayur_dayal",
+    description: siteDescription,
+    images: ["/og-preview.png"],
+    title: siteTitle,
+  },
 };
 
 export default function RootLayout({
