@@ -9,37 +9,37 @@ interface Section {
   icon: ReactNode;
 }
 
+const sections: Section[] = [
+  {
+    icon: <Home className="w-4 h-4" />,
+    id: "hero",
+    label: "Home",
+  },
+  {
+    icon: <User className="w-4 h-4" />,
+    id: "about",
+    label: "About",
+  },
+  {
+    icon: <Wrench className="w-4 h-4" />,
+    id: "skills",
+    label: "Skills",
+  },
+  {
+    icon: <Briefcase className="w-4 h-4" />,
+    id: "projects",
+    label: "Projects",
+  },
+  {
+    icon: <Mail className="w-4 h-4" />,
+    id: "contact",
+    label: "Contact",
+  },
+];
+
 export default function SectionIndicator() {
   const [activeSection, setActiveSection] = useState("");
   const [isVisible, setIsVisible] = useState(false);
-
-  const sections: Section[] = [
-    {
-      icon: <Home className="w-4 h-4" />,
-      id: "hero",
-      label: "Home",
-    },
-    {
-      icon: <User className="w-4 h-4" />,
-      id: "about",
-      label: "About",
-    },
-    {
-      icon: <Wrench className="w-4 h-4" />,
-      id: "skills",
-      label: "Skills",
-    },
-    {
-      icon: <Briefcase className="w-4 h-4" />,
-      id: "projects",
-      label: "Projects",
-    },
-    {
-      icon: <Mail className="w-4 h-4" />,
-      id: "contact",
-      label: "Contact",
-    },
-  ];
 
   useEffect(() => {
     const handleScroll = () => {
