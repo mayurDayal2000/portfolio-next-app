@@ -35,11 +35,6 @@
     @apply bg-dark text-light antialiased;
     font-family: var(--font-display);
   }
-
-  /* Smooth scroll behavior */
-  html {
-    scroll-behavior: smooth;
-  }
 }
 
 @layer utilities {

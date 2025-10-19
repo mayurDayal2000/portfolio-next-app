@@ -43,7 +43,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 // Union type that includes all possible fields
 type FormValues = {
-  audienceType?: "recruiter" | "hiring-manager" | "client" | "other";
+  audienceType: "recruiter" | "hiring-manager" | "client" | "other";
   email: string;
   message: string;
   name: string;
@@ -56,11 +56,9 @@ type FormValues = {
 // Static schema with conditional rules via superRefine
 const FormSchema = z
   .object({
-    audienceType: z
-      .enum(["recruiter", "hiring-manager", "client", "other"] as const, {
-        message: "Please select an option",
-      })
-      .optional(),
+    audienceType: z.enum(["recruiter", "hiring-manager", "client", "other"] as const, {
+      message: "Please select an option",
+    }),
     budget: z.string().optional(),
     company: z.string().optional(),
     email: z.string().min(1, "Email is required").email("Please enter a valid email"),
@@ -98,7 +96,7 @@ export default function Contact() {
 
   const form = useForm<FormValues>({
     defaultValues: {
-      audienceType: undefined,
+      audienceType: "other",
       budget: "",
       company: "",
       email: "",

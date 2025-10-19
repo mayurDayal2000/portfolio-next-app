@@ -242,6 +242,7 @@ export default function About() {
                       type="button"
                     >
                       <div className="mb-1 flex items-center gap-2">
+                        <span className="text-accent">{item.icon}</span>
                         <span className="font-semibold text-primary">{item.title}</span>
                         <span className="text-sm text-muted font-medium">| {item.company}</span>
                         <span className="ml-auto text-xs text-accent px-2 py-0.5 bg-dark-secondary rounded">
@@ -276,11 +277,10 @@ export default function About() {
 
         {/* Values Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          {values.map((value, idx) => (
+          {values.map((value) => (
             <div
               className="glass-effect rounded-xl p-6 hover:bg-white/5 hover:scale-105 transition-all duration-300 cursor-pointer group"
               key={value.title}
-              style={{ animationDelay: `${idx * 100}ms` }}
             >
               <div className="text-accent mb-3 group-hover:scale-110 transition-transform">
                 {value.icon}
