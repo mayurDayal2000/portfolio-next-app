@@ -2,7 +2,7 @@
 "use client";
 
 import { ArrowUpRight, ExternalLink, Filter, Github, Rocket, Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { FadeInOnce } from "./ui/fadeInOnce";
 
@@ -96,16 +96,39 @@ export default function Projects() {
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>("All");
   const [transitioning, setTransitioning] = useState(true);
 
-  // Animate cards in on first mount
+  const mountedRef = useRef(false);
+  const filterTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Animate cards in on first mount, and manage mounted state/cleanup
   useEffect(() => {
-    const timer = setTimeout(() => setTransitioning(false), 500); // 500ms is the animation duration
-    return () => clearTimeout(timer);
+    mountedRef.current = true;
+
+    const timer = setTimeout(() => {
+      if (mountedRef.current) setTransitioning(false);
+    }, 500); // 500ms is the animation duration
+
+    return () => {
+      mountedRef.current = false;
+      clearTimeout(timer);
+      if (filterTimeoutRef.current) {
+        clearTimeout(filterTimeoutRef.current);
+        filterTimeoutRef.current = null;
+      }
+    };
   }, []);
 
   const handleFilter = (category: (typeof categories)[number]) => {
     if (activeCategory === category) return;
     setTransitioning(true); // Animate out
-    setTimeout(() => {
+
+    // Clear any pending filter timeout before scheduling a new one
+    if (filterTimeoutRef.current) {
+      clearTimeout(filterTimeoutRef.current);
+      filterTimeoutRef.current = null;
+    }
+
+    filterTimeoutRef.current = setTimeout(() => {
+      if (!mountedRef.current) return;
       setActiveCategory(category);
       setTransitioning(false); // Animate in
     }, 300);
@@ -177,10 +200,9 @@ export default function Projects() {
           {featuredProjects.map((project, i) => (
             <div
               className={cn(
-                "glass-effect rounded-2xl p-8 flex flex-col justify-between shadow-lg border-2 border-primary/20 transition-transform transition-opacity duration-500",
+                "glass-effect rounded-2xl p-8 flex flex-col justify-between shadow-lg border-2 border-primary/20 transition-all duration-500",
                 !transitioning && "opacity-100 translate-y-0",
-                transitioning && "opacity-0 translate-y-6",
-                `delay-${i * 100}`
+                transitioning && "opacity-0 translate-y-6"
               )}
               key={project.id}
               style={{ transitionDelay: `${i * 100}ms` }}
@@ -234,10 +256,9 @@ export default function Projects() {
           {regularProjects.map((project, i) => (
             <div
               className={cn(
-                "glass-effect rounded-2xl p-7 flex flex-col justify-between border border-white/10 transition-transform transition-opacity duration-500",
+                "glass-effect rounded-2xl p-7 flex flex-col justify-between border border-white/10 transition-all duration-500",
                 !transitioning && "opacity-100 translate-y-0",
-                transitioning && "opacity-0 translate-y-6",
-                `delay-${(featuredProjects.length + i) * 80}`
+                transitioning && "opacity-0 translate-y-6"
               )}
               key={project.id}
               style={{
