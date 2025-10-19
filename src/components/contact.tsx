@@ -53,9 +53,9 @@ type FormValues = {
   roleInterest?: string;
 };
 
-// Dynamic Zod Schema based on audience type
-const createFormSchema = (audienceType: string) => {
-  const baseSchema = {
+// Static schema with conditional rules via superRefine
+const FormSchema = z
+  .object({
     audienceType: z
       .enum(["recruiter", "hiring-manager", "client", "other"] as const, {
         message: "Please select an option",
@@ -72,25 +72,25 @@ const createFormSchema = (audienceType: string) => {
     name: z.string().min(1, "Name is required"),
     purpose: z.string().min(1, "Purpose is required"),
     roleInterest: z.string().optional(),
-  };
-
-  // Add conditional validation based on audience type
-  if (audienceType === "client") {
-    return z.object({
-      ...baseSchema,
-      budget: z.string().optional(),
-      company: z.string().optional(),
-    });
-  } else if (audienceType === "recruiter" || audienceType === "hiring-manager") {
-    return z.object({
-      ...baseSchema,
-      company: z.string().min(1, "Company name is required"),
-      roleInterest: z.string().min(1, "Role/Position is required"),
-    });
-  }
-
-  return z.object(baseSchema);
-};
+  })
+  .superRefine((data, ctx) => {
+    if (data.audienceType === "recruiter" || data.audienceType === "hiring-manager") {
+      if (!data.company || data.company.trim().length === 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Company name is required",
+          path: ["company"],
+        });
+      }
+      if (!data.roleInterest || data.roleInterest.trim().length === 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Role/Position is required",
+          path: ["roleInterest"],
+        });
+      }
+    }
+  });
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -107,7 +107,7 @@ export default function Contact() {
       purpose: "",
       roleInterest: "",
     },
-    resolver: zodResolver(createFormSchema("")),
+    resolver: zodResolver(FormSchema),
   });
 
   const audienceType = form.watch("audienceType");
@@ -127,22 +127,34 @@ export default function Contact() {
     { label: "Just saying hi!", value: "other" },
   ];
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (_data: FormValues) => {
+    // _data will be used when integrating with real API
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      // Simulate API call
+      // TODO: Replace with actual API call: await submitContactForm(data);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    setIsSubmitting(false);
+      // Show success toast
+      toast.success("Message Sent Successfully!", {
+        description: `Thank you for reaching out! I've received your message and will get back to you within 24 hours.`,
+        duration: 5000,
+      });
 
-    // Show success toast
-    toast.success("Message Sent Successfully!", {
-      description: `Thank you for reaching out! I've received your message and will get back to you within 24 hours.`,
-      duration: 5000,
-    });
-
-    // Reset form
-    form.reset();
+      // Reset form
+      form.reset();
+    } catch (error) {
+      // Handle error and show error toast
+      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+      toast.error("Failed to Send Message", {
+        description: `${errorMessage}. Please try again or contact me directly.`,
+        duration: 5000,
+      });
+    } finally {
+      // Ensure isSubmitting is always set to false
+      setIsSubmitting(false);
+    }
   };
 
   const contactMethods = [
