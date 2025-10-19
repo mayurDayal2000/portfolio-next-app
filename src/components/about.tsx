@@ -13,7 +13,7 @@ import {
   Target,
   Zap,
 } from "lucide-react";
-import { type ReactNode, useRef, useState } from "react";
+import { type ReactNode, useState } from "react";
 import { cn } from "@/lib/utils";
 import { FadeInOnce } from "./ui/fadeInOnce";
 
@@ -27,7 +27,6 @@ interface TimelineItem {
 
 export default function About() {
   const [activeTimeline, setActiveTimeline] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
 
   const timeline: TimelineItem[] = [
     {
@@ -120,11 +119,7 @@ export default function About() {
   ];
 
   return (
-    <section
-      className="relative py-24 lg:py-32 bg-dark overflow-hidden"
-      id="about"
-      ref={sectionRef}
-    >
+    <section className="relative py-24 lg:py-32 bg-dark overflow-hidden" id="about">
       {/* Background decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
