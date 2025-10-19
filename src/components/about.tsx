@@ -21,7 +21,7 @@ interface TimelineItem {
   year: string;
   title: string;
   company: string;
-  bullets: string[];
+  bullets: Array<{ id: string; text: string }>;
   icon: ReactNode;
 }
 
@@ -32,9 +32,18 @@ export default function About() {
   const timeline: TimelineItem[] = [
     {
       bullets: [
-        "Led frontend (React, TypeScript, Redux) for a high-performance developer dashboard.",
-        "Built SEO-optimized landing pages with Next.js and Tailwind CSS, boosting conversions by 15%.",
-        "Integrated Stripe & Razorpay payments and contributed to FastAPI back-end & CI/CD (Docker, GitHub Actions).",
+        {
+          id: "penify-1",
+          text: "Led frontend (React, TypeScript, Redux) for a high-performance developer dashboard.",
+        },
+        {
+          id: "penify-2",
+          text: "Built SEO-optimized landing pages with Next.js and Tailwind CSS, boosting conversions by 15%.",
+        },
+        {
+          id: "penify-3",
+          text: "Integrated Stripe & Razorpay payments and contributed to FastAPI back-end & CI/CD (Docker, GitHub Actions).",
+        },
       ],
       company: "Penify.ai",
       icon: <Rocket className="w-5 h-5" />,
@@ -43,9 +52,18 @@ export default function About() {
     },
     {
       bullets: [
-        "Delivered custom WordPress themes and plugins using PHP, JS, and CSS.",
-        "Built responsive UIs and e-commerce workflows for small business clients.",
-        "Used this time to intentionally grow my back-end skills and explore modern tech like TypeScript.",
+        {
+          id: "freelance-1",
+          text: "Delivered custom WordPress themes and plugins using PHP, JS, and CSS.",
+        },
+        {
+          id: "freelance-2",
+          text: "Built responsive UIs and e-commerce workflows for small business clients.",
+        },
+        {
+          id: "freelance-3",
+          text: "Used this time to intentionally grow my back-end skills and explore modern tech like TypeScript.",
+        },
       ],
       company: "Self-Employed",
       icon: <Briefcase className="w-5 h-5" />,
@@ -54,9 +72,18 @@ export default function About() {
     },
     {
       bullets: [
-        "Promoted from Intern to Junior Developer in 2 months after mastering React.",
-        "Developed responsive student dashboards, reducing load times by 30%.",
-        "Refactored legacy class components to modern hooks, cutting code complexity by 40%.",
+        {
+          id: "zinedu-1",
+          text: "Promoted from Intern to Junior Developer in 2 months after mastering React.",
+        },
+        {
+          id: "zinedu-2",
+          text: "Developed responsive student dashboards, reducing load times by 30%.",
+        },
+        {
+          id: "zinedu-3",
+          text: "Refactored legacy class components to modern hooks, cutting code complexity by 40%.",
+        },
       ],
       company: "ZinEdu Classes",
       icon: <Code2 className="w-5 h-5" />,
@@ -225,7 +252,7 @@ export default function About() {
 
                     <div className="mt-2">
                       <ul className="list-disc ml-6 text-sm text-start space-y-2 text-muted">
-                        {item.bullets.map((bp) => (
+                        {item.bullets.map((bullet) => (
                           <li
                             className={cn(
                               "leading-snug",
@@ -233,9 +260,9 @@ export default function About() {
                                 ? "opacity-100"
                                 : "opacity-80 hover:opacity-100"
                             )}
-                            key={bp}
+                            key={bullet.id}
                           >
-                            {bp}
+                            {bullet.text}
                           </li>
                         ))}
                       </ul>

@@ -151,7 +151,6 @@
 ::-webkit-scrollbar-track {
   @apply bg-dark-secondary;
   border-radius: 10px;
-  margin: 4px;
 }
 
 ::-webkit-scrollbar-thumb {

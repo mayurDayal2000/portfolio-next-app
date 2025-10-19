@@ -276,7 +276,7 @@ export default function Skills() {
             ))}
           </div>
         </div>
-        {/* Tools & Soft Skills */}
+        {/* AI & ML */}
         <div className="mb-10">
           <h3 className="text-xl font-semibold text-accent mb-4">AI & ML</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
