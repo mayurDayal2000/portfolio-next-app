@@ -12,9 +12,9 @@ export default function ScrollProgress() {
       const documentHeight = document.documentElement.scrollHeight;
       const scrollTop = window.scrollY;
 
-      // Calculate scroll percentage
+      // Calculate scroll percentage with guard against division by zero
       const totalScroll = documentHeight - windowHeight;
-      const progress = (scrollTop / totalScroll) * 100;
+      const progress = totalScroll <= 0 ? 100 : (scrollTop / totalScroll) * 100;
 
       setScrollProgress(progress);
       setIsVisible(scrollTop > 100);
@@ -54,7 +54,7 @@ export default function ScrollProgress() {
       {/* Circular Progress Indicator - Side */}
       {isVisible && (
         <div
-          className="fixed right-6 bottom-6 z-40 transition-all duration-500 animate-in fade-in slide-in-from-bottom-4"
+          className="fixed right-6 bottom-6 z-40 transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 group"
           style={{
             opacity: scrollProgress > 5 ? 1 : 0,
             transform: `scale(${scrollProgress > 5 ? 1 : 0.8})`,
@@ -62,7 +62,7 @@ export default function ScrollProgress() {
         >
           <button
             aria-label="Scroll to top"
-            className="group relative w-14 h-14 glass-effect hover:bg-primary/20 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer border border-white/10"
+            className="relative w-14 h-14 glass-effect hover:bg-primary/20 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer border border-white/10"
             onClick={() => window.scrollTo({ behavior: "smooth", top: 0 })}
             type="button"
           >

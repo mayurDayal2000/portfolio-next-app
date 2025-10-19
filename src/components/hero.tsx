@@ -225,7 +225,7 @@ export default function Hero() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {stats.map((stat, idx) => (
                 <div
-                  className="glass-effect rounded-2xl p-6 text-center hover:bg-white/10 transition-all duration-300 hover:scale-105 cursor-pointer group fade-in-up"
+                  className="glass-effect rounded-2xl p-6 text-center hover:bg-white/10 transition-all duration-300 hover:scale-105 group fade-in-up"
                   key={stat.label}
                   style={{ animationDelay: `${idx * 100}ms` }}
                 >
@@ -250,7 +250,7 @@ export default function Hero() {
               <div className="flex flex-wrap gap-2">
                 {techStack.map((tech) => (
                   <span
-                    className="px-4 py-2 bg-dark-secondary/80 hover:bg-primary/20 border border-white/10 hover:border-primary/30 rounded-lg text-sm text-light font-medium transition-all duration-300 hover:scale-105 cursor-pointer"
+                    className="px-4 py-2 bg-dark-secondary/80 hover:bg-primary/20 border border-white/10 hover:border-primary/30 rounded-lg text-sm text-light font-medium transition-all duration-300 hover:scale-105"
                     key={tech}
                   >
                     {tech}
