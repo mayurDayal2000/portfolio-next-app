@@ -11,13 +11,16 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
-import { type JSX, useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 
 interface Stat {
   label: string;
   value: string;
-  icon: JSX.Element;
+  icon: ReactNode;
 }
+
+const CV_URL = process.env.NEXT_PUBLIC_CV_URL || "/cv.pdf";
+const CV_FILENAME = process.env.NEXT_PUBLIC_CV_FILENAME || "Mayur_Dayal_Resume.pdf";
 
 export default function Hero() {
   const [isMounted, setIsMounted] = useState(false);
@@ -72,7 +75,7 @@ export default function Hero() {
       {/* Interactive area for mouse tracking */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full pointer-events-none"
+        className="absolute inset-0 w-full h-full"
         onMouseMove={handleMouseMove}
         role="presentation"
       />
@@ -148,6 +151,9 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 glow-effect"
+                onClick={() =>
+                  document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
+                }
                 type="button"
               >
                 <span>View My Work</span>
@@ -156,6 +162,14 @@ export default function Hero() {
 
               <button
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 glass-effect hover:bg-white/10 text-light font-semibold rounded-xl transition-all duration-300 border border-white/20"
+                onClick={() => {
+                  const link = document.createElement("a");
+                  link.href = CV_URL;
+                  link.download = CV_FILENAME;
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
                 type="button"
               >
                 <Download className="w-5 h-5 group-hover:scale-110 transition-transform" />
@@ -211,7 +225,7 @@ export default function Hero() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {stats.map((stat, idx) => (
                 <div
-                  className="glass-effect rounded-2xl p-6 text-center hover:bg-white/10 transition-all duration-300 hover:scale-105 cursor-pointer group"
+                  className="glass-effect rounded-2xl p-6 text-center hover:bg-white/10 transition-all duration-300 hover:scale-105 cursor-pointer group fade-in-up"
                   key={stat.label}
                   style={{ animationDelay: `${idx * 100}ms` }}
                 >

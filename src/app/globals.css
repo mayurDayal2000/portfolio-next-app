@@ -89,6 +89,14 @@
     box-shadow: 0 0 20px rgba(99, 102, 241, 0.3),
       0 0 40px rgba(139, 92, 246, 0.2), 0 0 60px rgba(6, 182, 212, 0.1);
   }
+
+  .fade-in-up {
+    animation-name: fade-in-up;
+    animation-duration: var(--duration-slow);
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+    will-change: transform, opacity;
+  }
 }
 
 @keyframes gradient-shift {
@@ -189,7 +197,7 @@ html {
   html {
     scroll-behavior: auto;
   }
-  
+
   .animate-bounce,
   .float-animation,
   .shimmer {
