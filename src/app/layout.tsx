@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
 });
 
-const siteUrl = ""; // Change this to your actual domain
+const siteUrl = "https://mayurbuilds.vercel.app/";
 const siteTitle = "Mayur Dayal | Full-Stack Software Engineer | AI & ML Enthusiast";
 const siteDescription =
   "Passionate Full-Stack Engineer (3+ yrs) specializing in React, Next.js, Python, & AI integration. Explore my portfolio of innovative projects. Actively seeking full-time opportunities.";
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
 
   // PWA / Manifest
   manifest: "/site.webmanifest",
-  // metadataBase: new URL(siteUrl),
+  metadataBase: new URL(siteUrl),
 
   openGraph: {
     description: siteDescription,
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     siteName: "Mayur Dayal's Portfolio",
     title: siteTitle,
     type: "website",
-    // url: siteUrl,
+    url: siteUrl,
   },
 
   // Crawling directives

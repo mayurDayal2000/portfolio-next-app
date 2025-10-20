@@ -166,7 +166,7 @@ export default function Contact() {
       description: "+91-92xxxxxx30",
       icon: <Phone className="w-5 h-5" />,
       label: "Phone",
-      link: "tel:+91-92xxxxxx30",
+      link: "https://wa.me/+919263912330?text=Hi!",
     },
     {
       description: "Bengaluru, India",
@@ -178,12 +178,12 @@ export default function Contact() {
 
   const socialLinks = [
     {
-      href: "https://github.com/yourusername",
+      href: "https://github.com/mayurDayal2000",
       icon: <Github className="w-5 h-5" />,
       label: "GitHub",
     },
     {
-      href: "https://linkedin.com/in/yourusername",
+      href: "https://www.linkedin.com/in/mayur-dayal/",
       icon: <Linkedin className="w-5 h-5" />,
       label: "LinkedIn",
     },
@@ -263,7 +263,7 @@ export default function Contact() {
               </p>
               <a
                 className="w-full"
-                href="https://calendly.com/yourusername/30min"
+                href="https://calendar.app.google/SdKqMJPLcp1SwNRd9"
                 rel="noopener noreferrer"
                 target="_blank"
               >
