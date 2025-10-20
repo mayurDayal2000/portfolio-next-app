@@ -5,10 +5,6 @@ const nextConfig: NextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error", "warn"] } : false,
   },
-  experimental: {
-    browserDebugInfoInTerminal: true,
-  },
-
   async headers() {
     return [
       {
@@ -43,22 +39,8 @@ const nextConfig: NextConfig = {
             value: "camera=(), microphone=(), geolocation=(), payment=()",
           },
 
-          // Content-Security-Policy
-          {
-            key: "Content-Security-Policy",
-            value:
-              "default-src 'self'; " +
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; " +
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-              "font-src 'self' https://fonts.gstatic.com; " +
-              "img-src 'self' data: https:; " +
-              "connect-src 'self' " +
-              "ws://localhost:3000 " + // For local development
-              "worker-src 'self' blob:; " +
-              "frame-ancestors 'none';",
-          },
+          // Do NOT set CSP here to avoid multiple CSP headers; CSP is set in middleware.ts
         ],
-        // apply to every route
         source: "/(.*)",
       },
     ];
