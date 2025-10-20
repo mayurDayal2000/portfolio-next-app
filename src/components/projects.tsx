@@ -10,7 +10,7 @@ interface Project {
   id: string;
   title: string;
   description: string;
-  category: "SaaS" | "AI Tool" | "Web App" | "Dev Tool" | "Website";
+  category: "SaaS" | "AI Tool" | "Dev Tool";
   tags: string[];
   liveUrl?: string;
   githubUrl?: string;
@@ -25,9 +25,8 @@ const projects: Project[] = [
     description:
       "The core AI-powered developer dashboard for Penify, serving thousands of global users.",
     featured: true,
-    githubUrl: "#",
     id: "1",
-    liveUrl: "#",
+    liveUrl: "https://www.penify.dev/",
     tags: ["Next.js", "TypeScript", "Redux", "FastAPI", "Tailwind"],
     title: "Penify.ai Developer Dashboard",
   },
@@ -37,7 +36,7 @@ const projects: Project[] = [
     description:
       "An AI-powered tool that analyzes code diffs and automatically generates detailed Git commit messages.",
     featured: true,
-    githubUrl: "#",
+    githubUrl: "https://github.com/mayurDayal2000/diff2commit",
     id: "2",
     liveUrl: "#",
     tags: ["Python", "Transformers", "AI/ML", "CLI"],
@@ -45,13 +44,12 @@ const projects: Project[] = [
   },
   {
     achievement: "Reduced dashboard load times by 30%.",
-    category: "Web App",
+    category: "SaaS",
     description:
       "A responsive learning dashboard for 9th-12th grade students at an EdTech startup.",
     featured: false,
-    githubUrl: "#", // Private repo
     id: "3",
-    liveUrl: "#",
+    liveUrl: "https://myclassroom.digital",
     tags: ["React", "Bootstrap", "Sass", "JWT"],
     title: "ZinEdu Student Dashboard",
   },
@@ -62,35 +60,116 @@ const projects: Project[] = [
     featured: false,
     githubUrl: "#",
     id: "4",
-    liveUrl: "#",
+    liveUrl: "https://marketplace.visualstudio.com/items?itemName=Snorkell.snorkell",
     tags: ["React", "TypeScript", "VS Code API"],
     title: "Penify.ai VS Code Extension",
   },
-  {
-    category: "Website",
-    description:
-      "Custom WordPress theme and plugin development for a small business client during my freelance period.",
-    featured: false,
-    githubUrl: "#", // Private repo
-    id: "5",
-    liveUrl: "#",
-    tags: ["PHP", "WordPress", "JavaScript", "CSS"],
-    title: "Freelance Client Website",
-  },
-  {
-    category: "AI Tool",
-    description:
-      "An in-progress personal project featuring a 3D model for interactive AI-driven user experiences.",
-    featured: false,
-    githubUrl: "#",
-    id: "6",
-    liveUrl: "#",
-    tags: ["React", "Three.js", "AI/ML"],
-    title: "3D AI Companion App",
-  },
+  // {
+  //   category: "Website",
+  //   description:
+  //     "Custom WordPress theme and plugin development for a small business client during my freelance period.",
+  //   featured: false,
+  //   githubUrl: "#", // Private repo
+  //   id: "5",
+  //   liveUrl: "#",
+  //   tags: ["PHP", "WordPress", "JavaScript", "CSS"],
+  //   title: "Freelance Client Website",
+  // },
+  // {
+  //   category: "AI Tool",
+  //   description:
+  //     "An in-progress personal project featuring a 3D model for interactive AI-driven user experiences.",
+  //   featured: false,
+  //   githubUrl: "#",
+  //   id: "6",
+  //   liveUrl: "#",
+  //   tags: ["React", "Three.js", "AI/ML"],
+  //   title: "3D AI Companion App",
+  // },
 ];
 
-const categories = ["All", "SaaS", "AI Tool", "Web App", "Dev Tool", "Website"] as const;
+const categories = ["All", "SaaS", "AI Tool", "Dev Tool"] as const;
+
+// Helper function to check if GitHub repo is private
+const isPrivateRepo = (githubUrl?: string): boolean => {
+  return !githubUrl || githubUrl === "#" || githubUrl.trim() === "";
+};
+
+// GitHub Button Component with tooltip for private repos
+const GitHubButton = ({ githubUrl, className }: { githubUrl?: string; className?: string }) => {
+  const isPrivate = isPrivateRepo(githubUrl);
+
+  if (isPrivate) {
+    return (
+      <div className="relative inline-block group">
+        <button
+          className={cn(
+            "inline-flex items-center gap-2 px-5 py-2 glass-effect text-light/40 font-semibold rounded-lg border border-white/10 cursor-not-allowed",
+            className
+          )}
+          disabled
+          type="button"
+        >
+          <Github className="w-4 h-4" /> Code
+        </button>
+        {/* Tooltip */}
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none z-10">
+          Private Repository
+          <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900" />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <a
+      className={cn(
+        "inline-flex items-center gap-2 px-5 py-2 glass-effect hover:bg-white/10 text-light font-semibold rounded-lg transition-all duration-300 border border-white/20",
+        className
+      )}
+      href={githubUrl}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <Github className="w-4 h-4" /> Code
+    </a>
+  );
+};
+
+// Compact GitHub Button for regular projects
+const GitHubButtonSmall = ({ githubUrl }: { githubUrl?: string }) => {
+  const isPrivate = isPrivateRepo(githubUrl);
+
+  if (isPrivate) {
+    return (
+      <div className="relative inline-block group">
+        <button
+          className="inline-flex items-center gap-2 px-4 py-2 glass-effect text-light/40 font-semibold rounded-lg transition-all duration-300 text-sm border border-white/10 cursor-not-allowed"
+          disabled
+          type="button"
+        >
+          <Github className="w-4 h-4" /> Code
+        </button>
+        {/* Tooltip */}
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-gray-900 text-white text-xs rounded-lg whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none z-10">
+          Private Repository
+          <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900" />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <a
+      className="inline-flex items-center gap-2 px-4 py-2 glass-effect hover:bg-white/10 text-light font-semibold rounded-lg transition-all duration-300 text-sm border border-white/20"
+      href={githubUrl}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <Github className="w-4 h-4" /> Code
+    </a>
+  );
+};
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>("All");
@@ -189,7 +268,7 @@ export default function Projects() {
           ))}
         </nav>
 
-        {/* Projects Grid - Minimal Bento Layout */}
+        {/* Projects Grid */}
         <div
           className={cn(
             "grid md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-500",
@@ -238,16 +317,7 @@ export default function Projects() {
                     Live <ExternalLink className="w-4 h-4" />
                   </a>
                 )}
-                {project.githubUrl && (
-                  <a
-                    className="inline-flex items-center gap-2 px-5 py-2 glass-effect hover:bg-white/10 text-light font-semibold rounded-lg transition-all duration-300 border border-white/20"
-                    href={project.githubUrl}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    <Github className="w-4 h-4" /> Code
-                  </a>
-                )}
+                <GitHubButton githubUrl={project.githubUrl} />
               </div>
             </div>
           ))}
@@ -289,16 +359,7 @@ export default function Projects() {
                     Live <ArrowUpRight className="w-4 h-4" />
                   </a>
                 )}
-                {project.githubUrl && (
-                  <a
-                    className="inline-flex items-center gap-2 px-4 py-2 glass-effect hover:bg-white/10 text-light font-semibold rounded-lg transition-all duration-300 text-sm border border-white/20"
-                    href={project.githubUrl}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    <Github className="w-4 h-4" /> Code
-                  </a>
-                )}
+                <GitHubButtonSmall githubUrl={project.githubUrl} />
               </div>
             </div>
           ))}
