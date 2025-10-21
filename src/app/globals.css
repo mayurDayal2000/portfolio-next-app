@@ -92,6 +92,11 @@
     animation-fill-mode: both;
     will-change: transform, opacity;
   }
+
+  .progress-fill {
+    transform-origin: left center;
+    will-change: transform;
+  }
 }
 
 @keyframes gradient-shift {

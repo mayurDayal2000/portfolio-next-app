@@ -1,29 +1,85 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function ScrollProgress() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
 
+  // Refs to avoid re-renders and coordinate RAF + throttle
+  const tickingRef = useRef(false);
+  const throttledRef = useRef(false);
+  const lastScrollYRef = useRef(0);
+  const lastUpdateTsRef = useRef(0);
+
+  // Tune this based on UX needs (60–120ms is a good start)
+  const THROTTLE_INTERVAL = 80; // ms
+
+  // Compute progress using latest values
+  const computeProgress = () => {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const scrollTop = lastScrollYRef.current;
+
+    const totalScroll = documentHeight - windowHeight;
+    const progress = totalScroll <= 0 ? 100 : (scrollTop / totalScroll) * 100;
+
+    setScrollProgress(progress);
+    setIsVisible(scrollTop > 100);
+  };
+
+  // RAF-aligned, throttled update
+  const requestTick = () => {
+    if (tickingRef.current) return;
+    tickingRef.current = true;
+
+    window.requestAnimationFrame((ts) => {
+      tickingRef.current = false;
+
+      // Throttle to at most one update per interval, but align with RAF
+      if (!throttledRef.current) {
+        throttledRef.current = true;
+        lastUpdateTsRef.current = ts;
+        computeProgress();
+
+        // Release throttle after interval
+        window.setTimeout(() => {
+          throttledRef.current = false;
+        }, THROTTLE_INTERVAL);
+      }
+    });
+  };
+
   useEffect(() => {
-    const handleScroll = () => {
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-      const scrollTop = window.scrollY;
-
-      // Calculate scroll percentage with guard against division by zero
-      const totalScroll = documentHeight - windowHeight;
-      const progress = totalScroll <= 0 ? 100 : (scrollTop / totalScroll) * 100;
-
-      setScrollProgress(progress);
-      setIsVisible(scrollTop > 100);
+    const onScroll = () => {
+      lastScrollYRef.current = Math.max(window.scrollY, 0);
+      requestTick();
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
+    // Recompute on viewport resize
+    const onResize = () => {
+      requestTick();
+    };
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Observe document height changes (dynamic content/images)
+    const ro = new ResizeObserver(() => {
+      requestTick();
+    });
+    ro.observe(document.documentElement);
+
+    // Passive listener for smooth native scrolling
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
+
+    // Initial measurement
+    lastScrollYRef.current = Math.max(window.scrollY, 0);
+    computeProgress();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+      ro.disconnect();
+    };
   }, []);
 
   return (
@@ -42,8 +98,8 @@ export default function ScrollProgress() {
 
         {/* Animated progress fill with gradient */}
         <div
-          className="h-full bg-gradient-to-r from-primary via-secondary to-accent relative overflow-hidden transition-all duration-300 ease-out glow-effect"
-          style={{ width: `${scrollProgress}%` }}
+          className="h-full bg-gradient-to-r from-primary via-secondary to-accent relative overflow-hidden transition-transform duration-150 ease-out glow-effect progress-fill"
+          style={{ transform: `scaleX(${scrollProgress / 100})` }}
         >
           {/* Shimmer animation overlay */}
           <div className="absolute inset-0 shimmer" />

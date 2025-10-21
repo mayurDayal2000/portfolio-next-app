@@ -1,7 +1,7 @@
 "use client";
 
 import { Briefcase, Home, Mail, User, Wrench } from "lucide-react";
-import { type ReactNode, useEffect, useState } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 
 interface Section {
   id: string;
@@ -41,31 +41,64 @@ export default function SectionIndicator() {
   const [activeSection, setActiveSection] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
+  // Keep a ref of the last active to avoid unnecessary state churn
+  const activeRef = useRef("");
+
+  // Visibility toggle (simple and cheap)
   useEffect(() => {
-    const handleScroll = () => {
-      setIsVisible(window.scrollY > 300);
+    const onScroll = () => setIsVisible(window.scrollY > 300);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-      const sectionElements = sections.map((section) => ({
-        element: document.getElementById(section.id),
-        id: section.id,
-      }));
+  // IntersectionObserver drives active section
+  useEffect(() => {
+    const targets = sections
+      .map((s) => document.getElementById(s.id))
+      .filter(Boolean) as HTMLElement[];
 
-      // Find which section is currently in view
-      for (const { id, element } of sectionElements) {
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          const inView = rect.top <= 150 && rect.bottom >= 150;
-          if (inView) {
-            setActiveSection(id);
-            break;
-          }
+    if (!targets.length) return;
+
+    // Track current intersection ratios for all sections
+    const ratios = new Map<string, number>();
+    const thresholds = Array.from({ length: 11 }, (_, i) => i / 10);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const id = (entry.target as HTMLElement).id;
+          // Only count when intersecting; otherwise treat as 0
+          ratios.set(id, entry.isIntersecting ? entry.intersectionRatio : 0);
         }
+        // Choose the section with the highest ratio
+        let maxId = "";
+        let maxRatio = -1;
+        ratios.forEach((r, id) => {
+          if (r > maxRatio) {
+            maxRatio = r;
+            maxId = id;
+          }
+        });
+        if (maxId && activeRef.current !== maxId) {
+          activeRef.current = maxId;
+          setActiveSection(maxId);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "-45% 0px -45% 0px",
+        threshold: thresholds,
       }
-    };
+    );
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Initial check
-    return () => window.removeEventListener("scroll", handleScroll);
+    targets.forEach((el) => {
+      // Initialize with 0 so we always have a value
+      ratios.set(el.id, 0);
+      observer.observe(el);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   if (!isVisible) return null;
@@ -89,11 +122,9 @@ export default function SectionIndicator() {
                     ? "bg-gradient-to-r from-primary to-accent text-white scale-110 glow-effect"
                     : "bg-dark-secondary/50 text-muted hover:bg-primary/20 hover:text-primary hover:scale-105"
                 }`}
-                onClick={() => {
-                  document.getElementById(section.id)?.scrollIntoView({
-                    behavior: "smooth",
-                  });
-                }}
+                onClick={() =>
+                  document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth" })
+                }
                 type="button"
               >
                 <span
