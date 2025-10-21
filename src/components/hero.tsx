@@ -24,19 +24,10 @@ const CV_FILENAME = process.env.NEXT_PUBLIC_CV_FILENAME || "Mayur_Dayal_Resume.p
 
 export default function Hero() {
   const [isMounted, setIsMounted] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
 
   const stats: Stat[] = [
     {
@@ -72,14 +63,6 @@ export default function Hero() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-mesh"
       id="hero"
     >
-      {/* Interactive area for mouse tracking */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 w-full h-full"
-        onMouseMove={handleMouseMove}
-        role="presentation"
-      />
-
       {/* Grain/Noise overlay */}
       <div
         className="absolute inset-0 pointer-events-none z-0"
@@ -101,7 +84,6 @@ export default function Hero() {
         style={{
           left: "5%",
           top: "10%",
-          transform: `translate(${mousePosition.x * 0.02}px, ${mousePosition.y * 0.02}px)`,
           willChange: "transform",
         }}
       />
@@ -111,7 +93,6 @@ export default function Hero() {
           animationDelay: "2s",
           bottom: "10%",
           right: "5%",
-          transform: `translate(${-mousePosition.x * 0.02}px, ${-mousePosition.y * 0.02}px)`,
           willChange: "transform",
         }}
       />
