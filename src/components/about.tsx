@@ -13,9 +13,9 @@ import {
   Target,
   Zap,
 } from "lucide-react";
+import { motion, type Variants } from "motion/react";
 import { type ReactNode, useState } from "react";
 import { cn } from "@/lib/utils";
-import { FadeInOnce } from "./ui/fadeInOnce";
 
 interface TimelineItem {
   year: string;
@@ -24,6 +24,33 @@ interface TimelineItem {
   bullets: Array<{ id: string; text: string }>;
   icon: ReactNode;
 }
+
+/* Consistent, lightweight transitions */
+const DEFAULT_EASE = "easeOut";
+const DEFAULT_INVIEW = { margin: "-80px", once: true } as const;
+
+const containerStagger: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    transition: {
+      duration: 0.45,
+      ease: DEFAULT_EASE,
+      staggerChildren: 0.075,
+      when: "beforeChildren",
+    },
+    y: 0,
+  },
+};
+
+const itemUp: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  show: {
+    opacity: 1,
+    transition: { duration: 0.35, ease: DEFAULT_EASE },
+    y: 0,
+  },
+};
 
 export default function About() {
   const [activeTimeline, setActiveTimeline] = useState(0);
@@ -122,38 +149,75 @@ export default function About() {
     <section className="relative py-24 lg:py-32 bg-dark overflow-hidden" id="about">
       {/* Background decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
+        <motion.div
+          animate={{ y: [0, -8, 0] }}
+          className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"
+          style={{ willChange: "transform" }}
+          transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
+        />
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"
+          style={{ willChange: "transform" }}
+          transition={{
+            delay: 1,
+            duration: 7,
+            ease: "easeInOut",
+            repeat: Infinity,
+          }}
+        />
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <FadeInOnce className="text-center mb-16 lg:mb-20">
-          <div className="inline-flex items-center gap-2 glass-effect rounded-full px-4 py-2 text-sm font-medium text-accent mb-6">
+        <motion.div
+          className="text-center mb-16 lg:mb-20"
+          initial="hidden"
+          variants={containerStagger}
+          viewport={DEFAULT_INVIEW}
+          whileInView="show"
+        >
+          <motion.div
+            className="inline-flex items-center gap-2 glass-effect rounded-full px-4 py-2 text-sm font-medium text-accent mb-6"
+            variants={itemUp}
+          >
             <Target className="w-4 h-4" />
             <span>Get To Know Me</span>
-          </div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-light mb-6">
+          </motion.div>
+          <motion.h2
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-light mb-6"
+            variants={itemUp}
+          >
             About <span className="text-gradient">Me</span>
-          </h2>
-          <p className="text-lg text-muted max-w-2xl mx-auto">
+          </motion.h2>
+          <motion.p className="text-lg text-muted max-w-2xl mx-auto" variants={itemUp}>
             I'm a Full-Stack Engineer who loves building. From a pixel-perfect UI to a complex AI
             integration, I thrive on the challenge of learning and delivering.
-          </p>
-        </FadeInOnce>
+          </motion.p>
+        </motion.div>
 
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 mb-8">
-          {/* Left Column - Story & Values */}
-          <div className="space-y-8 observe-fade">
+          {/* Left Column - Story */}
+          <motion.div
+            className="space-y-8"
+            initial="hidden"
+            variants={containerStagger}
+            viewport={DEFAULT_INVIEW}
+            whileInView="show"
+          >
             {/* Story Card */}
-            <div className="glass-effect rounded-2xl p-8 hover:bg-white/5 transition-all duration-500">
+            <motion.div
+              className="glass-effect rounded-2xl p-8 hover:bg-white/5 transition-colors"
+              variants={itemUp}
+            >
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-accent/20 rounded-lg">
+                <motion.div className="p-2 bg-accent/20 rounded-lg" whileHover={{ scale: 1.06 }}>
                   <Coffee className="w-6 h-6 text-accent" />
-                </div>
+                </motion.div>
                 <h3 className="text-2xl font-semibold text-light">My Story</h3>
               </div>
+
               <div className="space-y-4 text-muted leading-relaxed">
                 <p>
                   Hi, I'm Mayur. I'm a{" "}
@@ -198,13 +262,22 @@ export default function About() {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right Column - Timeline */}
-          <div className="space-y-8 observe-fade">
+          <motion.div
+            className="space-y-8"
+            initial="hidden"
+            variants={containerStagger}
+            viewport={DEFAULT_INVIEW}
+            whileInView="show"
+          >
             {/* Experience Timeline */}
-            <div className="glass-effect rounded-2xl p-8 hover:bg-white/5 transition-all duration-500">
+            <motion.div
+              className="glass-effect rounded-2xl p-8 hover:bg-white/5 transition-colors"
+              variants={itemUp}
+            >
               <div className="flex items-center gap-3 mb-8">
                 <div className="p-2 bg-primary/20 rounded-lg">
                   <Award className="w-6 h-6 text-primary" />
@@ -214,77 +287,126 @@ export default function About() {
 
               <div className="relative space-y-8">
                 {/* Timeline line */}
-                <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-gradient-to-b from-primary via-secondary to-accent" />
+                <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-linear-to-b from-primary via-secondary to-accent" />
 
-                {timeline.map((item, idx) => (
-                  <div className="relative pl-8 group" key={item.year}>
-                    {/* Timeline dot */}
-                    <div
-                      className={`absolute left-0 top-1 w-4 h-4 rounded-full border-2 transition-all duration-300 ${
-                        activeTimeline === idx
-                          ? "bg-primary border-primary scale-125"
-                          : "bg-dark border-muted group-hover:border-primary"
-                      }`}
-                    />
-
-                    <button
-                      aria-pressed={activeTimeline === idx}
-                      className={`group cursor-pointer w-full text-left transition-all duration-300
-      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary
-      focus-visible:ring-offset-2 focus-visible:ring-offset-dark rounded-md px-1
-      ${activeTimeline === idx ? "opacity-100" : "opacity-80 hover:opacity-100"}`}
-                      onClick={() => setActiveTimeline(idx)}
-                      type="button"
-                    >
-                      <div className="mb-1 flex items-center gap-2">
-                        <span className="text-accent">{item.icon}</span>
-                        <span className="font-semibold text-primary">{item.title}</span>
-                        <span className="text-sm text-muted font-medium">| {item.company}</span>
-                        <span className="ml-auto text-xs text-accent px-2 py-0.5 bg-dark-secondary rounded">
-                          {item.year}
-                        </span>
+                {timeline.map((item, idx) => {
+                  const active = activeTimeline === idx;
+                  return (
+                    <div className="relative pl-8 group" key={item.year}>
+                      {/* Dot + ripple emphasis */}
+                      <div className="absolute left-0 top-1 w-4 h-4">
+                        <motion.span
+                          animate={{ scale: active ? 1.1 : 1 }}
+                          className={cn(
+                            "absolute inset-0 rounded-full border-2",
+                            active ? "bg-primary border-primary" : "bg-dark border-muted"
+                          )}
+                          style={{ willChange: "transform" }}
+                          transition={{
+                            damping: 22,
+                            stiffness: 260,
+                            type: "spring",
+                          }}
+                        />
+                        {active && (
+                          <motion.span
+                            animate={{ opacity: [0.35, 0], scale: [1, 1.8] }}
+                            className="absolute inset-0 rounded-full bg-primary/30"
+                            initial={{ opacity: 0.35, scale: 1 }}
+                            style={{ willChange: "transform, opacity" }}
+                            transition={{ duration: 0.6, ease: DEFAULT_EASE }}
+                          />
+                        )}
                       </div>
-                    </button>
 
-                    <div className="mt-2">
-                      <ul className="list-disc ml-6 text-sm text-start space-y-2 text-muted">
-                        {item.bullets.map((bullet) => (
-                          <li
-                            className={cn(
-                              "leading-snug",
-                              activeTimeline === idx
-                                ? "opacity-100"
-                                : "opacity-80 hover:opacity-100"
-                            )}
-                            key={bullet.id}
-                          >
-                            {bullet.text}
-                          </li>
-                        ))}
-                      </ul>
+                      <button
+                        aria-pressed={active}
+                        className={cn(
+                          "group cursor-pointer w-full text-left rounded-md px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark",
+                          active ? "opacity-100" : "opacity-80 hover:opacity-100"
+                        )}
+                        onClick={() => setActiveTimeline(idx)}
+                        type="button"
+                      >
+                        <div className="mb-1 flex items-center gap-2">
+                          <span className="text-accent">{item.icon}</span>
+                          <span className="font-semibold text-primary">{item.title}</span>
+                          <span className="text-sm text-muted font-medium">| {item.company}</span>
+                          <span className="ml-auto text-xs text-accent px-2 py-0.5 bg-dark-secondary rounded">
+                            {item.year}
+                          </span>
+                        </div>
+                      </button>
+
+                      {/* Always-render bullets with one-time reveal */}
+                      <div className="mt-2">
+                        <motion.ul
+                          className="list-disc ml-6 text-sm text-start space-y-2 text-muted"
+                          initial="hidden"
+                          variants={{
+                            hidden: {},
+                            show: { transition: { staggerChildren: 0.06 } },
+                          }}
+                          viewport={DEFAULT_INVIEW}
+                          whileInView="show"
+                        >
+                          {item.bullets.map((bullet) => (
+                            <motion.li
+                              className={cn(
+                                "leading-snug",
+                                active ? "opacity-100" : "opacity-80 group-hover:opacity-100"
+                              )}
+                              key={bullet.id}
+                              variants={{
+                                hidden: { opacity: 0, y: 6 },
+                                show: {
+                                  opacity: 1,
+                                  transition: {
+                                    duration: 0.25,
+                                    ease: DEFAULT_EASE,
+                                  },
+                                  y: 0,
+                                },
+                              }}
+                            >
+                              {bullet.text}
+                            </motion.li>
+                          ))}
+                        </motion.ul>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
 
         {/* Values Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
+          initial="hidden"
+          variants={containerStagger}
+          viewport={DEFAULT_INVIEW}
+          whileInView="show"
+        >
           {values.map((value) => (
-            <div
-              className="glass-effect rounded-xl p-6 hover:bg-white/5 hover:scale-105 transition-all duration-300 cursor-pointer group"
+            <motion.div
+              className="glass-effect rounded-xl p-6 transition-colors hover:bg-white/5 cursor-pointer group"
               key={value.title}
+              style={{ willChange: "transform" }}
+              variants={itemUp}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <div className="text-accent mb-3 group-hover:scale-110 transition-transform">
+              <motion.div className="text-accent mb-3" whileHover={{ scale: 1.08 }}>
                 {value.icon}
-              </div>
+              </motion.div>
               <h4 className="text-light font-semibold mb-2">{value.title}</h4>
               <p className="text-sm text-muted leading-relaxed">{value.description}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
