@@ -11,7 +11,8 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
-import { type ReactNode, useEffect, useState } from "react";
+import { motion, type Variants } from "motion/react";
+import type { ReactNode } from "react";
 
 interface Stat {
   label: string;
@@ -22,13 +23,25 @@ interface Stat {
 const CV_URL = process.env.NEXT_PUBLIC_CV_URL || "/cv.pdf";
 const CV_FILENAME = process.env.NEXT_PUBLIC_CV_FILENAME || "Mayur_Dayal_Resume.pdf";
 
+const columnVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, transition: { duration: 0.6, ease: "easeOut" }, y: 0 },
+};
+
+const staggerContainer: Variants = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: { delayChildren: 0.15, staggerChildren: 0.08 },
+  },
+};
+
+const itemUp: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, transition: { duration: 0.45, ease: "easeOut" }, y: 0 },
+};
+
 export default function Hero() {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
   const stats: Stat[] = [
     {
       icon: <Sparkles className="w-5 h-5" />,
@@ -78,22 +91,22 @@ export default function Hero() {
       {/* Animated background gradient overlay */}
       <div className="absolute inset-0 bg-dark/80" />
 
-      {/* Decorative floating elements */}
-      <div
-        className="absolute w-80 h-80 bg-primary/15 rounded-full blur-md float-animation"
-        style={{
-          left: "5%",
-          top: "10%",
-          willChange: "transform",
-        }}
+      {/* Decorative floating elements (Motion replaces CSS keyframes) */}
+      <motion.div
+        animate={{ y: [0, -20, 0] }}
+        className="absolute w-80 h-80 bg-primary/15 rounded-full blur-md"
+        style={{ left: "5%", top: "10%", willChange: "transform" }}
+        transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
       />
-      <div
-        className="absolute w-80 h-80 bg-secondary/15 rounded-full blur-md float-animation"
-        style={{
-          animationDelay: "2s",
-          bottom: "10%",
-          right: "5%",
-          willChange: "transform",
+      <motion.div
+        animate={{ y: [0, -20, 0] }}
+        className="absolute w-80 h-80 bg-secondary/15 rounded-full blur-md"
+        style={{ bottom: "10%", right: "5%", willChange: "transform" }}
+        transition={{
+          delay: 2,
+          duration: 6,
+          ease: "easeInOut",
+          repeat: Infinity,
         }}
       />
 
@@ -101,48 +114,78 @@ export default function Hero() {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left column - Text content */}
-          <div
-            className={`space-y-8 transition-all duration-1000 ${
-              isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
+          <motion.div
+            animate="show"
+            className="space-y-8"
+            initial="hidden"
+            variants={columnVariants}
           >
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 glass-effect rounded-full px-4 py-2 text-sm font-medium text-accent">
+            <motion.div
+              className="inline-flex items-center gap-2 glass-effect rounded-full px-4 py-2 text-sm font-medium text-accent"
+              variants={itemUp}
+            >
               <Sparkles className="w-4 h-4" />
               <span>Available for Freelance & Full-time</span>
-            </div>
+            </motion.div>
 
             {/* Main heading */}
-            <div className="space-y-4">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+            <motion.div
+              animate="show"
+              className="space-y-4"
+              initial="hidden"
+              variants={staggerContainer}
+            >
+              <motion.h1
+                className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight"
+                variants={itemUp}
+              >
                 <span className="block text-light">Hi, I'm Mayur.</span>
                 <span className="block text-gradient">Full-Stack Engineer</span>
                 <span className="block text-light">Fueled by AI.</span>
-              </h1>
+              </motion.h1>
 
-              <p className="text-lg sm:text-xl text-muted max-w-xl leading-relaxed">
+              <motion.p
+                className="text-lg sm:text-xl text-muted max-w-xl leading-relaxed"
+                variants={itemUp}
+              >
                 I'm a versatile engineer with 3+ years of experience, specializing in{" "}
                 <span className="text-accent font-semibold">React, Next.js, and TypeScript</span>.
                 My passion is building high-performance, user-centric applications, from
                 pixel-perfect UIs to scalable back-ends and AI-powered features.
-              </p>
-            </div>
+              </motion.p>
+            </motion.div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 glow-effect"
+            <motion.div
+              animate="show"
+              className="flex flex-col sm:flex-row gap-4"
+              initial="hidden"
+              variants={staggerContainer}
+            >
+              <motion.button
+                className="relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-xl transition-colors glow-effect"
+                initial="rest"
                 onClick={() =>
                   document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
                 }
                 type="button"
+                variants={itemUp}
+                whileHover="hover"
+                whileTap="tap"
               >
                 <span>View My Work</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
+                <motion.span
+                  transition={{ damping: 22, stiffness: 400, type: "spring" }}
+                  variants={{ hover: { x: 6 }, rest: { x: 0 }, tap: { x: 2 } }}
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </motion.span>
+              </motion.button>
 
-              <button
-                className="group inline-flex items-center justify-center gap-2 px-8 py-4 glass-effect hover:bg-white/10 text-light font-semibold rounded-xl transition-all duration-300 border border-white/20"
+              <motion.button
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 glass-effect hover:bg-white/10 text-light font-semibold rounded-xl border border-white/20 transition-colors"
+                initial="rest"
                 onClick={() => {
                   const link = document.createElement("a");
                   link.href = CV_URL;
@@ -152,14 +195,17 @@ export default function Hero() {
                   document.body.removeChild(link);
                 }}
                 type="button"
+                variants={itemUp}
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.98 }}
               >
-                <Download className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <Download className="w-5 h-5" />
                 <span>Download CV</span>
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
 
             {/* Social links */}
-            <div className="flex items-center gap-4 pt-4">
+            <motion.div className="flex items-center gap-4 pt-4" variants={itemUp}>
               <span className="text-sm text-muted">Connect:</span>
               <div className="flex gap-3">
                 {[
@@ -179,48 +225,59 @@ export default function Hero() {
                     label: "Email",
                   },
                 ].map((social) => (
-                  <a
+                  <motion.a
                     aria-label={social.label}
-                    className="group p-3 glass-effect hover:bg-primary/20 rounded-lg transition-all duration-300 hover:scale-110"
+                    className="p-3 glass-effect rounded-lg hover:bg-primary/20 transition-colors"
                     href={social.href}
                     key={social.label}
                     rel="noopener noreferrer"
                     target="_blank"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.98 }}
                   >
-                    <span className="text-muted group-hover:text-primary transition-colors">
-                      {social.icon}
-                    </span>
-                  </a>
+                    <span className="text-muted">{social.icon}</span>
+                  </motion.a>
                 ))}
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right column - Stats & Tech Stack */}
-          <div
-            className={`space-y-6 transition-all duration-1000 delay-300 ${
-              isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-            }`}
+          <motion.div
+            className="space-y-6"
+            initial="hidden"
+            variants={columnVariants}
+            viewport={{ margin: "-80px", once: true }}
+            whileInView="show"
           >
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {stats.map((stat, idx) => (
-                <div
-                  className="glass-effect rounded-2xl p-6 text-center hover:bg-white/10 transition-all duration-300 hover:scale-105 group fade-in-up"
+            {/* Stats Grid with stagger-in */}
+            <motion.div
+              className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+              initial="hidden"
+              variants={staggerContainer}
+              viewport={{ margin: "-80px", once: true }}
+              whileInView="show"
+            >
+              {stats.map((stat) => (
+                <motion.div
+                  className="glass-effect rounded-2xl p-6 text-center hover:bg-white/10"
                   key={stat.label}
-                  style={{ animationDelay: `${idx * 100}ms` }}
+                  transition={{ damping: 20, stiffness: 260, type: "spring" }}
+                  variants={itemUp}
+                  whileHover={{ scale: 1.04 }}
                 >
-                  <div className="flex justify-center mb-3 text-accent group-hover:scale-110 transition-transform">
-                    {stat.icon}
-                  </div>
+                  <div className="flex justify-center mb-3 text-accent">{stat.icon}</div>
                   <div className="text-3xl font-bold text-light mb-1">{stat.value}</div>
                   <div className="text-xs text-muted">{stat.label}</div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             {/* Featured Tech Stack Card */}
-            <div className="glass-effect rounded-2xl p-8 space-y-6 hover:bg-white/5 transition-all duration-500">
+            <motion.div
+              className="glass-effect rounded-2xl p-8 space-y-6 hover:bg-white/5 transition-colors"
+              variants={itemUp}
+            >
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-primary/20 rounded-lg">
                   <Palette className="w-6 h-6 text-primary" />
@@ -230,12 +287,14 @@ export default function Hero() {
 
               <div className="flex flex-wrap gap-2">
                 {techStack.map((tech) => (
-                  <span
-                    className="px-4 py-2 bg-dark-secondary/80 hover:bg-primary/20 border border-white/10 hover:border-primary/30 rounded-lg text-sm text-light font-medium transition-all duration-300 hover:scale-105"
+                  <motion.span
+                    className="px-4 py-2 bg-dark-secondary/80 border border-white/10 rounded-lg text-sm text-light font-medium"
                     key={tech}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     {tech}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
 
@@ -248,38 +307,69 @@ export default function Hero() {
                     "Refactoring & Code Maintainability",
                   ].map((highlight) => (
                     <li
-                      className="flex items-center gap-3 text-sm text-muted group hover:text-light transition-colors"
+                      className="flex items-center gap-3 text-sm text-muted hover:text-light transition-colors"
                       key={highlight}
                     >
-                      <div className="w-1.5 h-1.5 bg-accent rounded-full group-hover:scale-150 transition-transform" />
+                      <div className="w-1.5 h-1.5 bg-accent rounded-full" />
                       <span>{highlight}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-            </div>
+            </motion.div>
 
-            {/* Availability badge */}
-            <div className="glass-effect rounded-2xl p-6 flex items-center justify-between hover:bg-white/5 transition-all duration-300">
+            {/* Availability badge (motion pulse) */}
+            <motion.div
+              className="glass-effect rounded-2xl p-6 flex items-center justify-between hover:bg-white/5 transition-colors"
+              variants={itemUp}
+            >
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                  <div className="absolute inset-0 w-3 h-3 bg-green-500 rounded-full animate-ping" />
+                  {/* ping ripple */}
+                  <motion.span
+                    animate={{ opacity: [0.6, 0], scale: [1, 2] }}
+                    className="pointer-events-none absolute inset-0 rounded-full bg-green-500"
+                    initial={{ opacity: 0.6, scale: 1 }}
+                    style={{ transformOrigin: "center" }}
+                    transition={{
+                      duration: 1.6,
+                      ease: "easeOut",
+                      repeat: Infinity,
+                    }}
+                  />
+                  {/* core pulse */}
+                  <motion.span
+                    animate={{ opacity: [1, 0.9, 1], scale: [1, 1.08, 1] }}
+                    className="relative block w-3 h-3 bg-green-500 rounded-full"
+                    transition={{
+                      duration: 1.6,
+                      ease: "easeInOut",
+                      repeat: Infinity,
+                    }}
+                  />
                 </div>
                 <span className="text-light font-medium">Currently Available</span>
               </div>
               <span className="text-sm text-muted">Remote & On-site Roles</span>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 animate-bounce">
+      {/* Scroll indicator (motion replaces animate-bounce) */}
+      <motion.div
+        animate={{ y: [0, 8, 0] }}
+        className="absolute bottom-4 left-1/2 -translate-x-1/2"
+        transition={{ duration: 1.4, ease: "easeInOut", repeat: Infinity }}
+      >
         <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2">
-          <div className="w-1.5 h-3 bg-white/50 rounded-full animate-pulse" />
+          <motion.div
+            animate={{ opacity: [0.35, 0.75, 0.35], y: [0, 4, 0] }}
+            className="w-1.5 h-3 bg-white/50 rounded-full"
+            transition={{ duration: 1.4, ease: "easeInOut", repeat: Infinity }}
+          />
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
