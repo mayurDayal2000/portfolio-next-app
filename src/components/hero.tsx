@@ -78,12 +78,9 @@ export default function Hero() {
     >
       {/* Grain/Noise overlay */}
       <div
-        className="absolute inset-0 pointer-events-none z-0"
+        className="absolute inset-0 pointer-events-none z-0 bg-repeat mix-blend-overlay"
         style={{
-          backgroundImage:
-            'url(\'data:image/svg+xml;utf8,<svg viewBox="0 0 1920 1080" width="1920" height="1080" xmlns="http://www.w3.org/2000/svg"><filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3"/></filter><rect width="100%" height="100%" filter="url(%23grain)" opacity="0.18"/></svg>\')',
-          backgroundRepeat: "repeat",
-          mixBlendMode: "overlay",
+          backgroundImage: "url('/grain.svg')",
           opacity: 0.18,
         }}
       />
@@ -91,23 +88,13 @@ export default function Hero() {
       {/* Animated background gradient overlay */}
       <div className="absolute inset-0 bg-dark/80" />
 
-      {/* Decorative floating elements (Motion replaces CSS keyframes) */}
-      <motion.div
-        animate={{ y: [0, -20, 0] }}
+      <div
         className="absolute w-80 h-80 bg-primary/15 rounded-full blur-md"
-        style={{ left: "5%", top: "10%", willChange: "transform" }}
-        transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
+        style={{ left: "5%", top: "10%" }}
       />
-      <motion.div
-        animate={{ y: [0, -20, 0] }}
+      <div
         className="absolute w-80 h-80 bg-secondary/15 rounded-full blur-md"
-        style={{ bottom: "10%", right: "5%", willChange: "transform" }}
-        transition={{
-          delay: 2,
-          duration: 6,
-          ease: "easeInOut",
-          repeat: Infinity,
-        }}
+        style={{ bottom: "10%", right: "5%" }}
       />
 
       {/* Main content container */}

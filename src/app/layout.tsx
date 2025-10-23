@@ -5,6 +5,7 @@ import ScrollProgress from "@/components/scroll-progress";
 import SectionIndicator from "@/components/section-indicator";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import PreloadImages from "./_preload-images";
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -111,6 +112,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <PreloadImages />
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableColorScheme enableSystem>
           <ScrollProgress />
