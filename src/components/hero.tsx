@@ -314,13 +314,13 @@ export default function Hero() {
                 <div className="relative">
                   {/* ping ripple */}
                   <motion.span
-                    animate={{ opacity: [0.6, 0], scale: [1, 2] }}
+                    animate={{ opacity: [0.6, 0, 0.6], scale: [1, 2, 1] }}
                     className="pointer-events-none absolute inset-0 rounded-full bg-green-500"
                     initial={{ opacity: 0.6, scale: 1 }}
                     style={{ transformOrigin: "center" }}
                     transition={{
-                      duration: 1.6,
-                      ease: "easeOut",
+                      duration: 2.4,
+                      ease: "easeInOut",
                       repeat: Infinity,
                     }}
                   />
