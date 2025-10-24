@@ -14,8 +14,7 @@ import {
   Zap,
 } from "lucide-react";
 import { motion, type Variants } from "motion/react";
-import { type ReactNode, useState } from "react";
-import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 
 interface TimelineItem {
   year: string;
@@ -25,7 +24,6 @@ interface TimelineItem {
   icon: ReactNode;
 }
 
-/* Consistent, lightweight transitions */
 const DEFAULT_EASE = "easeOut";
 const DEFAULT_INVIEW = { margin: "-80px", once: true } as const;
 
@@ -53,8 +51,6 @@ const itemUp: Variants = {
 };
 
 export default function About() {
-  const [activeTimeline, setActiveTimeline] = useState(0);
-
   const timeline: TimelineItem[] = [
     {
       bullets: [
@@ -290,55 +286,34 @@ export default function About() {
                 <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-linear-to-b from-primary via-secondary to-accent" />
 
                 {timeline.map((item, idx) => {
-                  const active = activeTimeline === idx;
                   return (
-                    <div className="relative pl-8 group" key={item.year}>
-                      {/* Dot + ripple emphasis */}
+                    <div className="relative pl-8 group" key={`${item.company}-${item.year}`}>
+                      {/* Dot */}
                       <div className="absolute left-0 top-1 w-4 h-4">
                         <motion.span
-                          animate={{ scale: active ? 1.1 : 1 }}
-                          className={cn(
-                            "absolute inset-0 rounded-full border-2",
-                            active ? "bg-primary border-primary" : "bg-dark border-muted"
-                          )}
-                          style={{ willChange: "transform" }}
+                          className={`absolute inset-0 rounded-full border-2 ${
+                            idx === 0 ? "bg-primary border-primary" : "bg-dark border-muted"
+                          }`}
+                          style={{
+                            willChange: "transform",
+                          }}
                           transition={{
                             damping: 22,
                             stiffness: 260,
                             type: "spring",
                           }}
                         />
-                        {active && (
-                          <motion.span
-                            animate={{ opacity: [0.35, 0], scale: [1, 1.8] }}
-                            className="absolute inset-0 rounded-full bg-primary/30"
-                            initial={{ opacity: 0.35, scale: 1 }}
-                            style={{ willChange: "transform, opacity" }}
-                            transition={{ duration: 0.6, ease: DEFAULT_EASE }}
-                          />
-                        )}
                       </div>
 
-                      <button
-                        aria-pressed={active}
-                        className={cn(
-                          "group cursor-pointer w-full text-left rounded-md px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-dark",
-                          active ? "opacity-100" : "opacity-80 hover:opacity-100"
-                        )}
-                        onClick={() => setActiveTimeline(idx)}
-                        type="button"
-                      >
-                        <div className="mb-1 flex items-center gap-2">
-                          <span className="text-accent">{item.icon}</span>
-                          <span className="font-semibold text-primary">{item.title}</span>
-                          <span className="text-sm text-muted font-medium">| {item.company}</span>
-                          <span className="ml-auto text-xs text-accent px-2 py-0.5 bg-dark-secondary rounded">
-                            {item.year}
-                          </span>
-                        </div>
-                      </button>
+                      <div className="mb-1 flex items-center gap-2">
+                        <span className="text-accent">{item.icon}</span>
+                        <span className="font-semibold text-primary">{item.title}</span>
+                        <span className="text-sm text-muted font-medium">| {item.company}</span>
+                        <span className="ml-auto text-xs text-accent px-2 py-0.5 bg-dark-secondary rounded">
+                          {item.year}
+                        </span>
+                      </div>
 
-                      {/* Always-render bullets with one-time reveal */}
                       <div className="mt-2">
                         <motion.ul
                           className="list-disc ml-6 text-sm text-start space-y-2 text-muted"
@@ -352,10 +327,7 @@ export default function About() {
                         >
                           {item.bullets.map((bullet) => (
                             <motion.li
-                              className={cn(
-                                "leading-snug",
-                                active ? "opacity-100" : "opacity-80 group-hover:opacity-100"
-                              )}
+                              className="leading-snug opacity-100 px-2 py-1"
                               key={bullet.id}
                               variants={{
                                 hidden: { opacity: 0, y: 6 },
@@ -392,7 +364,7 @@ export default function About() {
         >
           {values.map((value) => (
             <motion.div
-              className="glass-effect rounded-xl p-6 transition-colors hover:bg-white/5 cursor-pointer group"
+              className="glass-effect rounded-xl p-6 transition-colors hover:bg-white/5 group"
               key={value.title}
               style={{ willChange: "transform" }}
               variants={itemUp}
