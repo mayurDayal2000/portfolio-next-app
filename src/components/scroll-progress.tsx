@@ -11,9 +11,10 @@ export default function ScrollProgress() {
   const throttledRef = useRef(false);
   const lastScrollYRef = useRef(0);
   const lastUpdateTsRef = useRef(0);
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Tune this based on UX needs (60–120ms is a good start)
-  const THROTTLE_INTERVAL = 80; // ms
+  const THROTTLE_INTERVAL = 60; // ms
 
   // Compute progress using latest values
   const computeProgress = () => {
@@ -21,11 +22,14 @@ export default function ScrollProgress() {
     const documentHeight = document.documentElement.scrollHeight;
     const scrollTop = lastScrollYRef.current;
 
-    const totalScroll = documentHeight - windowHeight;
-    const progress = totalScroll <= 0 ? 100 : (scrollTop / totalScroll) * 100;
+    const totalScroll = Math.max(0, documentHeight - windowHeight);
+    const progress = Math.min(
+      100,
+      Math.max(0, totalScroll <= 0 ? 0 : (scrollTop / totalScroll) * 100)
+    );
 
     setScrollProgress(progress);
-    setIsVisible(scrollTop > 100);
+    setIsVisible(progress > 5);
   };
 
   // RAF-aligned, throttled update
@@ -50,9 +54,19 @@ export default function ScrollProgress() {
     });
   };
 
+  // Debounced update for ResizeObserver to reduce excessive calls
+  const debouncedRequestTick = () => {
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+    debounceTimeoutRef.current = setTimeout(() => {
+      requestTick();
+    }, 100); // Debounce delay of 100ms
+  };
+
   useEffect(() => {
     const onScroll = () => {
-      lastScrollYRef.current = Math.max(window.scrollY, 0);
+      lastScrollYRef.current = window.pageYOffset;
       requestTick();
     };
 
@@ -63,7 +77,7 @@ export default function ScrollProgress() {
 
     // Observe document height changes (dynamic content/images)
     const ro = new ResizeObserver(() => {
-      requestTick();
+      debouncedRequestTick();
     });
     ro.observe(document.documentElement);
 
@@ -72,13 +86,16 @@ export default function ScrollProgress() {
     window.addEventListener("resize", onResize);
 
     // Initial measurement
-    lastScrollYRef.current = Math.max(window.scrollY, 0);
+    lastScrollYRef.current = window.pageYOffset;
     computeProgress();
 
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       ro.disconnect();
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
     };
   }, []);
 
@@ -114,8 +131,8 @@ export default function ScrollProgress() {
         <div
           className="fixed right-6 bottom-6 z-40 transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 group"
           style={{
-            opacity: scrollProgress > 5 ? 1 : 0,
-            transform: `scale(${scrollProgress > 5 ? 1 : 0.8})`,
+            opacity: 1,
+            transform: `scale(1)`,
           }}
         >
           <button

@@ -44,9 +44,11 @@ export default function SectionIndicator() {
   // Keep a ref of the last active to avoid unnecessary state churn
   const activeRef = useRef("");
 
-  // Visibility toggle (simple and cheap)
+  // Visibility toggle (simple and cheap) - align with first section position
   useEffect(() => {
-    const onScroll = () => setIsVisible(window.scrollY > 300);
+    const firstSection = document.getElementById(sections[0]?.id);
+    const threshold = firstSection ? firstSection.offsetTop - window.innerHeight / 2 : 100; // Fallback to 100 if no section
+    const onScroll = () => setIsVisible(window.scrollY > Math.max(0, threshold));
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
@@ -54,51 +56,79 @@ export default function SectionIndicator() {
 
   // IntersectionObserver drives active section
   useEffect(() => {
-    const targets = sections
-      .map((s) => document.getElementById(s.id))
-      .filter(Boolean) as HTMLElement[];
-
-    if (!targets.length) return;
-
-    // Track current intersection ratios for all sections
-    const ratios = new Map<string, number>();
-    const thresholds = Array.from({ length: 11 }, (_, i) => i / 10);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          const id = (entry.target as HTMLElement).id;
-          // Only count when intersecting; otherwise treat as 0
-          ratios.set(id, entry.isIntersecting ? entry.intersectionRatio : 0);
-        }
-        // Choose the section with the highest ratio
-        let maxId = "";
-        let maxRatio = -1;
-        ratios.forEach((r, id) => {
-          if (r > maxRatio) {
-            maxRatio = r;
-            maxId = id;
+    const setupObserver = () => {
+      const targets = sections
+        .map((s) => {
+          const el = document.getElementById(s.id);
+          if (!el) {
+            console.warn(`Section element with id "${s.id}" not found. Navigation may be broken.`);
           }
-        });
-        if (maxId && activeRef.current !== maxId) {
-          activeRef.current = maxId;
-          setActiveSection(maxId);
-        }
-      },
-      {
-        root: null,
-        rootMargin: "-45% 0px -45% 0px",
-        threshold: thresholds,
+          return el;
+        })
+        .filter(Boolean) as HTMLElement[];
+
+      if (!targets.length) {
+        console.warn("No section elements found. SectionIndicator will not function.");
+        return null;
       }
-    );
 
-    targets.forEach((el) => {
-      // Initialize with 0 so we always have a value
-      ratios.set(el.id, 0);
-      observer.observe(el);
+      // Track current intersection ratios for all sections
+      const ratios = new Map<string, number>();
+      const thresholds = Array.from({ length: 11 }, (_, i) => i / 10);
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            const id = (entry.target as HTMLElement).id;
+            // Only count when intersecting; otherwise treat as 0
+            ratios.set(id, entry.isIntersecting ? entry.intersectionRatio : 0);
+          }
+          // Choose the section with the highest ratio; tie-break by section index
+          let maxId = "";
+          let maxRatio = -1;
+          let maxIndex = -1;
+          ratios.forEach((r, id) => {
+            const sectionIndex = sections.findIndex((s) => s.id === id);
+            if (r > maxRatio || (r === maxRatio && sectionIndex < maxIndex)) {
+              maxRatio = r;
+              maxId = id;
+              maxIndex = sectionIndex;
+            }
+          });
+          if (maxId && activeRef.current !== maxId) {
+            activeRef.current = maxId;
+            setActiveSection(maxId);
+          }
+        },
+        {
+          root: null,
+          rootMargin: "-45% 0px -45% 0px",
+          threshold: thresholds,
+        }
+      );
+
+      targets.forEach((el) => {
+        // Initialize with 0 so we always have a value
+        ratios.set(el.id, 0);
+        observer.observe(el);
+      });
+
+      return observer;
+    };
+
+    const observer = setupObserver();
+
+    // MutationObserver to re-setup observer on dynamic content changes
+    const mutationObserver = new MutationObserver(() => {
+      if (observer) observer.disconnect();
+      setupObserver();
     });
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
 
-    return () => observer.disconnect();
+    return () => {
+      if (observer) observer.disconnect();
+      mutationObserver.disconnect();
+    };
   }, []);
 
   if (!isVisible) return null;
@@ -122,9 +152,14 @@ export default function SectionIndicator() {
                     ? "bg-gradient-to-r from-primary to-accent text-white scale-110 glow-effect"
                     : "bg-dark-secondary/50 text-muted hover:bg-primary/20 hover:text-primary hover:scale-105"
                 }`}
-                onClick={() =>
-                  document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth" })
-                }
+                onClick={() => {
+                  const el = document.getElementById(section.id);
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth" });
+                  } else {
+                    console.warn(`Cannot scroll to section "${section.id}": element not found.`);
+                  }
+                }}
                 type="button"
               >
                 <span
