@@ -15,7 +15,7 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -73,14 +73,17 @@ const FormSchema = z
   })
   .superRefine((data, ctx) => {
     if (data.audienceType === "recruiter" || data.audienceType === "hiring-manager") {
-      if (!data.company || data.company.trim().length === 0) {
+      if (!data.company || (typeof data.company === "string" && data.company.trim().length === 0)) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "Company name is required",
           path: ["company"],
         });
       }
-      if (!data.roleInterest || data.roleInterest.trim().length === 0) {
+      if (
+        !data.roleInterest ||
+        (typeof data.roleInterest === "string" && data.roleInterest.trim().length === 0)
+      ) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: "Role/Position is required",
@@ -109,6 +112,19 @@ export default function Contact() {
   });
 
   const audienceType = form.watch("audienceType");
+
+  // Clear conditional fields when audience type changes to prevent stale data
+  useEffect(() => {
+    if (audienceType !== "recruiter" && audienceType !== "hiring-manager") {
+      form.setValue("company", "");
+      form.setValue("roleInterest", "");
+    }
+    if (audienceType !== "client") {
+      form.setValue("budget", "");
+    }
+    // Trigger re-validation only for affected fields to improve performance
+    form.trigger(["company", "roleInterest", "budget"]);
+  }, [audienceType, form]);
 
   const budgetOptions = [
     { label: "< $5K", value: "under-5k" },
@@ -140,11 +156,20 @@ export default function Contact() {
         duration: 5000,
       });
 
-      // Reset form
+      // Reset form to default values and ensure clean state
       form.reset();
+      // Explicitly reset audienceType to prevent any timing issues with useEffect
+      form.setValue("audienceType", "other");
     } catch (error) {
       // Handle error and show error toast
-      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+      let errorMessage = "An unexpected error occurred";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === "string") {
+        errorMessage = error;
+      } else if (error && typeof error === "object" && "message" in error) {
+        errorMessage = String(error.message);
+      }
       toast.error("Failed to Send Message", {
         description: `${errorMessage}. Please try again or contact me directly.`,
         duration: 5000,
