@@ -5,6 +5,7 @@ import ScrollProgress from "@/components/scroll-progress";
 import SectionIndicator from "@/components/section-indicator";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { siteConfig } from "@/config/site";
 import PreloadImages from "./_preload-images";
 
 const geistSans = Geist({
@@ -17,10 +18,9 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
 });
 
-const siteUrl = "https://mayurbuilds.vercel.app/";
-const siteTitle = "Mayur Dayal | Full-Stack Software Engineer | AI & ML Enthusiast";
-const siteDescription =
-  "Passionate Full-Stack Engineer (3+ yrs) specializing in React, Next.js, Python, & AI integration. Explore my portfolio of innovative projects. Actively seeking full-time opportunities.";
+const siteUrl = siteConfig.url;
+const siteTitle = siteConfig.name;
+const siteDescription = siteConfig.description;
 
 export const metadata: Metadata = {
   // Author & URL
