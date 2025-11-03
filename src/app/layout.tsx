@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ScrollProgress from "@/components/scroll-progress";
 import SectionIndicator from "@/components/section-indicator";
+import SkipToContent from "@/components/skip-to-content";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site";
@@ -114,6 +115,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <PreloadImages />
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <SkipToContent />
         <ThemeProvider attribute="class" defaultTheme="system" enableColorScheme enableSystem>
           <ScrollProgress />
           <SectionIndicator />
