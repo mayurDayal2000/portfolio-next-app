@@ -38,8 +38,6 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=(), payment=()",
           },
-
-          // Do NOT set CSP here to avoid multiple CSP headers; CSP is set in middleware.ts
         ],
         source: "/(.*)",
       },
