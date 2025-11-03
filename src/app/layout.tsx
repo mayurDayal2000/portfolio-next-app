@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import ScrollProgress from "@/components/scroll-progress";
 import SectionIndicator from "@/components/section-indicator";
@@ -9,14 +9,12 @@ import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site";
 import PreloadImages from "./_preload-images";
 
-const geistSans = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
+const interVariable = localFont({
+  display: "swap",
+  preload: true,
+  src: "../../public/fonts/Inter/InterVariable.woff2",
+  variable: "--font-inter",
+  weight: "100 900",
 });
 
 const siteUrl = siteConfig.url;
@@ -114,7 +112,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <PreloadImages />
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${interVariable.variable} antialiased`}>
         <SkipToContent />
         <ThemeProvider attribute="class" defaultTheme="system" enableColorScheme enableSystem>
           <ScrollProgress />
