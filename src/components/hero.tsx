@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { motion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 interface Stat {
   label: string;
@@ -42,6 +43,8 @@ const itemUp: Variants = {
 };
 
 export default function Hero() {
+  const prefersReducedMotion = useReducedMotion();
+
   const stats: Stat[] = [
     {
       icon: <Sparkles className="w-5 h-5" />,
@@ -73,6 +76,7 @@ export default function Hero() {
 
   return (
     <section
+      aria-label="Hero section - Introduction"
       className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-mesh"
       id="hero"
     >
@@ -151,26 +155,30 @@ export default function Hero() {
               variants={staggerContainer}
             >
               <motion.button
+                aria-label="View my projects section"
                 className="relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary hover:bg-primary-dark text-white font-semibold rounded-xl transition-colors glow-effect"
                 initial="rest"
                 onClick={() =>
-                  document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
+                  document.getElementById("projects")?.scrollIntoView({
+                    behavior: prefersReducedMotion ? "auto" : "smooth",
+                  })
                 }
                 type="button"
                 variants={itemUp}
-                whileHover="hover"
-                whileTap="tap"
+                whileHover={prefersReducedMotion ? {} : "hover"}
+                whileTap={prefersReducedMotion ? {} : "tap"}
               >
                 <span>View My Work</span>
                 <motion.span
                   transition={{ damping: 22, stiffness: 400, type: "spring" }}
                   variants={{ hover: { x: 6 }, rest: { x: 0 }, tap: { x: 2 } }}
                 >
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight aria-hidden="true" className="w-5 h-5" />
                 </motion.span>
               </motion.button>
 
               <motion.button
+                aria-label="Download my resume as PDF"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 glass-effect hover:bg-white/10 text-light font-semibold rounded-xl border border-white/20 transition-colors"
                 initial="rest"
                 onClick={() => {
@@ -183,33 +191,35 @@ export default function Hero() {
                 }}
                 type="button"
                 variants={itemUp}
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={prefersReducedMotion ? {} : { scale: 1.04 }}
+                whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
               >
-                <Download className="w-5 h-5" />
+                <Download aria-hidden="true" className="w-5 h-5" />
                 <span>Download CV</span>
               </motion.button>
             </motion.div>
 
             {/* Social links */}
             <motion.div className="flex items-center gap-4 pt-4" variants={itemUp}>
-              <span className="text-sm text-muted">Connect:</span>
-              <div className="flex gap-3">
+              <span className="text-sm text-muted" id="social-links-label">
+                Connect:
+              </span>
+              <nav aria-labelledby="social-links-label" className="flex gap-3">
                 {[
                   {
                     href: "https://github.com/mayurDayal2000",
                     icon: <Github className="w-5 h-5" />,
-                    label: "GitHub",
+                    label: "Visit my GitHub profile",
                   },
                   {
                     href: "https://www.linkedin.com/in/mayur-dayal/",
                     icon: <Linkedin className="w-5 h-5" />,
-                    label: "LinkedIn",
+                    label: "Connect with me on LinkedIn",
                   },
                   {
                     href: "mailto:mayur.dayal5k@gmail.com",
                     icon: <Mail className="w-5 h-5" />,
-                    label: "Email",
+                    label: "Send me an email",
                   },
                 ].map((social) => (
                   <motion.a
@@ -219,13 +229,16 @@ export default function Hero() {
                     key={social.label}
                     rel="noopener noreferrer"
                     target="_blank"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={prefersReducedMotion ? {} : { scale: 1.1 }}
+                    whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
                   >
-                    <span className="text-muted">{social.icon}</span>
+                    <span aria-hidden="true" className="text-muted">
+                      {social.icon}
+                    </span>
+                    <span className="sr-only">Visit my {social.label} profile</span>
                   </motion.a>
                 ))}
-              </div>
+              </nav>
             </motion.div>
           </motion.div>
 
@@ -239,6 +252,7 @@ export default function Hero() {
           >
             {/* Stats Grid with stagger-in */}
             <motion.div
+              aria-label="Professional statistics"
               className="grid grid-cols-1 sm:grid-cols-3 gap-4"
               initial="hidden"
               variants={staggerContainer}
@@ -251,9 +265,11 @@ export default function Hero() {
                   key={stat.label}
                   transition={{ damping: 20, stiffness: 260, type: "spring" }}
                   variants={itemUp}
-                  whileHover={{ scale: 1.04 }}
+                  whileHover={prefersReducedMotion ? {} : { scale: 1.04 }}
                 >
-                  <div className="flex justify-center mb-3 text-accent">{stat.icon}</div>
+                  <div aria-hidden="true" className="flex justify-center mb-3 text-accent">
+                    {stat.icon}
+                  </div>
                   <div className="text-3xl font-bold text-light mb-1">{stat.value}</div>
                   <div className="text-xs text-muted">{stat.label}</div>
                 </motion.div>
@@ -266,7 +282,7 @@ export default function Hero() {
               variants={itemUp}
             >
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-primary/20 rounded-lg">
+                <div aria-hidden="true" className="p-2 bg-primary/20 rounded-lg">
                   <Palette className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold text-light">Tech Stack</h3>
@@ -277,8 +293,8 @@ export default function Hero() {
                   <motion.span
                     className="px-4 py-2 bg-dark-secondary/80 border border-white/10 rounded-lg text-sm text-light font-medium"
                     key={tech}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
+                    whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
                   >
                     {tech}
                   </motion.span>
@@ -287,7 +303,7 @@ export default function Hero() {
 
               {/* Quick highlights */}
               <div className="pt-4 border-t border-white/10">
-                <ul className="space-y-3">
+                <ul aria-label="Key strengths" className="space-y-3">
                   {[
                     "Pixel-Perfect UI (from Figma)",
                     "Frontend Performance Optimization",
@@ -297,7 +313,7 @@ export default function Hero() {
                       className="flex items-center gap-3 text-sm text-muted hover:text-light transition-colors"
                       key={highlight}
                     >
-                      <div className="w-1.5 h-1.5 bg-accent rounded-full" />
+                      <div aria-hidden="true" className="w-1.5 h-1.5 bg-accent rounded-full" />
                       <span>{highlight}</span>
                     </li>
                   ))}
@@ -345,15 +361,17 @@ export default function Hero() {
 
       {/* Scroll indicator (motion replaces animate-bounce) */}
       <motion.div
-        animate={{ y: [0, 8, 0] }}
+        animate={prefersReducedMotion ? {} : { y: [0, 8, 0] }}
+        aria-hidden="true"
         className="absolute bottom-4 left-1/2 -translate-x-1/2"
-        transition={{ duration: 1.4, ease: "easeInOut", repeat: Infinity }}
       >
         <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2">
           <motion.div
-            animate={{ opacity: [0.35, 0.75, 0.35], y: [0, 4, 0] }}
+            animate={prefersReducedMotion ? {} : { opacity: [0.35, 0.75, 0.35], y: [0, 4, 0] }}
             className="w-1.5 h-3 bg-white/50 rounded-full"
-            transition={{ duration: 1.4, ease: "easeInOut", repeat: Infinity }}
+            transition={
+              prefersReducedMotion ? {} : { duration: 1.4, ease: "easeInOut", repeat: Infinity }
+            }
           />
         </div>
       </motion.div>

@@ -1,4 +1,7 @@
+"use client";
+
 import { motion } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import type { SkillCategory } from "../../data/skills";
 import { SkillBadge } from "./skill-badge";
 
@@ -25,19 +28,23 @@ const containerVariants = {
 };
 
 export function SkillCard({ category }: SkillCardProps) {
+  const prefersReducedMotion = useReducedMotion();
+
   return (
-    <motion.div
+    <motion.article
+      aria-label={`${category.title} skills`}
       className={`glass-effect rounded-2xl p-6 lg:p-8 border ${category.borderColor} bg-gradient-to-br ${category.bgGradient}`}
       transition={{ duration: 0.3 }}
       variants={cardVariants}
-      whileHover={{ y: -5 }}
+      whileHover={prefersReducedMotion ? {} : { y: -5 }}
     >
       {/* Category Header */}
       <div className="flex items-center gap-3 mb-6">
         <motion.div
+          aria-hidden="true"
           className={`${category.iconBg} ${category.color} p-3 rounded-xl`}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
-          whileHover={{ rotate: 360 }}
+          transition={prefersReducedMotion ? {} : { duration: 0.6, ease: "easeInOut" }}
+          whileHover={prefersReducedMotion ? {} : { rotate: 360 }}
         >
           {category.icon}
         </motion.div>
@@ -45,19 +52,24 @@ export function SkillCard({ category }: SkillCardProps) {
       </div>
 
       {/* Skills Badges */}
-      <motion.div className="flex flex-wrap gap-3" variants={containerVariants}>
+      <motion.ul
+        aria-label={`${category.title} technologies`}
+        className="flex flex-wrap gap-3"
+        variants={containerVariants}
+      >
         {category.skills.map((skill) => (
-          <SkillBadge
-            badgeBg={category.badgeBg}
-            badgeHover={category.badgeHover}
-            borderColor={category.borderColor}
-            color={category.color}
-            icon={skill.icon}
-            key={skill.name}
-            name={skill.name}
-          />
+          <li key={skill.name}>
+            <SkillBadge
+              badgeBg={category.badgeBg}
+              badgeHover={category.badgeHover}
+              borderColor={category.borderColor}
+              color={category.color}
+              icon={skill.icon}
+              name={skill.name}
+            />
+          </li>
         ))}
-      </motion.div>
-    </motion.div>
+      </motion.ul>
+    </motion.article>
   );
 }

@@ -11,7 +11,8 @@
   --color-accent: #06b6d4;
   --color-dark: #0f172a;
   --color-dark-secondary: #1e293b;
-  --color-muted: #64748b;
+  /* Improved muted color for better contrast (WCAG AA compliant: 4.5:1 on dark backgrounds) */
+  --color-muted: #cbd5e1;
   --color-light: #f1f5f9;
 
   /* Typography scale */
@@ -34,6 +35,51 @@
   body {
     @apply bg-dark text-light antialiased;
     font-family: var(--font-display);
+  }
+
+  /* Enhanced focus-visible styles for accessibility - WCAG 2.1 Level AA compliant */
+  *:focus-visible {
+    outline: 3px solid hsl(237, 89%, 61%);
+    outline-offset: 2px;
+    transition: outline-offset 0.2s ease;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 3px solid hsl(237, 89%, 61%);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 5px rgba(99, 102, 241, 0.3);
+    transition: outline-offset 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 3px solid hsl(237, 89%, 61%);
+    outline-offset: 0;
+    box-shadow: 0 0 0 5px rgba(99, 102, 241, 0.3);
+    transition: box-shadow 0.2s ease;
+  }
+
+  /* Ensure disabled elements have sufficient contrast */
+  button:disabled,
+  input:disabled,
+  textarea:disabled,
+  select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    *:focus-visible {
+      outline-width: 4px;
+      outline-offset: 3px;
+    }
+
+    .text-muted {
+      color: #e2e8f0;
+    }
   }
 }
 
@@ -205,15 +251,25 @@ html {
   scroll-padding-top: 80px;
 }
 
-/* Disable smooth scroll for users who prefer reduced motion */
+/* Disable smooth scroll and animations for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
   .animate-bounce,
   .float-animation,
-  .shimmer {
-    animation: none;
+  .shimmer,
+  .gradient-mesh {
+    animation: none !important;
   }
 }

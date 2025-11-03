@@ -215,9 +215,13 @@ export default function Contact() {
   ];
 
   return (
-    <section className="relative py-24 lg:py-32 bg-dark overflow-hidden" id="contact">
+    <section
+      aria-labelledby="contact-heading"
+      className="relative py-24 lg:py-32 bg-dark overflow-hidden"
+      id="contact"
+    >
       {/* Background decorative elements */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
         <div className="absolute top-20 left-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
       </div>
@@ -226,10 +230,13 @@ export default function Contact() {
         {/* Section Header */}
         <div className="text-center mb-16 lg:mb-20">
           <div className="inline-flex items-center gap-2 glass-effect rounded-full px-4 py-2 text-sm font-medium text-accent mb-6">
-            <MessageSquare className="w-4 h-4" />
+            <MessageSquare aria-hidden="true" className="w-4 h-4" />
             <span>Let's Connect</span>
           </div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-light mb-6">
+          <h2
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-light mb-6"
+            id="contact-heading"
+          >
             Get In <span className="text-gradient">Touch</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
@@ -245,22 +252,26 @@ export default function Contact() {
             {/* Contact Methods */}
             <div className="glass-effect rounded-2xl p-8 hover:bg-white/5 transition-all duration-500">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-primary/20 rounded-lg">
+                <div aria-hidden="true" className="p-2 bg-primary/20 rounded-lg">
                   <Sparkles className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="text-2xl font-semibold text-light">Contact Info</h3>
               </div>
 
-              <div className="space-y-4">
+              <nav aria-label="Contact methods" className="space-y-4">
                 {contactMethods.map((method) => (
                   <a
+                    aria-label={`${method.label}: ${method.description}`}
                     className="flex items-start gap-4 p-4 rounded-xl hover:bg-white/5 transition-all duration-300 group cursor-pointer"
                     href={method.link}
                     key={method.label}
                     rel="noopener noreferrer"
                     target={method.link.startsWith("http") ? "_blank" : undefined}
                   >
-                    <div className="text-accent group-hover:scale-110 transition-transform">
+                    <div
+                      aria-hidden="true"
+                      className="text-accent group-hover:scale-110 transition-transform"
+                    >
                       {method.icon}
                     </div>
                     <div className="flex-1">
@@ -269,10 +280,13 @@ export default function Contact() {
                         {method.description}
                       </p>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-muted opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                    <ArrowRight
+                      aria-hidden="true"
+                      className="w-4 h-4 text-muted opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all"
+                    />
                   </a>
                 ))}
-              </div>
+              </nav>
             </div>
 
             {/* Book a Call CTA */}
@@ -306,22 +320,26 @@ export default function Contact() {
             {/* Social Links */}
             <div className="glass-effect rounded-2xl p-6 hover:bg-white/5 transition-all duration-300">
               <h4 className="text-light font-semibold mb-4">Connect on Social</h4>
-              <div className="flex gap-3">
+              <nav aria-label="Social media links" className="flex gap-3">
                 {socialLinks.map((social) => (
                   <a
-                    aria-label={social.label}
+                    aria-label={`Visit my ${social.label} profile`}
                     className="group p-3 glass-effect hover:bg-primary/20 rounded-lg transition-all duration-300 hover:scale-110 flex-1 flex items-center justify-center"
                     href={social.href}
                     key={social.label}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <span className="text-muted group-hover:text-primary transition-colors">
+                    <span
+                      aria-hidden="true"
+                      className="text-muted group-hover:text-primary transition-colors"
+                    >
                       {social.icon}
                     </span>
+                    <span className="sr-only">Visit my {social.label} profile</span>
                   </a>
                 ))}
-              </div>
+              </nav>
             </div>
           </div>
 
@@ -329,14 +347,18 @@ export default function Contact() {
           <div className="lg:col-span-3">
             <div className="glass-effect rounded-2xl p-8 hover:bg-white/5 transition-all duration-500">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-accent/20 rounded-lg">
+                <div aria-hidden="true" className="p-2 bg-accent/20 rounded-lg">
                   <Send className="w-6 h-6 text-accent" />
                 </div>
                 <h3 className="text-2xl font-semibold text-light">Send a Message</h3>
               </div>
 
               <Form {...form}>
-                <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+                <form
+                  aria-label="Contact form"
+                  className="space-y-6"
+                  onSubmit={form.handleSubmit(onSubmit)}
+                >
                   {/* Audience Type Radio Group */}
                   <FormField
                     control={form.control}

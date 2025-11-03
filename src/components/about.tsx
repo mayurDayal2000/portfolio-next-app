@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { motion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 interface TimelineItem {
   year: string;
@@ -51,6 +52,8 @@ const itemUp: Variants = {
 };
 
 export default function About() {
+  const prefersReducedMotion = useReducedMotion();
+
   const timeline: TimelineItem[] = [
     {
       bullets: [
@@ -142,25 +145,35 @@ export default function About() {
   ];
 
   return (
-    <section className="relative py-24 lg:py-32 bg-dark overflow-hidden" id="about">
+    <section
+      aria-label="About me - My story and experience"
+      className="relative py-24 lg:py-32 bg-dark overflow-hidden"
+      id="about"
+    >
       {/* Background decorative elements */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
-          animate={{ y: [0, -8, 0] }}
+          animate={prefersReducedMotion ? {} : { y: [0, -8, 0] }}
           className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"
-          style={{ willChange: "transform" }}
-          transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
+          style={{ willChange: prefersReducedMotion ? "auto" : "transform" }}
+          transition={
+            prefersReducedMotion ? {} : { duration: 6, ease: "easeInOut", repeat: Infinity }
+          }
         />
         <motion.div
-          animate={{ y: [0, -10, 0] }}
+          animate={prefersReducedMotion ? {} : { y: [0, -10, 0] }}
           className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"
-          style={{ willChange: "transform" }}
-          transition={{
-            delay: 1,
-            duration: 7,
-            ease: "easeInOut",
-            repeat: Infinity,
-          }}
+          style={{ willChange: prefersReducedMotion ? "auto" : "transform" }}
+          transition={
+            prefersReducedMotion
+              ? {}
+              : {
+                  delay: 1,
+                  duration: 7,
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                }
+          }
         />
       </div>
 
@@ -208,7 +221,11 @@ export default function About() {
               variants={itemUp}
             >
               <div className="flex items-center gap-3 mb-6">
-                <motion.div className="p-2 bg-accent/20 rounded-lg" whileHover={{ scale: 1.06 }}>
+                <motion.div
+                  aria-hidden="true"
+                  className="p-2 bg-accent/20 rounded-lg"
+                  whileHover={prefersReducedMotion ? {} : { scale: 1.06 }}
+                >
                   <Coffee className="w-6 h-6 text-accent" />
                 </motion.div>
                 <h3 className="text-2xl font-semibold text-light">My Story</h3>
@@ -242,14 +259,14 @@ export default function About() {
               {/* Quick Facts */}
               <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-white/10">
                 <div className="flex items-center gap-3">
-                  <MapPin className="w-5 h-5 text-accent" />
+                  <MapPin aria-hidden="true" className="w-5 h-5 text-accent" />
                   <div>
                     <p className="text-xs text-muted">Seeking</p>
                     <p className="text-sm text-light font-medium">Remote / On-site</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <GraduationCap className="w-5 h-5 text-accent" />
+                  <GraduationCap aria-hidden="true" className="w-5 h-5 text-accent" />
                   <div>
                     <p className="text-xs text-muted">Education</p>
                     <p className="text-sm text-light font-medium">
@@ -275,21 +292,24 @@ export default function About() {
               variants={itemUp}
             >
               <div className="flex items-center gap-3 mb-8">
-                <div className="p-2 bg-primary/20 rounded-lg">
+                <div aria-hidden="true" className="p-2 bg-primary/20 rounded-lg">
                   <Award className="w-6 h-6 text-primary" />
                 </div>
                 <h3 className="text-2xl font-semibold text-light">Experience</h3>
               </div>
 
-              <div className="relative space-y-8">
+              <ol aria-label="Work experience timeline" className="relative space-y-8">
                 {/* Timeline line */}
-                <div className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-linear-to-b from-primary via-secondary to-accent" />
+                <div
+                  aria-hidden="true"
+                  className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-linear-to-b from-primary via-secondary to-accent"
+                />
 
                 {timeline.map((item, idx) => {
                   return (
-                    <div className="relative pl-8 group" key={`${item.company}-${item.year}`}>
+                    <li className="relative pl-8 group" key={`${item.company}-${item.year}`}>
                       {/* Dot */}
-                      <div className="absolute left-0 top-1 w-4 h-4">
+                      <div aria-hidden="true" className="absolute left-0 top-1 w-4 h-4">
                         <motion.span
                           className={`absolute inset-0 rounded-full border-2 ${
                             idx === 0 ? "bg-primary border-primary" : "bg-dark border-muted"
@@ -306,16 +326,19 @@ export default function About() {
                       </div>
 
                       <div className="mb-1 flex items-center gap-2">
-                        <span className="text-accent">{item.icon}</span>
+                        <span aria-hidden="true" className="text-accent">
+                          {item.icon}
+                        </span>
                         <span className="font-semibold text-primary">{item.title}</span>
                         <span className="text-sm text-muted font-medium">| {item.company}</span>
                         <span className="ml-auto text-xs text-accent px-2 py-0.5 bg-dark-secondary rounded">
-                          {item.year}
+                          <time>{item.year}</time>
                         </span>
                       </div>
 
                       <div className="mt-2">
                         <motion.ul
+                          aria-label={`Responsibilities at ${item.company}`}
                           className="list-disc ml-6 text-sm text-start space-y-2 text-muted"
                           initial="hidden"
                           variants={{
@@ -346,16 +369,17 @@ export default function About() {
                           ))}
                         </motion.ul>
                       </div>
-                    </div>
+                    </li>
                   );
                 })}
-              </div>
+              </ol>
             </motion.div>
           </motion.div>
         </div>
 
         {/* Values Grid */}
         <motion.div
+          aria-label="My core values and principles"
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
           initial="hidden"
           variants={containerStagger}
@@ -368,10 +392,14 @@ export default function About() {
               key={value.title}
               style={{ willChange: "transform" }}
               variants={itemUp}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={prefersReducedMotion ? {} : { scale: 1.04 }}
+              whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
             >
-              <motion.div className="text-accent mb-3" whileHover={{ scale: 1.08 }}>
+              <motion.div
+                aria-hidden="true"
+                className="text-accent mb-3"
+                whileHover={prefersReducedMotion ? {} : { scale: 1.08 }}
+              >
                 {value.icon}
               </motion.div>
               <h4 className="text-light font-semibold mb-2">{value.title}</h4>

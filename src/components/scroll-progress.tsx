@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 export default function ScrollProgress() {
+  const prefersReducedMotion = useReducedMotion();
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -115,11 +117,13 @@ export default function ScrollProgress() {
 
         {/* Animated progress fill with gradient */}
         <div
-          className="h-full bg-gradient-to-r from-primary via-secondary to-accent relative overflow-hidden transition-transform duration-150 ease-out glow-effect progress-fill"
+          className={`h-full bg-gradient-to-r from-primary via-secondary to-accent relative overflow-hidden glow-effect progress-fill ${
+            prefersReducedMotion ? "" : "transition-transform duration-150 ease-out"
+          }`}
           style={{ transform: `scaleX(${scrollProgress / 100})` }}
         >
           {/* Shimmer animation overlay */}
-          <div className="absolute inset-0 shimmer" />
+          <div className={`absolute inset-0 ${prefersReducedMotion ? "" : "shimmer"}`} />
 
           {/* Pulse effect at the end */}
           <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white/30 to-transparent" />
@@ -129,25 +133,35 @@ export default function ScrollProgress() {
       {/* Circular Progress Indicator - Side */}
       {isVisible && (
         <div
-          className="fixed right-6 bottom-6 z-40 transition-all duration-500 animate-in fade-in slide-in-from-bottom-4 group"
+          className={`fixed right-6 bottom-6 z-40 group ${
+            prefersReducedMotion
+              ? ""
+              : "transition-all duration-500 animate-in fade-in slide-in-from-bottom-4"
+          }`}
           style={{
             opacity: 1,
             transform: `scale(1)`,
           }}
         >
           <button
-            aria-label="Scroll to top"
-            className="relative w-14 h-14 glass-effect hover:bg-primary/20 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer border border-white/10"
-            onClick={() => window.scrollTo({ behavior: "smooth", top: 0 })}
+            aria-label={`Scroll to top of page. Current progress: ${Math.round(scrollProgress)}%`}
+            className={`relative w-14 h-14 glass-effect hover:bg-primary/20 rounded-full flex items-center justify-center cursor-pointer border border-white/10 ${
+              prefersReducedMotion ? "" : "transition-all duration-300 hover:scale-110"
+            }`}
+            onClick={() =>
+              window.scrollTo({
+                behavior: prefersReducedMotion ? "auto" : "smooth",
+                top: 0,
+              })
+            }
             type="button"
           >
             {/* SVG Circular Progress */}
             <svg
-              aria-label="Scroll progress indicator"
+              aria-hidden="true"
               className="absolute inset-0 w-full h-full -rotate-90"
               viewBox="0 0 100 100"
             >
-              <title>Scroll progress indicator</title>
               {/* Background circle */}
               <circle
                 className="text-muted/20"
@@ -161,7 +175,9 @@ export default function ScrollProgress() {
 
               {/* Progress circle */}
               <circle
-                className="transition-all duration-300 ease-out drop-shadow-lg"
+                className={`drop-shadow-lg ${
+                  prefersReducedMotion ? "" : "transition-all duration-300 ease-out"
+                }`}
                 cx="50"
                 cy="50"
                 fill="none"
@@ -185,12 +201,12 @@ export default function ScrollProgress() {
 
             {/* Arrow icon */}
             <svg
+              aria-hidden="true"
               className="w-5 h-5 text-light group-hover:text-primary transition-colors relative z-10"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <title>Scroll to top</title>
               <path
                 d="M5 10l7-7m0 0l7 7m-7-7v18"
                 strokeLinecap="round"

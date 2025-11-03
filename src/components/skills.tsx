@@ -18,7 +18,11 @@ const containerVariants: Variants = {
 
 export default function Skills() {
   return (
-    <section className="relative py-24 lg:py-32 bg-dark-secondary overflow-hidden" id="skills">
+    <section
+      aria-labelledby="skills-heading"
+      className="relative py-24 lg:py-32 bg-dark-secondary overflow-hidden"
+      id="skills"
+    >
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -29,10 +33,10 @@ export default function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
         >
           <div className="inline-flex items-center gap-2 glass-effect rounded-full px-4 py-2 text-sm font-medium text-accent mb-6">
-            <Sparkles className="w-4 h-4" />
+            <Sparkles aria-hidden="true" className="w-4 h-4" />
             <span>Technical Expertise</span>
           </div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-light">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-light" id="skills-heading">
             Skills & <span className="text-gradient">Technologies</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto mt-4">
@@ -43,6 +47,7 @@ export default function Skills() {
 
         {/* Skills Cards Grid */}
         <motion.div
+          aria-label="Skills organized by category"
           className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
           initial="hidden"
           variants={containerVariants}

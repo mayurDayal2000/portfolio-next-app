@@ -123,6 +123,7 @@ const GitHubButton = ({ githubUrl, className }: { githubUrl?: string; className?
 
   return (
     <a
+      aria-label="View source code on GitHub"
       className={cn(
         "inline-flex items-center gap-2 px-5 py-2 glass-effect hover:bg-white/10 text-light font-semibold rounded-lg transition-all duration-300 border border-white/20",
         className
@@ -131,7 +132,7 @@ const GitHubButton = ({ githubUrl, className }: { githubUrl?: string; className?
       rel="noopener noreferrer"
       target="_blank"
     >
-      <Github className="w-4 h-4" /> Code
+      <Github aria-hidden="true" className="w-4 h-4" /> Code
     </a>
   );
 };
@@ -161,12 +162,13 @@ const GitHubButtonSmall = ({ githubUrl }: { githubUrl?: string }) => {
 
   return (
     <a
+      aria-label="View source code on GitHub"
       className="inline-flex items-center gap-2 px-4 py-2 glass-effect hover:bg-white/10 text-light font-semibold rounded-lg transition-all duration-300 text-sm border border-white/20"
       href={githubUrl}
       rel="noopener noreferrer"
       target="_blank"
     >
-      <Github className="w-4 h-4" /> Code
+      <Github aria-hidden="true" className="w-4 h-4" /> Code
     </a>
   );
 };
@@ -174,6 +176,7 @@ const GitHubButtonSmall = ({ githubUrl }: { githubUrl?: string }) => {
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>("All");
   const [transitioning, setTransitioning] = useState(true);
+  const [announcementText, setAnnouncementText] = useState("");
 
   const mountedRef = useRef(false);
   const filterTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -210,6 +213,13 @@ export default function Projects() {
       if (!mountedRef.current) return;
       setActiveCategory(category);
       setTransitioning(false); // Animate in
+
+      // Announce filter change to screen readers
+      const count =
+        category === "All"
+          ? projects.length
+          : projects.filter((p) => p.category === category).length;
+      setAnnouncementText(`Showing ${count} ${category} projects`);
     }, 300);
   };
 
@@ -221,18 +231,26 @@ export default function Projects() {
 
   return (
     <section
-      aria-label="Projects"
+      aria-labelledby="projects-heading"
       className="relative py-24 lg:py-32 bg-dark overflow-hidden"
       id="projects"
     >
+      {/* Screen reader announcements for filter changes */}
+      <div aria-atomic="true" aria-live="polite" className="sr-only">
+        {announcementText}
+      </div>
+
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <FadeInOnce className="text-center mb-16">
           <div className="inline-flex items-center gap-2 glass-effect rounded-full px-4 py-2 text-sm font-medium text-accent mb-6">
-            <Rocket className="w-4 h-4" />
+            <Rocket aria-hidden="true" className="w-4 h-4" />
             <span>What I've Built</span>
           </div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-light mb-6">
+          <h2
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold text-light mb-6"
+            id="projects-heading"
+          >
             My Recent <span className="text-gradient">Projects</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
@@ -247,11 +265,15 @@ export default function Projects() {
           className="flex flex-wrap items-center justify-center gap-3 mb-12"
         >
           <div className="flex items-center gap-2 text-muted">
-            <Filter className="w-4 h-4" />
-            <span className="text-sm font-medium">Filter:</span>
+            <Filter aria-hidden="true" className="w-4 h-4" />
+            <span className="text-sm font-medium" id="filter-label">
+              Filter:
+            </span>
           </div>
           {categories.map((category) => (
             <button
+              aria-describedby="filter-label"
+              aria-label={`Show ${category} projects`}
               aria-pressed={activeCategory === category}
               className={cn(
                 "px-5 py-2.5 rounded-xl font-medium text-sm transition-all duration-300",
@@ -277,7 +299,7 @@ export default function Projects() {
         >
           {/* Featured Projects */}
           {featuredProjects.map((project, i) => (
-            <div
+            <article
               className={cn(
                 "glass-effect rounded-2xl p-8 flex flex-col justify-between shadow-lg border-2 border-primary/20 transition-all duration-500",
                 !transitioning && "opacity-100 translate-y-0",
@@ -287,7 +309,7 @@ export default function Projects() {
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               <div className="mb-3 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-primary" />
+                <Sparkles aria-hidden="true" className="w-5 h-5 text-primary" />
                 <span className="font-bold text-primary text-sm">Featured</span>
               </div>
               <span className="text-xs text-primary font-semibold">{project.category}</span>
@@ -296,35 +318,35 @@ export default function Projects() {
               {project.achievement && (
                 <div className="text-sm text-accent font-medium mb-4">{project.achievement}</div>
               )}
-              <div className="flex flex-wrap gap-2 mb-4">
+              <ul aria-label="Technologies used" className="flex flex-wrap gap-2 mb-4">
                 {project.tags.map((tag) => (
-                  <span
-                    className="px-3 py-1 bg-primary/10 text-primary rounded text-xs font-medium"
-                    key={tag}
-                  >
-                    {tag}
-                  </span>
+                  <li key={tag}>
+                    <span className="px-3 py-1 bg-primary/10 text-primary rounded text-xs font-medium">
+                      {tag}
+                    </span>
+                  </li>
                 ))}
-              </div>
-              <div className="flex gap-3 mt-auto">
+              </ul>
+              <nav aria-label={`Links for ${project.title}`} className="flex gap-3 mt-auto">
                 {project.liveUrl && (
                   <a
+                    aria-label={`View live demo of ${project.title}`}
                     className="inline-flex items-center gap-2 px-5 py-2 bg-primary hover:bg-primary-dark text-white font-semibold rounded-lg transition-all duration-300"
                     href={project.liveUrl}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Live <ExternalLink className="w-4 h-4" />
+                    Live <ExternalLink aria-hidden="true" className="w-4 h-4" />
                   </a>
                 )}
                 <GitHubButton githubUrl={project.githubUrl} />
-              </div>
-            </div>
+              </nav>
+            </article>
           ))}
 
           {/* Regular Projects */}
           {regularProjects.map((project, i) => (
-            <div
+            <article
               className={cn(
                 "glass-effect rounded-2xl p-7 flex flex-col justify-between border border-white/10 transition-all duration-500",
                 !transitioning && "opacity-100 translate-y-0",
@@ -338,30 +360,30 @@ export default function Projects() {
               <span className="text-xs text-accent font-semibold mb-1">{project.category}</span>
               <h3 className="text-xl font-bold text-light mb-1">{project.title}</h3>
               <p className="text-muted text-base mb-2">{project.description}</p>
-              <div className="flex flex-wrap gap-2 mb-2">
+              <ul aria-label="Technologies used" className="flex flex-wrap gap-2 mb-2">
                 {project.tags.map((tag) => (
-                  <span
-                    className="px-2 py-1 bg-accent/10 text-accent rounded text-xs font-medium"
-                    key={tag}
-                  >
-                    {tag}
-                  </span>
+                  <li key={tag}>
+                    <span className="px-2 py-1 bg-accent/10 text-accent rounded text-xs font-medium">
+                      {tag}
+                    </span>
+                  </li>
                 ))}
-              </div>
-              <div className="flex gap-2 mt-auto">
+              </ul>
+              <nav aria-label={`Links for ${project.title}`} className="flex gap-2 mt-auto">
                 {project.liveUrl && (
                   <a
+                    aria-label={`View live demo of ${project.title}`}
                     className="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 hover:bg-accent text-accent hover:text-white font-semibold rounded-lg transition-all duration-300 text-sm"
                     href={project.liveUrl}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    Live <ArrowUpRight className="w-4 h-4" />
+                    Live <ArrowUpRight aria-hidden="true" className="w-4 h-4" />
                   </a>
                 )}
                 <GitHubButtonSmall githubUrl={project.githubUrl} />
-              </div>
-            </div>
+              </nav>
+            </article>
           ))}
         </div>
       </div>

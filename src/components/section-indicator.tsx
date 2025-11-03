@@ -135,18 +135,18 @@ export default function SectionIndicator() {
 
   return (
     <nav
-      aria-label="Section navigation"
+      aria-label="Quick navigation to page sections"
       className="fixed right-8 top-1/2 -translate-y-1/2 z-40 hidden lg:block"
     >
-      <div className="glass-effect rounded-2xl p-3 border border-white/10 space-y-3">
+      <ul className="glass-effect rounded-2xl p-3 border border-white/10 space-y-3">
         {sections.map((section, index) => {
           const isActive = activeSection === section.id;
 
           return (
-            <div className="relative group" key={section.id}>
+            <li className="relative group" key={section.id}>
               <button
                 aria-current={isActive ? "location" : undefined}
-                aria-label={`Navigate to ${section.label}`}
+                aria-label={`Navigate to ${section.label} section`}
                 className={`relative p-3 rounded-xl transition-all duration-300 flex items-center justify-center ${
                   isActive
                     ? "bg-gradient-to-r from-primary to-accent text-white scale-110 glow-effect"
@@ -163,6 +163,7 @@ export default function SectionIndicator() {
                 type="button"
               >
                 <span
+                  aria-hidden="true"
                   className={`transition-transform duration-300 ${
                     isActive ? "scale-110" : "group-hover:scale-110"
                   }`}
@@ -191,15 +192,16 @@ export default function SectionIndicator() {
               {/* Connection line */}
               {index < sections.length - 1 && (
                 <div
+                  aria-hidden="true"
                   className={`absolute left-1/2 -translate-x-1/2 top-full w-0.5 h-3 transition-colors duration-300 ${
                     isActive ? "bg-primary/50" : "bg-muted/20"
                   }`}
                 />
               )}
-            </div>
+            </li>
           );
         })}
-      </div>
+      </ul>
     </nav>
   );
 }
