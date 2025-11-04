@@ -121,7 +121,7 @@ export default function Hero() {
                 variants={itemUp}
               >
                 <span className="block text-light">Hi, I'm Mayur.</span>
-                <span className="block text-gradient">Full-Stack Engineer Fueled by AI.</span>
+                <span className="block text-gradient">Full-Stack Engineer Building with AI.</span>
               </motion.h1>
 
               <motion.p
@@ -129,10 +129,10 @@ export default function Hero() {
                 style={TEXT_SHADOW_STYLE}
                 variants={itemUp}
               >
-                I'm a versatile engineer with 3+ years of experience, specializing in{" "}
-                <span className="text-accent font-semibold">React, Next.js, and TypeScript</span>.
-                My passion is building high-performance, user-centric applications, from
-                pixel-perfect UIs to scalable back-ends and AI-powered features.
+                I'm a full-stack engineer with 3+ years of experience building web applications with{" "}
+                <span className="text-accent font-semibold">React, Next.js, and TypeScript</span>. I
+                love creating clean, performant user interfaces and building scalable backends —
+                from pixel-perfect designs to AI-powered features.
               </motion.p>
             </motion.div>
 
