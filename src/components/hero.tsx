@@ -6,6 +6,7 @@ import {
   Download,
   Github,
   Linkedin,
+  Loader2,
   Mail,
   Palette,
   Sparkles,
@@ -13,16 +14,16 @@ import {
 } from "lucide-react";
 import { motion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { checkResumeAvailability, downloadResume } from "@/lib/resume-utils";
 
 interface Stat {
   label: string;
   value: string;
   icon: ReactNode;
 }
-
-const CV_URL = process.env.NEXT_PUBLIC_CV_URL || "/cv.pdf";
-const CV_FILENAME = process.env.NEXT_PUBLIC_CV_FILENAME || "Mayur_Dayal_Resume.pdf";
 
 const columnVariants: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -44,6 +45,40 @@ const itemUp: Variants = {
 
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [isResumeAvailable, setIsResumeAvailable] = useState(true);
+
+  useEffect(() => {
+    const verifyResume = async () => {
+      const { available } = await checkResumeAvailability();
+      setIsResumeAvailable(available);
+    };
+
+    verifyResume();
+  }, []);
+
+  const handleDownloadResume = () => {
+    if (isDownloading) return;
+
+    setIsDownloading(true);
+
+    setTimeout(async () => {
+      try {
+        const result = await downloadResume();
+
+        if (result.success) {
+          toast.success("Resume downloaded successfully!");
+        } else {
+          toast.error(result.error || "Failed to download resume. Please try again.");
+        }
+      } catch (error) {
+        console.error("Unexpected error during download:", error);
+        toast.error("An unexpected error occurred. Please try again.");
+      } finally {
+        setIsDownloading(false);
+      }
+    }, 2500);
+  };
 
   const stats: Stat[] = [
     {
@@ -178,24 +213,38 @@ export default function Hero() {
               </motion.button>
 
               <motion.button
-                aria-label="Download my resume as PDF"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 glass-effect hover:bg-white/10 text-light font-semibold rounded-xl border border-white/20 transition-colors"
+                aria-label={
+                  isDownloading
+                    ? "Downloading resume..."
+                    : !isResumeAvailable
+                      ? "Resume currently unavailable"
+                      : "Download my resume as PDF"
+                }
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 glass-effect hover:bg-white/10 text-light font-semibold rounded-xl border border-white/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isDownloading || !isResumeAvailable}
                 initial="rest"
-                onClick={() => {
-                  const link = document.createElement("a");
-                  link.href = CV_URL;
-                  link.download = CV_FILENAME;
-                  document.body.appendChild(link);
-                  link.click();
-                  document.body.removeChild(link);
-                }}
+                onClick={handleDownloadResume}
                 type="button"
                 variants={itemUp}
-                whileHover={prefersReducedMotion ? {} : { scale: 1.04 }}
-                whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
+                whileHover={
+                  prefersReducedMotion || isDownloading || !isResumeAvailable ? {} : { scale: 1.04 }
+                }
+                whileTap={
+                  prefersReducedMotion || isDownloading || !isResumeAvailable ? {} : { scale: 0.98 }
+                }
               >
-                <Download aria-hidden="true" className="w-5 h-5" />
-                <span>Download CV</span>
+                {isDownloading ? (
+                  <Loader2 aria-hidden="true" className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Download aria-hidden="true" className="w-5 h-5" />
+                )}
+                <span>
+                  {isDownloading
+                    ? "Downloading..."
+                    : !isResumeAvailable
+                      ? "CV Unavailable"
+                      : "Download CV"}
+                </span>
               </motion.button>
             </motion.div>
 
