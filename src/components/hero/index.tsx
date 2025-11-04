@@ -1,48 +1,34 @@
 "use client";
 
-import {
-  ArrowRight,
-  Code2,
-  Download,
-  Github,
-  Linkedin,
-  Loader2,
-  Mail,
-  Palette,
-  Sparkles,
-  Zap,
-} from "lucide-react";
-import { motion, type Variants } from "motion/react";
-import type { ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { ArrowRight, Download, Loader2, Palette, Sparkles } from "lucide-react";
+import { motion } from "motion/react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { checkResumeAvailability, downloadResume } from "@/lib/resume-utils";
+import {
+  columnVariants,
+  HEADING_SHADOW_STYLE,
+  itemUp,
+  PULSE_TRANSFORM_STYLE,
+  staggerContainer,
+  TEXT_SHADOW_STYLE,
+} from "./hero.animations";
+import { KEY_HIGHLIGHTS, SOCIAL_LINKS, STATS, TECH_STACK } from "./hero.data";
 
-interface Stat {
-  label: string;
-  value: string;
-  icon: ReactNode;
-}
-
-const columnVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, transition: { duration: 0.6, ease: "easeOut" }, y: 0 },
-};
-
-const staggerContainer: Variants = {
-  hidden: { opacity: 1 },
-  show: {
-    opacity: 1,
-    transition: { delayChildren: 0.15, staggerChildren: 0.08 },
-  },
-};
-
-const itemUp: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, transition: { duration: 0.45, ease: "easeOut" }, y: 0 },
-};
-
+/**
+ * Hero Section Component
+ *
+ * Main landing section featuring:
+ * - Personal introduction and headline
+ * - Call-to-action buttons (View Work, Download CV)
+ * - Social media links
+ * - Professional statistics
+ * - Tech stack showcase
+ * - Availability status
+ *
+ * @component
+ */
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
   const [isDownloading, setIsDownloading] = useState(false);
@@ -57,57 +43,27 @@ export default function Hero() {
     verifyResume();
   }, []);
 
-  const handleDownloadResume = () => {
+  const handleDownloadResume = useCallback(async () => {
     if (isDownloading) return;
 
     setIsDownloading(true);
+    toast.info("Preparing download...");
 
-    setTimeout(async () => {
-      try {
-        const result = await downloadResume();
+    try {
+      const result = await downloadResume();
 
-        if (result.success) {
-          toast.success("Resume downloaded successfully!");
-        } else {
-          toast.error(result.error || "Failed to download resume. Please try again.");
-        }
-      } catch (error) {
-        console.error("Unexpected error during download:", error);
-        toast.error("An unexpected error occurred. Please try again.");
-      } finally {
-        setIsDownloading(false);
+      if (result.success) {
+        toast.success("Resume downloaded successfully!");
+      } else {
+        toast.error(result.error || "Failed to download resume. Please try again.");
       }
-    }, 2500);
-  };
-
-  const stats: Stat[] = [
-    {
-      icon: <Sparkles className="w-5 h-5" />,
-      label: "Years Experience",
-      value: "3+",
-    },
-    {
-      icon: <Code2 className="w-5 h-5" />,
-      label: "Projects Shipped",
-      value: "10+",
-    },
-    {
-      icon: <Zap className="w-5 h-5" />,
-      label: "Performance Boost",
-      value: "30%",
-    },
-  ];
-
-  const techStack = [
-    "React",
-    "Next.js",
-    "TypeScript",
-    "Python",
-    "FastAPI",
-    "Tailwind CSS",
-    "Docker",
-    "GitHub Actions",
-  ];
+    } catch (error) {
+      console.error("Unexpected error during download:", error);
+      toast.error("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsDownloading(false);
+    }
+  }, [isDownloading]);
 
   return (
     <section
@@ -115,30 +71,27 @@ export default function Hero() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-mesh"
       id="hero"
     >
-      {/* Grain/Noise overlay */}
-      <div
-        className="absolute inset-0 pointer-events-none z-0 bg-repeat mix-blend-overlay"
-        style={{
-          backgroundImage: "url('/grain.svg')",
-          opacity: 0.18,
-        }}
-      />
+      {/* Skip to main content link for keyboard users */}
+      <a
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-lg"
+        href="#projects"
+      >
+        Skip to main content
+      </a>
+
+      {/* Grain/Noise overlay - inlined SVG for performance */}
+      <div className="grain-overlay" />
 
       {/* Animated background gradient overlay */}
-      <div className="absolute inset-0 bg-dark/80" />
+      <div className="absolute inset-0 bg-dark/90" />
 
-      <div
-        className="absolute w-80 h-80 bg-primary/15 rounded-full blur-md"
-        style={{ left: "5%", top: "10%" }}
-      />
-      <div
-        className="absolute w-80 h-80 bg-secondary/15 rounded-full blur-md"
-        style={{ bottom: "10%", right: "5%" }}
-      />
+      {/* Decorative gradient blobs */}
+      <div className="gradient-blob gradient-blob-left" />
+      <div className="gradient-blob gradient-blob-right" />
 
       {/* Main content container */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Left column - Text content */}
           <motion.div
             animate="show"
@@ -148,7 +101,7 @@ export default function Hero() {
           >
             {/* Badge */}
             <motion.div
-              className="inline-flex items-center gap-2 glass-effect rounded-full px-4 py-2 text-sm font-medium text-accent"
+              className="inline-flex items-center gap-2 glass-effect rounded-full px-4 py-2 text-sm sm:text-base font-medium text-accent"
               variants={itemUp}
             >
               <Sparkles className="w-4 h-4" />
@@ -163,16 +116,17 @@ export default function Hero() {
               variants={staggerContainer}
             >
               <motion.h1
-                className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight"
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.1]"
+                style={HEADING_SHADOW_STYLE}
                 variants={itemUp}
               >
                 <span className="block text-light">Hi, I'm Mayur.</span>
-                <span className="block text-gradient">Full-Stack Engineer</span>
-                <span className="block text-light">Fueled by AI.</span>
+                <span className="block text-gradient">Full-Stack Engineer Fueled by AI.</span>
               </motion.h1>
 
               <motion.p
                 className="text-lg sm:text-xl text-muted max-w-xl leading-relaxed"
+                style={TEXT_SHADOW_STYLE}
                 variants={itemUp}
               >
                 I'm a versatile engineer with 3+ years of experience, specializing in{" "}
@@ -254,25 +208,9 @@ export default function Hero() {
                 Connect:
               </span>
               <nav aria-labelledby="social-links-label" className="flex gap-3">
-                {[
-                  {
-                    href: "https://github.com/mayurDayal2000",
-                    icon: <Github className="w-5 h-5" />,
-                    label: "Visit my GitHub profile",
-                  },
-                  {
-                    href: "https://www.linkedin.com/in/mayur-dayal/",
-                    icon: <Linkedin className="w-5 h-5" />,
-                    label: "Connect with me on LinkedIn",
-                  },
-                  {
-                    href: "mailto:mayur.dayal5k@gmail.com",
-                    icon: <Mail className="w-5 h-5" />,
-                    label: "Send me an email",
-                  },
-                ].map((social) => (
+                {SOCIAL_LINKS.map((social) => (
                   <motion.a
-                    aria-label={social.label}
+                    aria-label={social.ariaLabel}
                     className="p-3 glass-effect rounded-lg hover:bg-primary/20 transition-colors"
                     href={social.href}
                     key={social.label}
@@ -293,7 +231,7 @@ export default function Hero() {
 
           {/* Right column - Stats & Tech Stack */}
           <motion.div
-            className="space-y-6"
+            className="space-y-4 lg:space-y-6"
             initial="hidden"
             variants={columnVariants}
             viewport={{ margin: "-80px", once: true }}
@@ -302,24 +240,24 @@ export default function Hero() {
             {/* Stats Grid with stagger-in */}
             <motion.div
               aria-label="Professional statistics"
-              className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+              className="grid grid-cols-3 gap-3 sm:gap-4"
               initial="hidden"
               variants={staggerContainer}
               viewport={{ margin: "-80px", once: true }}
               whileInView="show"
             >
-              {stats.map((stat) => (
+              {STATS.map((stat) => (
                 <motion.div
-                  className="glass-effect rounded-2xl p-6 text-center hover:bg-white/10"
+                  className="glass-effect rounded-2xl p-4 sm:p-6 text-center hover:bg-white/10"
                   key={stat.label}
                   transition={{ damping: 20, stiffness: 260, type: "spring" }}
                   variants={itemUp}
                   whileHover={prefersReducedMotion ? {} : { scale: 1.04 }}
                 >
-                  <div aria-hidden="true" className="flex justify-center mb-3 text-accent">
+                  <div aria-hidden="true" className="flex justify-center mb-2 sm:mb-3 text-accent">
                     {stat.icon}
                   </div>
-                  <div className="text-3xl font-bold text-light mb-1">{stat.value}</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-light mb-1">{stat.value}</div>
                   <div className="text-xs text-muted">{stat.label}</div>
                 </motion.div>
               ))}
@@ -327,7 +265,7 @@ export default function Hero() {
 
             {/* Featured Tech Stack Card */}
             <motion.div
-              className="glass-effect rounded-2xl p-8 space-y-6 hover:bg-white/5 transition-colors"
+              className="glass-effect rounded-2xl p-6 sm:p-8 space-y-4 sm:space-y-6 hover:bg-white/5 transition-colors"
               variants={itemUp}
             >
               <div className="flex items-center gap-3">
@@ -338,7 +276,7 @@ export default function Hero() {
               </div>
 
               <div className="flex flex-wrap gap-2">
-                {techStack.map((tech) => (
+                {TECH_STACK.map((tech) => (
                   <motion.span
                     className="px-4 py-2 bg-dark-secondary/80 border border-white/10 rounded-lg text-sm text-light font-medium"
                     key={tech}
@@ -353,11 +291,7 @@ export default function Hero() {
               {/* Quick highlights */}
               <div className="pt-4 border-t border-white/10">
                 <ul aria-label="Key strengths" className="space-y-3">
-                  {[
-                    "Pixel-Perfect UI (from Figma)",
-                    "Frontend Performance Optimization",
-                    "Refactoring & Code Maintainability",
-                  ].map((highlight) => (
+                  {KEY_HIGHLIGHTS.map((highlight) => (
                     <li
                       className="flex items-center gap-3 text-sm text-muted hover:text-light transition-colors"
                       key={highlight}
@@ -370,35 +304,20 @@ export default function Hero() {
               </div>
             </motion.div>
 
-            {/* Availability badge (motion pulse) */}
+            {/* Availability badge */}
             <motion.div
-              className="glass-effect rounded-2xl p-6 flex items-center justify-between hover:bg-white/5 transition-colors"
+              className="glass-effect rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:justify-between hover:bg-white/5 transition-colors"
               variants={itemUp}
             >
               <div className="flex items-center gap-3">
-                <div className="relative">
+                <div className="relative w-3 h-3">
                   {/* ping ripple */}
-                  <motion.span
-                    animate={{ opacity: [0.6, 0, 0.6], scale: [1, 2, 1] }}
-                    className="pointer-events-none absolute inset-0 rounded-full bg-green-500"
-                    initial={{ opacity: 0.6, scale: 1 }}
-                    style={{ transformOrigin: "center" }}
-                    transition={{
-                      duration: 2.4,
-                      ease: "easeInOut",
-                      repeat: Infinity,
-                    }}
+                  <span
+                    className="pointer-events-none absolute inset-0 rounded-full bg-green-500 pulse-ring"
+                    style={PULSE_TRANSFORM_STYLE}
                   />
                   {/* core pulse */}
-                  <motion.span
-                    animate={{ opacity: [1, 0.9, 1], scale: [1, 1.08, 1] }}
-                    className="relative block w-3 h-3 bg-green-500 rounded-full"
-                    transition={{
-                      duration: 1.6,
-                      ease: "easeInOut",
-                      repeat: Infinity,
-                    }}
-                  />
+                  <span className="relative block w-3 h-3 bg-green-500 rounded-full pulse-dot" />
                 </div>
                 <span className="text-light font-medium">Currently Available</span>
               </div>
@@ -408,22 +327,22 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator (motion replaces animate-bounce) */}
-      <motion.div
-        animate={prefersReducedMotion ? {} : { y: [0, 8, 0] }}
+      {/* Scroll indicator - truly non-interactive */}
+      <div
         aria-hidden="true"
-        className="absolute bottom-4 left-1/2 -translate-x-1/2"
+        className={`absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none ${
+          prefersReducedMotion ? "" : "scroll-indicator"
+        }`}
+        role="presentation"
       >
         <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2">
-          <motion.div
-            animate={prefersReducedMotion ? {} : { opacity: [0.35, 0.75, 0.35], y: [0, 4, 0] }}
-            className="w-1.5 h-3 bg-white/50 rounded-full"
-            transition={
-              prefersReducedMotion ? {} : { duration: 1.4, ease: "easeInOut", repeat: Infinity }
-            }
+          <div
+            className={`w-1.5 h-3 bg-white/50 rounded-full ${
+              prefersReducedMotion ? "" : "scroll-dot"
+            }`}
           />
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

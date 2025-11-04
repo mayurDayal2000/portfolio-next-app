@@ -7,7 +7,6 @@ import SkipToContent from "@/components/skip-to-content";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site";
-import PreloadImages from "./_preload-images";
 
 const interVariable = localFont({
   display: "swap",
@@ -111,7 +110,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <PreloadImages />
       <body className={`${interVariable.variable} antialiased`}>
         <SkipToContent />
         <ThemeProvider attribute="class" defaultTheme="system" enableColorScheme enableSystem>
