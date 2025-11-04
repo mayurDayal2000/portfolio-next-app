@@ -1,32 +1,23 @@
 "use client";
 
-import {
-  Award,
-  Briefcase,
-  Code2,
-  Coffee,
-  GraduationCap,
-  Heart,
-  Lightbulb,
-  MapPin,
-  Rocket,
-  Target,
-  Zap,
-} from "lucide-react";
 import { motion, type Variants } from "motion/react";
-import type { ReactNode } from "react";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 interface TimelineItem {
   year: string;
   title: string;
-  company: string;
+  company: string | null;
   bullets: Array<{ id: string; text: string }>;
-  icon: ReactNode;
+}
+
+interface ValueItem {
+  badge: string;
+  description: string;
+  title: string;
 }
 
 const DEFAULT_EASE = "easeOut";
-const DEFAULT_INVIEW = { margin: "-80px", once: true } as const;
+const DEFAULT_INVIEW = { margin: "-40px", once: true } as const;
 
 const containerStagger: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -51,98 +42,108 @@ const itemUp: Variants = {
   },
 };
 
+const bulletVariants: Variants = {
+  hidden: { opacity: 0, y: 6 },
+  show: {
+    opacity: 1,
+    transition: {
+      duration: 0.25,
+      ease: DEFAULT_EASE,
+    },
+    y: 0,
+  },
+};
+
+const bulletListVariants: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06 } },
+};
+
+const TIMELINE_DATA: TimelineItem[] = [
+  {
+    bullets: [
+      {
+        id: "penify-1",
+        text: "Developed a high-performance developer dashboard using React.js, TypeScript, and Redux Toolkit.",
+      },
+      {
+        id: "penify-2",
+        text: "Built SEO-optimized, responsive landing pages and marketing websites using Next.js (SSR/SSG), TypeScript, and Tailwind CSS.",
+      },
+      {
+        id: "penify-3",
+        text: "Integrated multiple payment gateways (Stripe, Razorpay, PayPal, Cashfree) into React-based frontends.",
+      },
+    ],
+    company: "Penify.ai",
+    title: "Software Engineer (SDE-1)",
+    year: "2023-2025",
+  },
+  {
+    bullets: [
+      {
+        id: "freelance-1",
+        text: "Delivered custom WordPress solutions with responsive themes and plugins using PHP, HTML5, CSS3, and JavaScript.",
+      },
+      {
+        id: "freelance-2",
+        text: "Built interactive, mobile-responsive user interfaces with Vanilla JavaScript, ensuring cross-browser compatibility and smooth user experiences for small business clients.",
+      },
+    ],
+    company: null,
+    title: "Freelance Software Engineer",
+    year: "2022-2023",
+  },
+  {
+    bullets: [
+      {
+        id: "zinedu-1",
+        text: "Developed a responsive student dashboard using React.js (Hooks, Context API), Bootstrap, and Sass.",
+      },
+      {
+        id: "zinedu-2",
+        text: "Refactored legacy React class components into modern functional components with Hooks.",
+      },
+      {
+        id: "zinedu-3",
+        text: "Progressed from Frontend Intern to Junior Frontend Developer within two months, recognized for rapid skill development and consistent performance.",
+      },
+    ],
+    company: "ZinEdu Classes",
+    title: "Frontend Engineer",
+    year: "2021-2022",
+  },
+];
+
+const VALUES_DATA: ValueItem[] = [
+  {
+    badge: "⚡",
+    description:
+      "I'm a problem-solver first. I learn the tool needed—whether it's frontend, backend, or DevOps—and I build.",
+    title: "Pragmatic & Versatile",
+  },
+  {
+    badge: "❤️",
+    description:
+      "My work starts with the user. I love turning Figma designs into pixel-perfect, intuitive, and engaging experiences.",
+    title: "User-Centric UI/UX",
+  },
+  {
+    badge: "💡",
+    description:
+      "My passion for AI/ML fuels my personal projects. I'm always learning new tech to build better, smarter solutions.",
+    title: "Continuous Growth",
+  },
+  {
+    badge: "🤖",
+    description:
+      "I believe AI is the future. I actively integrate AI/ML models and build my own AI-powered tools from scratch.",
+    title: "AI Enthusiast",
+  },
+];
+
 export default function About() {
   const prefersReducedMotion = useReducedMotion();
-
-  const timeline: TimelineItem[] = [
-    {
-      bullets: [
-        {
-          id: "penify-1",
-          text: "Led frontend (React, TypeScript, Redux) for a high-performance developer dashboard.",
-        },
-        {
-          id: "penify-2",
-          text: "Built SEO-optimized landing pages with Next.js and Tailwind CSS, boosting conversions by 15%.",
-        },
-        {
-          id: "penify-3",
-          text: "Integrated Stripe & Razorpay payments and contributed to FastAPI back-end & CI/CD (Docker, GitHub Actions).",
-        },
-      ],
-      company: "Penify.ai",
-      icon: <Rocket className="w-5 h-5" />,
-      title: "Full-Stack Engineer",
-      year: "2023-Present",
-    },
-    {
-      bullets: [
-        {
-          id: "freelance-1",
-          text: "Delivered custom WordPress themes and plugins using PHP, JS, and CSS.",
-        },
-        {
-          id: "freelance-2",
-          text: "Built responsive UIs and e-commerce workflows for small business clients.",
-        },
-        {
-          id: "freelance-3",
-          text: "Used this time to intentionally grow my back-end skills and explore modern tech like TypeScript.",
-        },
-      ],
-      company: "Self-Employed",
-      icon: <Briefcase className="w-5 h-5" />,
-      title: "Freelance Software Engineer",
-      year: "2022-2023",
-    },
-    {
-      bullets: [
-        {
-          id: "zinedu-1",
-          text: "Promoted from Intern to Junior Developer in 2 months after mastering React.",
-        },
-        {
-          id: "zinedu-2",
-          text: "Developed responsive student dashboards, reducing load times by 30%.",
-        },
-        {
-          id: "zinedu-3",
-          text: "Refactored legacy class components to modern hooks, cutting code complexity by 40%.",
-        },
-      ],
-      company: "ZinEdu Classes",
-      icon: <Code2 className="w-5 h-5" />,
-      title: "Junior Frontend Developer",
-      year: "2021-2022",
-    },
-  ];
-
-  const values = [
-    {
-      description:
-        "I'm a problem-solver first. I learn the tool needed—whether it's frontend, backend, or DevOps—and I build.",
-      icon: <Zap className="w-6 h-6" />,
-      title: "Pragmatic & Versatile",
-    },
-    {
-      description:
-        "My work starts with the user. I love turning Figma designs into pixel-perfect, intuitive, and engaging experiences.",
-      icon: <Heart className="w-6 h-6" />,
-      title: "User-Centric UI/UX",
-    },
-    {
-      description:
-        "My passion for AI/ML fuels my personal projects. I'm always learning new tech to build better, smarter solutions.",
-      icon: <Lightbulb className="w-6 h-6" />,
-      title: "Continuous Growth",
-    },
-    {
-      description:
-        "I believe AI is the future. I actively integrate AI/ML models and build my own AI-powered tools from scratch.",
-      icon: <Code2 className="w-6 h-6" />,
-      title: "AI Enthusiast",
-    },
-  ];
 
   return (
     <section
@@ -150,32 +151,26 @@ export default function About() {
       className="relative py-24 lg:py-32 bg-dark overflow-hidden"
       id="about"
     >
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <motion.div
-          animate={prefersReducedMotion ? {} : { y: [0, -8, 0] }}
-          className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"
-          style={{ willChange: prefersReducedMotion ? "auto" : "transform" }}
-          transition={
-            prefersReducedMotion ? {} : { duration: 6, ease: "easeInOut", repeat: Infinity }
-          }
-        />
-        <motion.div
-          animate={prefersReducedMotion ? {} : { y: [0, -10, 0] }}
-          className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"
-          style={{ willChange: prefersReducedMotion ? "auto" : "transform" }}
-          transition={
-            prefersReducedMotion
-              ? {}
-              : {
-                  delay: 1,
-                  duration: 7,
-                  ease: "easeInOut",
-                  repeat: Infinity,
-                }
-          }
-        />
-      </div>
+      {/* Background decorative elements - Optimized for performance */}
+      {!prefersReducedMotion && (
+        <div className="absolute inset-0 pointer-events-none">
+          <motion.div
+            animate={{ y: [0, -8, 0] }}
+            className="absolute top-20 left-10 w-72 h-72 bg-primary/8 rounded-full blur-3xl"
+            transition={{ duration: 8, ease: "easeInOut", repeat: Infinity }}
+          />
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/8 rounded-full blur-3xl"
+            transition={{
+              delay: 1,
+              duration: 10,
+              ease: "easeInOut",
+              repeat: Infinity,
+            }}
+          />
+        </div>
+      )}
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
@@ -190,7 +185,7 @@ export default function About() {
             className="inline-flex items-center gap-2 glass-effect rounded-full px-4 py-2 text-sm font-medium text-accent mb-6"
             variants={itemUp}
           >
-            <Target className="w-4 h-4" />
+            <span className="text-lg">🎯</span>
             <span>Get To Know Me</span>
           </motion.div>
           <motion.h2
@@ -199,14 +194,15 @@ export default function About() {
           >
             About <span className="text-gradient">Me</span>
           </motion.h2>
-          <motion.p className="text-lg text-muted max-w-2xl mx-auto" variants={itemUp}>
-            I'm a Full-Stack Engineer who loves building. From a pixel-perfect UI to a complex AI
-            integration, I thrive on the challenge of learning and delivering.
+          <motion.p className="text-lg text-muted/90 max-w-[730px] mx-auto" variants={itemUp}>
+            I'm a full-stack engineer who loves building stuff. Whether it's pixel-perfect UIs or
+            complex AI integrations, I enjoy the challenge of learning new tech and shipping quality
+            products.
           </motion.p>
         </motion.div>
 
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 mb-8">
+        <div className="grid xl:grid-cols-2 gap-6 lg:gap-8 mb-8">
           {/* Left Column - Story */}
           <motion.div
             className="space-y-8"
@@ -217,25 +213,23 @@ export default function About() {
           >
             {/* Story Card */}
             <motion.div
-              className="glass-effect rounded-2xl p-8 hover:bg-white/5 transition-colors"
+              className="glass-effect rounded-2xl p-8 transition-all duration-300"
+              style={{ background: "rgba(20, 30, 50, 0.9)" }}
               variants={itemUp}
+              whileHover={prefersReducedMotion ? {} : { scale: 1.02, y: -4 }}
             >
               <div className="flex items-center gap-3 mb-6">
-                <motion.div
-                  aria-hidden="true"
-                  className="p-2 bg-accent/20 rounded-lg"
-                  whileHover={prefersReducedMotion ? {} : { scale: 1.06 }}
-                >
-                  <Coffee className="w-6 h-6 text-accent" />
-                </motion.div>
+                <span aria-hidden="true" className="text-3xl">
+                  ☕
+                </span>
                 <h3 className="text-2xl font-semibold text-light">My Story</h3>
               </div>
 
-              <div className="space-y-4 text-muted leading-relaxed">
+              <div className="space-y-6 text-muted/90 leading-relaxed">
                 <p>
                   Hi, I'm Mayur. I'm a{" "}
                   <span className="text-light font-semibold">Full-Stack Engineer</span> with 3+
-                  years of experience, but my real passion is in the{" "}
+                  years of experience, but my real passion is{" "}
                   <span className="text-accent font-semibold">frontend</span>. I've spent my career
                   building everything from responsive dashboards for EdTech to AI-powered tools for
                   developers.
@@ -245,30 +239,34 @@ export default function About() {
                   college. That's when it clicked. Now I specialize in{" "}
                   <span className="text-accent font-semibold">React, Next.js, and TypeScript</span>,
                   but I'm just as comfortable setting up a{" "}
-                  <span className="text-light font-semibold">Python back-end</span> or a{" "}
-                  <span className="text-light font-semibold">CI/CD pipeline</span>. I'm the guy who
-                  learns what's needed and gets it built.
+                  <span className="text-light font-semibold">Python backend</span> or a{" "}
+                  <span className="text-light font-semibold">CI/CD pipeline</span>. I learn what's
+                  needed and get it built.
                 </p>
                 <p>
-                  When I'm not at my day job, I'm building my own AI projects—like a commit message
+                  When I'm not working, I'm building my own AI projects—like a commit message
                   generator or a 3D AI companion. I'm always looking for the next challenge and a
                   team where I can grow.
                 </p>
               </div>
 
               {/* Quick Facts */}
-              <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-white/10">
-                <div className="flex items-center gap-3">
-                  <MapPin aria-hidden="true" className="w-5 h-5 text-accent" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6 pt-6 border-t border-white/10">
+                <div className="flex items-start gap-3 flex-1">
+                  <span aria-hidden="true" className="text-2xl">
+                    📍
+                  </span>
                   <div>
-                    <p className="text-xs text-muted">Seeking</p>
+                    <p className="text-xs text-muted/80 uppercase tracking-wide mb-1">Seeking</p>
                     <p className="text-sm text-light font-medium">Remote / On-site</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <GraduationCap aria-hidden="true" className="w-5 h-5 text-accent" />
+                <div className="flex items-start gap-3 flex-1">
+                  <span aria-hidden="true" className="text-2xl">
+                    🎓
+                  </span>
                   <div>
-                    <p className="text-xs text-muted">Education</p>
+                    <p className="text-xs text-muted/80 uppercase tracking-wide mb-1">Education</p>
                     <p className="text-sm text-light font-medium">
                       B.Tech in Information Technology
                     </p>
@@ -288,13 +286,15 @@ export default function About() {
           >
             {/* Experience Timeline */}
             <motion.div
-              className="glass-effect rounded-2xl p-8 hover:bg-white/5 transition-colors"
+              className="glass-effect rounded-2xl p-8 transition-all duration-300"
+              style={{ background: "rgba(20, 30, 50, 0.9)" }}
               variants={itemUp}
+              whileHover={prefersReducedMotion ? {} : { scale: 1.02, y: -4 }}
             >
               <div className="flex items-center gap-3 mb-8">
-                <div aria-hidden="true" className="p-2 bg-primary/20 rounded-lg">
-                  <Award className="w-6 h-6 text-primary" />
-                </div>
+                <span aria-hidden="true" className="text-3xl">
+                  🏆
+                </span>
                 <h3 className="text-2xl font-semibold text-light">Experience</h3>
               </div>
 
@@ -302,36 +302,33 @@ export default function About() {
                 {/* Timeline line */}
                 <div
                   aria-hidden="true"
-                  className="absolute left-[7px] top-2 bottom-2 w-0.5 bg-linear-to-b from-primary via-secondary to-accent"
+                  className="absolute left-[6px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-primary via-secondary to-accent opacity-60"
                 />
 
-                {timeline.map((item, idx) => {
+                {TIMELINE_DATA.map((item, idx) => {
                   return (
                     <li className="relative pl-8 group" key={`${item.company}-${item.year}`}>
                       {/* Dot */}
                       <div aria-hidden="true" className="absolute left-0 top-1 w-4 h-4">
-                        <motion.span
+                        <span
                           className={`absolute inset-0 rounded-full border-2 ${
-                            idx === 0 ? "bg-primary border-primary" : "bg-dark border-muted"
+                            idx === 0
+                              ? "bg-primary border-primary shadow-lg shadow-primary/50"
+                              : "bg-dark border-accent/60"
                           }`}
-                          style={{
-                            willChange: "transform",
-                          }}
-                          transition={{
-                            damping: 22,
-                            stiffness: 260,
-                            type: "spring",
-                          }}
                         />
                       </div>
 
-                      <div className="mb-1 flex items-center gap-2">
-                        <span aria-hidden="true" className="text-accent">
-                          {item.icon}
-                        </span>
-                        <span className="font-semibold text-primary">{item.title}</span>
-                        <span className="text-sm text-muted font-medium">| {item.company}</span>
-                        <span className="ml-auto text-xs text-accent px-2 py-0.5 bg-dark-secondary rounded">
+                      <div className="mb-2 flex flex-col gap-2 md:flex-row md:justify-between md:items-center">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-semibold text-primary">{item.title}</span>
+                          {item.company && (
+                            <span className="text-sm text-muted/80 font-medium">
+                              | {item.company}
+                            </span>
+                          )}
+                        </div>
+                        <span className="inline-block text-xs text-accent px-2 py-0.5 bg-dark-secondary rounded">
                           <time>{item.year}</time>
                         </span>
                       </div>
@@ -339,32 +336,22 @@ export default function About() {
                       <div className="mt-2">
                         <motion.ul
                           aria-label={`Responsibilities at ${item.company}`}
-                          className="list-disc ml-6 text-sm text-start space-y-2 text-muted"
+                          className="space-y-2"
                           initial="hidden"
-                          variants={{
-                            hidden: {},
-                            show: { transition: { staggerChildren: 0.06 } },
-                          }}
+                          variants={bulletListVariants}
                           viewport={DEFAULT_INVIEW}
                           whileInView="show"
                         >
                           {item.bullets.map((bullet) => (
                             <motion.li
-                              className="leading-snug opacity-100 px-2 py-1"
+                              className="flex items-start gap-3 text-sm leading-relaxed text-muted/90"
                               key={bullet.id}
-                              variants={{
-                                hidden: { opacity: 0, y: 6 },
-                                show: {
-                                  opacity: 1,
-                                  transition: {
-                                    duration: 0.25,
-                                    ease: DEFAULT_EASE,
-                                  },
-                                  y: 0,
-                                },
-                              }}
+                              variants={bulletVariants}
                             >
-                              {bullet.text}
+                              <span aria-hidden="true" className="text-accent flex-shrink-0">
+                                ▸
+                              </span>
+                              <span>{bullet.text}</span>
                             </motion.li>
                           ))}
                         </motion.ul>
@@ -386,24 +373,20 @@ export default function About() {
           viewport={DEFAULT_INVIEW}
           whileInView="show"
         >
-          {values.map((value) => (
+          {VALUES_DATA.map((value) => (
             <motion.div
-              className="glass-effect rounded-xl p-6 transition-colors hover:bg-white/5 group"
+              className="glass-effect rounded-xl p-6 transition-all duration-300 group"
               key={value.title}
-              style={{ willChange: "transform" }}
+              style={{ background: "rgba(20, 30, 50, 0.9)" }}
               variants={itemUp}
-              whileHover={prefersReducedMotion ? {} : { scale: 1.04 }}
+              whileHover={prefersReducedMotion ? {} : { scale: 1.02, y: -4 }}
               whileTap={prefersReducedMotion ? {} : { scale: 0.98 }}
             >
-              <motion.div
-                aria-hidden="true"
-                className="text-accent mb-3"
-                whileHover={prefersReducedMotion ? {} : { scale: 1.08 }}
-              >
-                {value.icon}
-              </motion.div>
+              <span aria-hidden="true" className="text-4xl mb-3 block">
+                {value.badge}
+              </span>
               <h4 className="text-light font-semibold mb-2">{value.title}</h4>
-              <p className="text-sm text-muted leading-relaxed">{value.description}</p>
+              <p className="text-sm text-muted/90 leading-relaxed">{value.description}</p>
             </motion.div>
           ))}
         </motion.div>
