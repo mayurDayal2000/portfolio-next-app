@@ -141,18 +141,48 @@ export default function Contact() {
     { label: "Just saying hi!", value: "other" },
   ];
 
-  const onSubmit = async (_data: FormValues) => {
-    // _data will be used when integrating with real API
+  const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      // TODO: Replace with actual API call: await submitContactForm(data);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Send form data to API endpoint
+      const response = await fetch("/api/contact", {
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        // Handle specific error cases
+        if (response.status === 429) {
+          toast.error("Too Many Requests", {
+            description:
+              result.message || "You've submitted too many requests. Please try again later.",
+            duration: 6000,
+          });
+        } else if (response.status === 400) {
+          toast.error("Validation Error", {
+            description: result.message || "Please check your form and try again.",
+            duration: 5000,
+          });
+        } else {
+          toast.error("Failed to Send Message", {
+            description:
+              result.message || "Something went wrong. Please try again or contact me directly.",
+            duration: 5000,
+          });
+        }
+        return;
+      }
 
       // Show success toast
       toast.success("Message Sent Successfully!", {
-        description: `Thank you for reaching out! I've received your message and will get back to you within 24 hours.`,
+        description:
+          "Thank you for reaching out! I've received your message and will get back to you within an hour.",
         duration: 5000,
       });
 
@@ -161,7 +191,7 @@ export default function Contact() {
       // Explicitly reset audienceType to prevent any timing issues with useEffect
       form.setValue("audienceType", "other");
     } catch (error) {
-      // Handle error and show error toast
+      // Handle network errors and unexpected errors
       let errorMessage = "An unexpected error occurred";
       if (error instanceof Error) {
         errorMessage = error.message;
@@ -170,8 +200,9 @@ export default function Contact() {
       } else if (error && typeof error === "object" && "message" in error) {
         errorMessage = String(error.message);
       }
+
       toast.error("Failed to Send Message", {
-        description: `${errorMessage}. Please try again or contact me directly.`,
+        description: `${errorMessage}. Please check your connection and try again or contact me directly.`,
         duration: 5000,
       });
     } finally {

@@ -57,6 +57,7 @@ portfolio-next-app/
 - **SEO Optimized**: Comprehensive metadata, Open Graph, Twitter Cards, sitemap, and robots.txt.
 - **Performance Focused**: Image preloading, optimized fonts, and efficient bundling.
 - **Contact Form**: Functional form with validation using React Hook Form and Zod.
+- **Discord Integration**: Real-time contact form notifications via Discord webhooks.
 - **Accessibility**: Semantic HTML, keyboard navigation, and screen reader support.
 - **TypeScript**: Full type safety for better development experience.
 - **Modern Stack**: Next.js 15, React 19, Tailwind CSS, shadcn/ui.
@@ -96,11 +97,21 @@ portfolio-next-app/
 - Format: `pnpm format`
   See the scripts in [package.json](package.json).
 
-## Environment
+## Environment Variables
 
-Public env vars used:
+Create a `.env.local` file in the root directory with the following variables:
 
-- `NEXT_PUBLIC_CV_URL` — fallback: `/cv.pdf` (see [src/components/hero.tsx](src/components/hero.tsx))
-- `NEXT_PUBLIC_CV_FILENAME` — fallback filename
+```env
+# Site Configuration
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_CV_URL=/api/resume
+NEXT_PUBLIC_CV_FILENAME=Mayur_Dayal_Resume.pdf
 
-Add other env vars as needed in `.env` (not committed).
+# Resume Configuration
+RESUME_FILE_PATH=./public/data/Mayur_Dayal_Resume.pdf
+
+# Discord Integration (Required for contact form)
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/{id}/{token}
+```
+
+See [`.env.example`](.env.example) for a template.
