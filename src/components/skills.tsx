@@ -2,6 +2,7 @@
 
 import { Sparkles } from "lucide-react";
 import { motion, type Variants } from "motion/react";
+import { useMemo, useState } from "react";
 import { skillCategories } from "../data/skills";
 import { SkillCard } from "./ui/skill-card";
 
@@ -11,22 +12,40 @@ const containerVariants: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.15,
     },
   },
 };
 
 export default function Skills() {
+  const [selectedCategory, setSelectedCategory] = useState<string>("Frontend");
+
+  // Get all unique categories (without "All")
+  const categories = useMemo(() => {
+    return skillCategories.map((cat) => cat.title);
+  }, []);
+
+  // Filter categories based on selection
+  const filteredCategories = useMemo(() => {
+    return skillCategories.filter((cat) => cat.title === selectedCategory);
+  }, [selectedCategory]);
+
   return (
     <section
       aria-labelledby="skills-heading"
       className="relative py-24 lg:py-32 bg-dark-secondary overflow-hidden"
       id="skills"
     >
+      {/* Background decorations */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="gradient-blob gradient-blob-left opacity-30" />
+        <div className="gradient-blob gradient-blob-right opacity-30" />
+      </div>
+
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-12"
           initial={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           viewport={{ once: true }}
@@ -45,33 +64,57 @@ export default function Skills() {
           </p>
         </motion.div>
 
-        {/* Skills Cards Grid */}
+        {/* Category Filter */}
+        <motion.div
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-wrap gap-3 items-center justify-center mb-12"
+          initial={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.4 }}
+        >
+          {categories.map((category) => (
+            <button
+              aria-pressed={selectedCategory === category}
+              className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                selectedCategory === category
+                  ? "bg-primary text-white shadow-lg shadow-primary/30"
+                  : "glass-effect text-muted hover:text-light hover:bg-white/5"
+              }`}
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              type="button"
+            >
+              {category}
+            </button>
+          ))}
+        </motion.div>
+
+        {/* Skills Cards Grid - Full Width for Single Card */}
         <motion.div
           aria-label="Skills organized by category"
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
+          className="max-w-5xl mx-auto"
           initial="hidden"
+          key={selectedCategory}
           variants={containerVariants}
           viewport={{ margin: "-100px", once: true }}
           whileInView="visible"
         >
-          {skillCategories.map((category) => (
+          {filteredCategories.map((category) => (
             <SkillCard category={category} key={category.title} />
           ))}
         </motion.div>
 
-        {/* Bottom Section */}
-        <motion.div
-          className="mt-12 text-center"
-          initial={{ opacity: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          viewport={{ once: true }}
-          whileInView={{ opacity: 1 }}
-        >
-          <p className="text-muted text-sm">
-            Continuously learning and expanding my skill set to stay ahead in the ever-evolving tech
-            landscape
-          </p>
-        </motion.div>
+        {/* No results message */}
+        {filteredCategories.length === 0 && (
+          <motion.div
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center py-12"
+            initial={{ opacity: 0, scale: 0.9 }}
+          >
+            <p className="text-muted text-lg">
+              No skills match your current filters. Try adjusting your selection.
+            </p>
+          </motion.div>
+        )}
       </div>
     </section>
   );
