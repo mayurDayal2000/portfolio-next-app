@@ -13,16 +13,16 @@ export interface DownloadResult {
   success: boolean;
 }
 
-export const RESUME_FILE_PATH = process.env.RESUME_FILE_PATH;
-export const RESUME_FILENAME = process.env.NEXT_PUBLIC_CV_FILENAME;
+const RESUME_URL = process.env.DISCORD_CV_URL;
+const RESUME_FILENAME = process.env.NEXT_PUBLIC_CV_FILENAME;
 
 /**
  * Gets resume configuration from environment variables
  */
 export function getResumeConfig(): ResumeConfig {
   return {
-    filename: process.env.NEXT_PUBLIC_CV_FILENAME as string,
-    url: process.env.NEXT_PUBLIC_CV_URL as string,
+    filename: RESUME_FILENAME as string,
+    url: RESUME_URL as string,
   };
 }
 
