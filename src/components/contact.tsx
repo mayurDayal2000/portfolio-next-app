@@ -5,12 +5,12 @@ import {
   ArrowRight,
   Briefcase,
   Calendar,
+  CheckCircle2,
   Github,
   Linkedin,
   Mail,
   MapPin,
   MessageSquare,
-  Phone,
   Send,
   Sparkles,
   Users,
@@ -182,7 +182,7 @@ export default function Contact() {
       // Show success toast
       toast.success("Message Sent Successfully!", {
         description:
-          "Thank you for reaching out! I've received your message and will get back to you within an hour.",
+          "Thank you for reaching out! I've received your message and will get back to you within 24 hours.",
         duration: 5000,
       });
 
@@ -217,12 +217,6 @@ export default function Contact() {
       icon: <Mail className="w-5 h-5" />,
       label: "Email",
       link: "mailto:mayur.dayal5k@gmail.com",
-    },
-    {
-      description: "+91-92xxxxxx30",
-      icon: <Phone className="w-5 h-5" />,
-      label: "Phone",
-      link: "https://wa.me/+919263912330?text=Hi!",
     },
     {
       description: "Bengaluru, India",
@@ -271,7 +265,7 @@ export default function Contact() {
             Get In <span className="text-gradient">Touch</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            I'm actively seeking new full-time opportunities in a frontend-focused role. If you're a
+            I'm actively seeking new full-time opportunities as a Full-Stack Engineer. If you're a
             recruiter, hiring manager, or just want to talk about AI-driven tech, I'd love to hear
             from you.
           </p>
@@ -329,7 +323,7 @@ export default function Contact() {
                 <h4 className="text-lg font-semibold text-light">Prefer a Quick Call?</h4>
               </div>
               <p className="text-sm text-muted mb-4">
-                Schedule a 30-minute intro call to discuss an opportunity or project directly.
+                Schedule a 30-minute intro call to discuss opportunities, projects, or just connect.
               </p>
               <a
                 className="w-full"
@@ -376,7 +370,7 @@ export default function Contact() {
 
           {/* Right Column - Contact Form */}
           <div className="lg:col-span-3">
-            <div className="glass-effect rounded-2xl p-8 hover:bg-white/5 transition-all duration-500">
+            <div className="glass-effect rounded-2xl p-4 sm:p-6 lg:p-8 hover:bg-white/5 transition-all duration-500">
               <div className="flex items-center gap-3 mb-6">
                 <div aria-hidden="true" className="p-2 bg-accent/20 rounded-lg">
                   <Send className="w-6 h-6 text-accent" />
@@ -387,7 +381,7 @@ export default function Contact() {
               <Form {...form}>
                 <form
                   aria-label="Contact form"
-                  className="space-y-6"
+                  className="space-y-8"
                   onSubmit={form.handleSubmit(onSubmit)}
                 >
                   {/* Audience Type Radio Group */}
@@ -401,63 +395,63 @@ export default function Contact() {
                         </FormLabel>
                         <FormControl>
                           <RadioGroup
-                            className="grid grid-cols-2 sm:grid-cols-4 gap-3"
+                            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-fr"
                             onValueChange={field.onChange}
                             value={field.value}
                           >
-                            <div>
+                            <div className="h-full">
                               <RadioGroupItem
                                 className="peer sr-only"
                                 id="recruiter"
                                 value="recruiter"
                               />
                               <Label
-                                className="flex flex-col items-center justify-center rounded-xl border-2 border-white/10 bg-dark-secondary p-4 hover:bg-white/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 cursor-pointer transition-all duration-300"
+                                className="flex flex-col items-center justify-center rounded-xl border-2 border-white/10 bg-dark-secondary p-5 h-full min-h-[100px] hover:bg-white/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 cursor-pointer transition-all duration-300 hover:scale-[1.02]"
                                 htmlFor="recruiter"
                               >
-                                <Users className="mb-2 h-5 w-5 text-muted peer-data-[state=checked]:text-primary" />
-                                <span className="text-sm font-medium text-light">Recruiter</span>
+                                <Users className="mb-3 h-6 w-6 text-muted peer-data-[state=checked]:text-primary transition-colors" />
+                                <span className="text-sm font-medium text-light text-center">Recruiter</span>
                               </Label>
                             </div>
-                            <div>
+                            <div className="h-full">
                               <RadioGroupItem
                                 className="peer sr-only"
                                 id="hiring-manager"
                                 value="hiring-manager"
                               />
                               <Label
-                                className="flex flex-col items-center justify-center rounded-xl border-2 border-white/10 bg-dark-secondary p-4 hover:bg-white/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 cursor-pointer transition-all duration-300"
+                                className="flex flex-col items-center justify-center rounded-xl border-2 border-white/10 bg-dark-secondary p-5 h-full min-h-[100px] hover:bg-white/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 cursor-pointer transition-all duration-300 hover:scale-[1.02]"
                                 htmlFor="hiring-manager"
                               >
-                                <Briefcase className="mb-2 h-5 w-5 text-muted" />
-                                <span className="text-sm font-medium text-light">
+                                <Briefcase className="mb-3 h-6 w-6 text-muted transition-colors" />
+                                <span className="text-sm font-medium text-light text-center">
                                   Hiring Manager
                                 </span>
                               </Label>
                             </div>
-                            <div>
+                            <div className="h-full">
                               <RadioGroupItem className="peer sr-only" id="client" value="client" />
                               <Label
-                                className="flex flex-col items-center justify-center rounded-xl border-2 border-white/10 bg-dark-secondary p-4 hover:bg-white/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 cursor-pointer transition-all duration-300"
+                                className="flex flex-col items-center justify-center rounded-xl border-2 border-white/10 bg-dark-secondary p-5 h-full min-h-[100px] hover:bg-white/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 cursor-pointer transition-all duration-300 hover:scale-[1.02]"
                                 htmlFor="client"
                               >
-                                <Sparkles className="mb-2 h-5 w-5 text-muted" />
-                                <span className="text-sm font-medium text-light">Client</span>
+                                <Sparkles className="mb-3 h-6 w-6 text-muted transition-colors" />
+                                <span className="text-sm font-medium text-light text-center">Client</span>
                               </Label>
                             </div>
-                            <div>
+                            <div className="h-full">
                               <RadioGroupItem className="peer sr-only" id="other" value="other" />
                               <Label
-                                className="flex flex-col items-center justify-center rounded-xl border-2 border-white/10 bg-dark-secondary p-4 hover:bg-white/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 cursor-pointer transition-all duration-300"
+                                className="flex flex-col items-center justify-center rounded-xl border-2 border-white/10 bg-dark-secondary p-5 h-full min-h-[100px] hover:bg-white/5 hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/10 cursor-pointer transition-all duration-300 hover:scale-[1.02]"
                                 htmlFor="other"
                               >
-                                <MessageSquare className="mb-2 h-5 w-5 text-muted" />
-                                <span className="text-sm font-medium text-light">Other</span>
+                                <MessageSquare className="mb-3 h-6 w-6 text-muted transition-colors" />
+                                <span className="text-sm font-medium text-light text-center">Other</span>
                               </Label>
                             </div>
                           </RadioGroup>
                         </FormControl>
-                        <FormMessage className="text-sm text-red-500 animate-fadeIn" />
+                        <FormMessage className="text-sm text-red-400 mt-2 animate-slide-down" />
                       </FormItem>
                     )}
                   />
@@ -489,7 +483,7 @@ export default function Contact() {
                             ))}
                           </SelectContent>
                         </Select>
-                        <FormMessage className="text-sm text-red-500 animate-fadeIn" />
+                        <FormMessage className="text-sm text-red-400 mt-2 animate-slide-down" />
                       </FormItem>
                     )}
                   />
@@ -498,80 +492,95 @@ export default function Contact() {
                   <FormField
                     control={form.control}
                     name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm font-medium text-light">
-                          Full Name <span className="text-accent">*</span>
-                        </FormLabel>
-                        <FormControl>
-                          <div
-                            className={`relative transition-all duration-300 ${
-                              focusedField === "name" ? "scale-[1.01]" : ""
-                            }`}
-                          >
-                            <Input
-                              placeholder="John Doe"
-                              {...field}
-                              className="w-full px-4 py-3 bg-dark-secondary border border-white/10 rounded-xl text-light placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
-                              onBlur={() => {
-                                setFocusedField(null);
-                                field.onBlur();
-                              }}
-                              onFocus={() => setFocusedField("name")}
-                            />
-                            {focusedField === "name" && !form.formState.errors.name && (
+                    render={({ field }) => {
+                      const isValid =
+                        field.value && field.value.length > 0 && !form.formState.errors.name;
+
+                      return (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-light">
+                            Full Name <span className="text-accent">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <div
+                              className={`relative transition-all duration-300 ${
+                                focusedField === "name" ? "scale-[1.01]" : ""
+                              }`}
+                            >
+                              <Input
+                                placeholder="John Doe"
+                                {...field}
+                                className="w-full px-4 py-3 pr-10 bg-dark-secondary border border-white/10 rounded-xl text-light placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
+                                onBlur={() => {
+                                  setFocusedField(null);
+                                  field.onBlur();
+                                }}
+                                onFocus={() => setFocusedField("name")}
+                              />
                               <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                                <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                                {focusedField === "name" && !isValid && (
+                                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                                )}
+                                {isValid && focusedField !== "name" && (
+                                  <CheckCircle2 className="w-5 h-5 text-green-400 animate-scale-in" />
+                                )}
                               </div>
-                            )}
-                          </div>
-                        </FormControl>
-                        <FormMessage className="text-sm text-red-500 animate-fadeIn" />
-                      </FormItem>
-                    )}
+                            </div>
+                          </FormControl>
+                          <FormMessage className="text-sm text-red-400 mt-2 animate-slide-down" />
+                        </FormItem>
+                      );
+                    }}
                   />
 
                   {/* Email Field */}
                   <FormField
                     control={form.control}
                     name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm font-medium text-light">
-                          Email Address <span className="text-accent">*</span>
-                        </FormLabel>
-                        <FormControl>
-                          <div
-                            className={`relative transition-all duration-300 ${
-                              focusedField === "email" ? "scale-[1.01]" : ""
-                            }`}
-                          >
-                            <Input
-                              placeholder="john@example.com"
-                              type="email"
-                              {...field}
-                              className="w-full px-4 py-3 bg-dark-secondary border border-white/10 rounded-xl text-light placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
-                              onBlur={() => {
-                                setFocusedField(null);
-                                field.onBlur();
-                              }}
-                              onFocus={() => setFocusedField("email")}
-                            />
-                            {focusedField === "email" && !form.formState.errors.email && (
+                    render={({ field }) => {
+                      const isValid = field.value.includes("@") && !form.formState.errors.email;
+
+                      return (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-light">
+                            Email Address <span className="text-accent">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <div
+                              className={`relative transition-all duration-300 ${
+                                focusedField === "email" ? "scale-[1.01]" : ""
+                              }`}
+                            >
+                              <Input
+                                placeholder="john@example.com"
+                                type="email"
+                                {...field}
+                                className="w-full px-4 py-3 pr-10 bg-dark-secondary border border-white/10 rounded-xl text-light placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
+                                onBlur={() => {
+                                  setFocusedField(null);
+                                  field.onBlur();
+                                }}
+                                onFocus={() => setFocusedField("email")}
+                              />
                               <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                                <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                                {focusedField === "email" && !isValid && (
+                                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                                )}
+                                {isValid && focusedField !== "email" && (
+                                  <CheckCircle2 className="w-5 h-5 text-green-400 animate-scale-in" />
+                                )}
                               </div>
-                            )}
-                          </div>
-                        </FormControl>
-                        <FormMessage className="text-sm text-red-500 animate-fadeIn" />
-                      </FormItem>
-                    )}
+                            </div>
+                          </FormControl>
+                          <FormMessage className="text-sm text-red-400 mt-2 animate-slide-down" />
+                        </FormItem>
+                      );
+                    }}
                   />
 
                   {/* Conditional Fields for Recruiters/Hiring Managers */}
                   {(audienceType === "recruiter" || audienceType === "hiring-manager") && (
-                    <div className="grid sm:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 animate-fade-in-up">
                       {/* Company Field - Required */}
                       <FormField
                         control={form.control}
@@ -588,7 +597,7 @@ export default function Contact() {
                                 className="w-full px-4 py-3 bg-dark-secondary border border-white/10 rounded-xl text-light placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
                               />
                             </FormControl>
-                            <FormMessage className="text-sm text-red-500 animate-fadeIn" />
+                            <FormMessage className="text-sm text-red-400 mt-2 animate-slide-down" />
                           </FormItem>
                         )}
                       />
@@ -609,7 +618,7 @@ export default function Contact() {
                                 className="w-full px-4 py-3 bg-dark-secondary border border-white/10 rounded-xl text-light placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
                               />
                             </FormControl>
-                            <FormMessage className="text-sm text-red-500 animate-fadeIn" />
+                            <FormMessage className="text-sm text-red-400 mt-2 animate-slide-down" />
                           </FormItem>
                         )}
                       />
@@ -618,7 +627,7 @@ export default function Contact() {
 
                   {/* Conditional Fields for Clients */}
                   {audienceType === "client" && (
-                    <div className="grid sm:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       {/* Company Field - Optional */}
                       <FormField
                         control={form.control}
@@ -678,38 +687,59 @@ export default function Contact() {
                   <FormField
                     control={form.control}
                     name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm font-medium text-light">
-                          Message <span className="text-accent">*</span>
-                        </FormLabel>
-                        <FormControl>
-                          <div
-                            className={`relative transition-all duration-300 ${
-                              focusedField === "message" ? "scale-[1.01]" : ""
-                            }`}
-                          >
-                            <Textarea
-                              autoComplete="off"
-                              maxLength={500}
-                              placeholder="Please let me know about the role, your company, or just say hello... I'm excited to connect!"
-                              rows={5}
-                              {...field}
-                              className="w-full px-4 py-3 bg-dark-secondary border border-white/10 rounded-xl text-light placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 resize-none"
-                              onBlur={() => {
-                                setFocusedField(null);
-                                field.onBlur();
-                              }}
-                              onFocus={() => setFocusedField("message")}
-                            />
-                            <div className="absolute bottom-3 right-3 text-xs text-muted">
-                              {field.value?.length || 0} / 500
+                    render={({ field }) => {
+                      const charCount = field.value?.length || 0;
+                      let counterColor = "text-muted";
+                      if (charCount >= 500) {
+                        counterColor = "text-red-400 font-semibold";
+                      } else if (charCount >= 450) {
+                        counterColor = "text-yellow-400 font-medium";
+                      } else if (charCount >= 10) {
+                        counterColor = "text-green-400";
+                      }
+
+                      return (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium text-light">
+                            Message <span className="text-accent">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <div
+                              className={`relative transition-all duration-300 ${
+                                focusedField === "message" ? "scale-[1.01]" : ""
+                              }`}
+                            >
+                              <Textarea
+                                autoComplete="off"
+                                maxLength={500}
+                                placeholder="Please let me know about the role, your company, or just say hello... I'm excited to connect!"
+                                rows={5}
+                                {...field}
+                                className="w-full px-4 py-3 pb-10 bg-dark-secondary border border-white/10 rounded-xl text-light placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300 resize-none"
+                                onBlur={() => {
+                                  setFocusedField(null);
+                                  field.onBlur();
+                                }}
+                                onFocus={() => setFocusedField("message")}
+                              />
+                              <div
+                                className={`absolute bottom-3 right-3 text-sm transition-all duration-300 ${counterColor}`}
+                              >
+                                {charCount} / 500
+                              </div>
+                              {focusedField === "message" &&
+                                !form.formState.errors.message &&
+                                charCount >= 10 && (
+                                  <div className="absolute right-3 top-3">
+                                    <CheckCircle2 className="w-5 h-5 text-green-400 animate-scale-in" />
+                                  </div>
+                                )}
                             </div>
-                          </div>
-                        </FormControl>
-                        <FormMessage className="text-sm text-red-500 animate-fadeIn" />
-                      </FormItem>
-                    )}
+                          </FormControl>
+                          <FormMessage className="text-sm text-red-400 mt-2 animate-slide-down" />
+                        </FormItem>
+                      );
+                    }}
                   />
 
                   {/* Submit Button */}
