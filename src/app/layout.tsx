@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import ScrollProgress from "@/components/scroll-progress";
 import SectionIndicator from "@/components/section-indicator";
 import SkipToContent from "@/components/skip-to-content";
@@ -116,6 +117,7 @@ export default function RootLayout({
           <ScrollProgress />
           <SectionIndicator />
           {children}
+          <SpeedInsights />
         </ThemeProvider>
 
         <Toaster />
