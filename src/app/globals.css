@@ -28,6 +28,28 @@
 
   /* Custom breakpoints enhancement */
   --breakpoint-3xl: 1920px;
+
+  /* Toast color palette */
+  --success-bg: hsl(164, 64%, 37%);
+  --success-border: hsl(164, 64%, 47%);
+  --success-text: hsl(0, 0%, 98%);
+
+  --error-bg: hsl(0, 84%, 58%);
+  --error-border: hsl(0, 84%, 70%);
+  --error-text: hsl(0, 0%, 100%);
+
+  --info-bg: hsl(235, 83%, 66%);
+  --info-border: hsl(235, 83%, 76%);
+  --info-text: hsl(0, 0%, 100%);
+
+  --warning-bg: hsl(38, 92%, 52%);
+  --warning-border: hsl(38, 92%, 62%);
+  --warning-text: hsl(0, 0%, 100%);
+
+  --popover: hsl(225, 27%, 9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+
+  --radius: 0.625rem;
 }
 
 @layer base {

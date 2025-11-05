@@ -122,7 +122,7 @@ export default function RootLayout({
           <SpeedInsights />
         </ThemeProvider>
 
-        <Toaster />
+        <Toaster expand={true} position="bottom-right" richColors />
       </body>
     </html>
   );
