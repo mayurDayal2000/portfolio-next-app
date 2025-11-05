@@ -13,21 +13,21 @@ export interface DownloadResult {
   success: boolean;
 }
 
-const RESUME_URL = process.env.DISCORD_CV_URL;
 const RESUME_FILENAME = process.env.NEXT_PUBLIC_CV_FILENAME;
+const RESUME_API_URL = "/api/resume/download";
 
 /**
- * Gets resume configuration from environment variables
+ * Gets resume configuration
  */
 export function getResumeConfig(): ResumeConfig {
   return {
     filename: RESUME_FILENAME as string,
-    url: RESUME_URL as string,
+    url: RESUME_API_URL as string,
   };
 }
 
 /**
- * Checks if the resume file is available on the server
+ * Checks if the resume file is available
  */
 export async function checkResumeAvailability(): Promise<ResumeAvailability> {
   try {

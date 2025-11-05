@@ -410,7 +410,9 @@ export default function Contact() {
                                 htmlFor="recruiter"
                               >
                                 <Users className="mb-3 h-6 w-6 text-muted peer-data-[state=checked]:text-primary transition-colors" />
-                                <span className="text-sm font-medium text-light text-center">Recruiter</span>
+                                <span className="text-sm font-medium text-light text-center">
+                                  Recruiter
+                                </span>
                               </Label>
                             </div>
                             <div className="h-full">
@@ -436,7 +438,9 @@ export default function Contact() {
                                 htmlFor="client"
                               >
                                 <Sparkles className="mb-3 h-6 w-6 text-muted transition-colors" />
-                                <span className="text-sm font-medium text-light text-center">Client</span>
+                                <span className="text-sm font-medium text-light text-center">
+                                  Client
+                                </span>
                               </Label>
                             </div>
                             <div className="h-full">
@@ -446,7 +450,9 @@ export default function Contact() {
                                 htmlFor="other"
                               >
                                 <MessageSquare className="mb-3 h-6 w-6 text-muted transition-colors" />
-                                <span className="text-sm font-medium text-light text-center">Other</span>
+                                <span className="text-sm font-medium text-light text-center">
+                                  Other
+                                </span>
                               </Label>
                             </div>
                           </RadioGroup>
