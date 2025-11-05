@@ -1,117 +1,145 @@
-# Mayur Dayal — Portfolio (Next.js)
+# Mayur Dayal — Portfolio
 
-Personal portfolio built with Next.js, React, TypeScript and Tailwind CSS.
+A modern, performant portfolio website showcasing my work as a Full-Stack Software Engineer with expertise in React, Next.js, Python, and AI/ML technologies.
 
-## Quick Links
+🔗 **Live Site**: https://mayurbuilds.vercel.app/
 
-- Project entry: [src/app/page.tsx](src/app/page.tsx)
-- Layout & metadata: [src/app/layout.tsx](src/app/layout.tsx)
-- Components:
-  - [`Hero`](src/components/hero.tsx) — [src/components/hero.tsx](src/components/hero.tsx)
-  - [`About`](src/components/about.tsx) — [src/components/about.tsx](src/components/about.tsx)
-  - [`Skills`](src/components/skills.tsx) — [src/components/skills.tsx](src/components/skills.tsx)
-  - [`Projects`](src/components/projects.tsx) — [src/components/projects.tsx](src/components/projects.tsx)
-  - [`Contact`](src/components/contact.tsx) — [src/components/contact.tsx](src/components/contact.tsx)
-- Package manifest: [package.json](package.json)
-- Lockfile: [pnpm-lock.yaml](pnpm-lock.yaml)
-- Workspace config: [pnpm-workspace.yaml](pnpm-workspace.yaml)
-- shadcn config / aliases: [components.json](components.json)
-- Robots & sitemap: [src/app/robots.ts](src/app/robots.ts), [src/app/sitemap.ts](src/app/sitemap.ts)
+---
 
-## Project Structure
+## 🎯 Overview
+
+This portfolio is built with cutting-edge web technologies to deliver a fast, accessible, and visually engaging experience. It features a responsive design, smooth animations, dark/light mode theming, and a functional contact form with Discord integration.
+
+## ✨ Key Features
+
+- **🎨 Modern Design**: Clean, professional interface with smooth animations powered by Motion
+- **📱 Fully Responsive**: Optimized layouts for mobile, tablet, and desktop devices
+- **⚡ Performance Optimized**: Image preloading, efficient bundling, and optimized fonts
+- **♿ Accessible**: Semantic HTML, keyboard navigation, and screen reader support
+- **🔍 SEO Ready**: Comprehensive metadata, Open Graph tags, Twitter Cards, sitemap, and robots.txt
+- **📬 Contact Form**: Validated form with real-time Discord webhook notifications
+- **🔒 Security Headers**: HSTS, CSP, and other security best practices implemented
+- **📊 Analytics**: Integrated Vercel Analytics and Speed Insights
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **UI Library**: [React 19](https://react.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **Components**: [shadcn/ui](https://ui.shadcn.com/) + [Radix UI](https://www.radix-ui.com/)
+- **Animations**: [Motion](https://motion.dev/)
+- **Forms**: [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
+- **Linting/Formatting**: [Biome](https://biomejs.dev/)
+- **Package Manager**: [pnpm](https://pnpm.io/)
+
+## 📁 Project Structure
 
 ```
 portfolio-next-app/
-├── public/                    # Static assets (favicons, images, manifest)
+├── public/                    # Static assets (favicons, images, fonts)
 ├── src/
 │   ├── app/                   # Next.js App Router
-│   │   ├── _preload-images.tsx # Image preloading for performance
-│   │   ├── globals.css        # Global styles (Tailwind, custom)
-│   │   ├── layout.tsx         # Root layout with metadata & providers
-│   │   ├── not-found.tsx      # 404 page
-│   │   ├── page.tsx           # Home page composition
+│   │   ├── api/               # API routes (contact, resume)
+│   │   ├── globals.css        # Global styles
+│   │   ├── layout.tsx         # Root layout with metadata
+│   │   ├── page.tsx           # Home page
 │   │   ├── robots.ts          # Robots.txt generation
 │   │   └── sitemap.ts         # Sitemap generation
-│   ├── assets/                # Additional assets (if any)
-│   ├── components/            # Reusable UI components
-│   │   ├── ui/                # shadcn/ui components
+│   ├── components/            # React components
+│   │   ├── ui/                # Reusable UI components (shadcn/ui)
 │   │   ├── theme/             # Theme provider & toggler
-│   │   └── *.tsx              # Page sections (hero, about, etc.)
-│   └── lib/                   # Utilities (utils.ts)
-├── .gitignore
-├── biome.json                 # Linting & formatting config
-├── components.json            # shadcn/ui config
-├── next.config.ts             # Next.js config
+│   │   ├── hero/              # Hero section
+│   │   ├── projects/          # Projects section components
+│   │   ├── about.tsx          # About section
+│   │   ├── skills.tsx         # Skills section
+│   │   ├── contact.tsx        # Contact form
+│   │   └── footer.tsx         # Footer
+│   ├── config/                # Site configuration
+│   ├── data/                  # Static data (projects, skills)
+│   ├── hooks/                 # Custom React hooks
+│   ├── lib/                   # Utility functions
+│   └── types/                 # TypeScript type definitions
+├── biome.json                 # Biome configuration
+├── components.json            # shadcn/ui configuration
+├── next.config.ts             # Next.js configuration
 ├── package.json               # Dependencies & scripts
-├── postcss.config.mjs         # PostCSS config for Tailwind
-├── README.md                  # This file
-├── tsconfig.json              # TypeScript config
-└── pnpm-lock.yaml             # Lockfile
+├── postcss.config.mjs         # PostCSS configuration
+└── tsconfig.json              # TypeScript configuration
 ```
 
-## Features
+## 🚀 Getting Started
 
-- **Responsive Design**: Optimized for mobile, tablet, and desktop.
-- **Dark/Light Mode**: Automatic system theme detection with manual toggle.
-- **Smooth Animations**: Powered by Motion for engaging interactions.
-- **SEO Optimized**: Comprehensive metadata, Open Graph, Twitter Cards, sitemap, and robots.txt.
-- **Performance Focused**: Image preloading, optimized fonts, and efficient bundling.
-- **Contact Form**: Functional form with validation using React Hook Form and Zod.
-- **Discord Integration**: Real-time contact form notifications via Discord webhooks.
-- **Accessibility**: Semantic HTML, keyboard navigation, and screen reader support.
-- **TypeScript**: Full type safety for better development experience.
-- **Modern Stack**: Next.js 15, React 19, Tailwind CSS, shadcn/ui.
+### Prerequisites
 
-## Prerequisites
+- **Node.js** >= 18.17.0
+- **pnpm** (recommended package manager)
 
-- Node.js (recommended >= 18.17.0 due to native deps like sharp)
-- pnpm (preferred package manager)
+### Installation
 
-## Setup
+1. **Clone the repository**
 
-1. Install dependencies
+   ```bash
+   git clone https://github.com/mayurDayal2000/portfolio-next-app.git
+   cd portfolio-next-app
+   ```
 
-   ```sh
+2. **Install dependencies**
+
+   ```bash
    pnpm install
    ```
 
-2. Run dev server
+3. **Set up environment variables**
 
-   ```sh
+   Create a `.env.local` file in the root directory:
+
+   ```env
+   # Site Configuration
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
+   NEXT_PUBLIC_CV_FILENAME=Mayur_Dayal_Resume.pdf
+
+   # Discord Integration (for contact form notifications)
+   DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/{id}/{token}
+   ```
+
+4. **Run the development server**
+
+   ```bash
    pnpm dev
    ```
 
-   (see [`scripts.dev`](package.json) in [package.json](package.json))
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-3. Build for production
-   ```sh
-   pnpm build
-   pnpm start
-   ```
-   (see [`scripts.build`](package.json) and `start` in [package.json](package.json))
+### Build for Production
 
-## Linting & Formatting
-
-- Lint (biome): `pnpm lint`
-- Auto-fix lint issues: `pnpm lint:fix`
-- Format: `pnpm format`
-  See the scripts in [package.json](package.json).
-
-## Environment Variables
-
-Create a `.env.local` file in the root directory with the following variables:
-
-```env
-# Site Configuration
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-NEXT_PUBLIC_CV_URL=/api/resume
-NEXT_PUBLIC_CV_FILENAME=Mayur_Dayal_Resume.pdf
-
-# Resume Configuration
-RESUME_FILE_PATH=./public/data/Mayur_Dayal_Resume.pdf
-
-# Discord Integration (Required for contact form)
-DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/{id}/{token}
+```bash
+pnpm build
+pnpm start
 ```
 
-See [`.env.example`](.env.example) for a template.
+## 🧹 Code Quality
+
+This project uses [Biome](https://biomejs.dev/) for linting and formatting:
+
+```bash
+# Check for issues
+pnpm lint
+
+# Auto-fix linting issues
+pnpm lint:fix
+
+# Fix all issues (lint + format)
+pnpm lint:fixAll
+
+# Format code
+pnpm format
+```
+
+## 📄 License
+
+This project is for personal portfolio use. All rights reserved.
+
+---
+
+**Built with ❤️ by Mayur Dayal**
